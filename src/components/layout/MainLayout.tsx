@@ -18,7 +18,7 @@ const MainLayout = () => {
             <Layout>
                 <HeaderDashboard />
 
-                <Content style={{margin:15}} className='overflow-y-scroll'>
+                <Content style={{margin:20}} className='overflow-y-auto'>
                 <div 
                 style={{
                     width: "100%",

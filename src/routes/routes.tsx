@@ -7,21 +7,24 @@ import ForgetPassword from '../pages/authentication/ForgetPassword';
 import VerifyOTP from '../pages/authentication/VerifyOTP';
 import NewPassword from '../pages/authentication/NewPassword';
 import ChangePassword from '../pages/authentication/ChangePassword';
+import UserList from '../dasbboard/userList/UserList';
 
- const router = createBrowserRouter([
+const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
         errorElement: <ErrorPage />,
-        children:[
-            {path: "/", element: <Dashboard />},
+        children: [
+            { path: "/", element: <Dashboard /> },
+            { path: "/dashboard", element: <Dashboard /> },
+            { path: "/users-list", element: <UserList /> },
         ]
     },
-    {path: "login", element: <Login />},
-    {path: "forget-password", element: <ForgetPassword />},
-    {path: "verify-otp", element: <VerifyOTP />},
-    {path: "new-password", element: <NewPassword />},
-    {path: "change-password", element: <ChangePassword />},
+    { path: "login", element: <Login /> },
+    { path: "forget-password", element: <ForgetPassword /> },
+    { path: "verify-otp", element: <VerifyOTP /> },
+    { path: "new-password", element: <NewPassword /> },
+    { path: "change-password", element: <ChangePassword /> },
 ])
 
 export default router;
