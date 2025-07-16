@@ -1,0 +1,38 @@
+import { Layout, theme } from 'antd';
+import { Outlet } from 'react-router-dom';
+import HeaderDashboard from './HeaderDashboard';
+import Sidebar from './Sidebar';
+
+
+const {Content} = Layout;
+const MainLayout = () => {
+    const {
+        token: { borderRadiusLG }
+    } = theme.useToken();
+    return (
+        <Layout
+            style={{
+                minHeight: "100vh",
+            }}>
+            <Sidebar />
+            <Layout>
+                <HeaderDashboard />
+
+                <Content style={{margin:15}} className='overflow-y-scroll'>
+                <div 
+                style={{
+                    width: "100%",
+                    background: "#F7F7F7",
+                    borderRadius: borderRadiusLG
+                }}
+                >
+                    <Outlet />
+                </div>
+                </Content>
+            </Layout>
+
+        </Layout>
+    )
+}
+
+export default MainLayout
