@@ -11,34 +11,34 @@ const PackageList = () => {
     const [editData, setEditData] = useState<any | null>(null);
     const [showDetails, setShowDetails] = useState<boolean>(false);
     const [selectedData, setSelectedData] = useState<any | null>(null)
-    
+
 
 
     const userColumns = [
         { title: "Id", dataIndex: "key", key: "key" },
         { title: "Unit", dataIndex: "unit", key: "unit" },
-        { title: "Duration", dataIndex: "duration", key: "duration" },
-        { title: "Unit Price", dataIndex: "unitPrice", key: "unitPrice" },
+        { title: "Duration",  
+            render: (record: any) => (<p className='text-primary '>{record?.duration} {record?.unit == "Month" ? "month" : "year"}{record?.duration > 1 ? "s" : ""}</p>)
+        },
+        { title: "Unit Price", dataIndex: "unitPrice", key: "unitPrice", 
+            render: (unitPrice: number) => (<p className='text-primary '>${unitPrice}</p>)
+        },
         {
             title: "Price", dataIndex: "price", key: "price",
-            render: (price: number) => (<p className='text-primary font-semibold'>{price}</p>)
+            render: (price: number) => (<p className='text-primary'>${price}</p>)
         },
-        { title: "Discount", dataIndex: "discount", key: "discount" },
-        { title: "Total Price", dataIndex: "total", key: "total" },
+        { title: "Discount", dataIndex: "discount", key: "discount",
+            render: (discount: number) => (<p className='text-primary'>{discount}%</p>)
+         },
+        { title: "Total Price", dataIndex: "total", key: "total", 
+             render: (total: number) => (<p className='text-primary font-semibold'>${total}</p>)
+        },
         { title: "Tag", dataIndex: "tag", key: "tag" },
-        // {
-        //     title: "Status", dataIndex: "status", key: "status", render: (status: string) => (
-        //         <div className="flex items-center gap-2 ">
-        //             <Button type="primary" danger={status !== "active"} className='w-[100px]'>{status}</Button>
-        //             {/* <Button icon={<IoIosArrowDown />} /> */}
-        //         </div>
-        //     )
-        // },
         {
-            title: "View", key: "view", render: (record:any) => (
+            title: "View", key: "view", render: (record: any) => (
                 <div className="flex items-center gap-5 ">
                     <Button onClick={() => { setEditData(record); setOpen(!open) }} icon={<LiaEdit size={20} className='!text-primary' />} />
-                    <SlEye onClick={()=>{setShowDetails(!showDetails); setSelectedData(record)}} size={15}  className='cursor-pointer !text-primary'/>
+                    <SlEye onClick={() => { setShowDetails(!showDetails); setSelectedData(record) }} size={15} className='cursor-pointer !text-primary' />
                 </div>
             )
         }
@@ -46,7 +46,7 @@ const PackageList = () => {
 
     const handleSubmit = (values: any) => {
         console.log("value", values);
-
+        setOpen(!open)
     }
     return (
         <div>
@@ -87,125 +87,125 @@ export default PackageList
 
 
 export const packageData = [
-    {
-        key: 1,
-        unit: "Monthly",
-        duration: "1 Month",
-        unitPrice: 12.50,
-        price: 12.50,
-        discount: 30,
-        total: 50,
-        tag: "Basic",
-        status: "active",
-    },
-    {
-        key: 2,
-        unit: "Monthly",
-        duration: "3 Months",
-        unitPrice: 12.50,
-        price: 35.00,
-        discount: 25,
-        total: 46.67,
-        tag: "Standard",
-        status: "active",
-    },
-    {
-        key: 3,
-        unit: "Monthly",
-        duration: "6 Months",
-        unitPrice: 12.50,
-        price: 65.00,
-        discount: 35,
-        total: 100.00,
-        tag: "Premium",
-        status: "active",
-    },
-    {
-        key: 4,
-        unit: "Yearly",
-        duration: "1 Year",
-        unitPrice: 12.50,
-        price: 120.00,
-        discount: 40,
-        total: 200.00,
-        tag: "Basic",
-        status: "inactive",
-    },
-    {
-        key: 5,
-        unit: "Weekly",
-        duration: "1 Week",
-        unitPrice: 12.50,
-        price: 5.00,
-        discount: 0,
-        total: 5.00,
-        tag: "Standart",
-        status: "active",
-    },
-    {
-        key: 6,
-        unit: "Monthly",
-        duration: "2 Months",
-        unitPrice: 12.50,
-        price: 24.00,
-        discount: 20,
-        total: 30.00,
-        tag: "Premium",
-        status: "active",
-    },
-    {
-        key: 7,
-        unit: "Quarterly",
-        duration: "3 Months",
-        unitPrice: 12.50,
-        price: 32.00,
-        discount: 36,
-        total: 50.00,
-        tag: "Premium",
-        status: "inactive",
-    },
-    {
-        key: 8,
-        unit: "Half-Yearly",
-        duration: "6 Months",
-        unitPrice: 12.50,
-        price: 58.00,
-        discount: 42,
-        total: 100.00,
-        tag: "Basic",
-        status: "active",
-    },
-    {
-        key: 9,
-        unit: "Yearly",
-        duration: "1 Year",
-        unitPrice: 12.50,
-        price: 100.00,
-        discount: 50,
-        total: 200.00,
-        tag: "Premium",
-        status: "active",
-    },
-    {
-        key: 10,
-        unit: "Monthly",
-        duration: "1 Month",
-        unitPrice: 12.50,
-        price: 15.00,
-        discount: 0,
-        total: 15.00,
-        tag: "Standard",
-        status: "inactive",
-    },
-    {
-        key: 11,
-        unit: "Weekly",
-        duration: "2 Weeks",
-        unitPrice: 12.50,
-        price: 9.00,
-        discount: 10,
-        total: 10.00,
-        tag: "Basic",
-        status: "active",
-    }
+  {
+    key: 1,
+    unit: "Month",
+    duration: 1,
+    unitPrice: 12.5,
+    price: 12.5,
+    discount: 30,
+    total: 50,
+    tag: "Basic",
+    status: "active",
+  },
+  {
+    key: 2,
+    unit: "Month",
+    duration: 3,
+    unitPrice: 12.5,
+    price: 35.0,
+    discount: 25,
+    total: 46.67,
+    tag: "Standard",
+    status: "active",
+  },
+  {
+    key: 3,
+    unit: "Month",
+    duration: 6,
+    unitPrice: 12.5,
+    price: 65.0,
+    discount: 35,
+    total: 100.0,
+    tag: "Premium",
+    status: "active",
+  },
+  {
+    key: 4,
+    unit: "Year",
+    duration: 3,
+    unitPrice: 12.5,
+    price: 120.0,
+    discount: 40,
+    total: 200.0,
+    tag: "Basic",
+    status: "inactive",
+  },
+  {
+    key: 5,
+    unit: "Month",
+    duration: 6,
+    unitPrice: 12.5,
+    price: 5.0,
+    discount: 0,
+    total: 5.0,
+    tag: "Standart",
+    status: "active",
+  },
+  {
+    key: 6,
+    unit: "Month",
+    duration: 2,
+    unitPrice: 12.5,
+    price: 24.0,
+    discount: 20,
+    total: 30.0,
+    tag: "Premium",
+    status: "active",
+  },
+  {
+    key: 7,
+    unit: "Month",
+    duration: 3,
+    unitPrice: 12.5,
+    price: 32.0,
+    discount: 36,
+    total: 50.0,
+    tag: "Premium",
+    status: "inactive",
+  },
+  {
+    key: 8,
+    unit: "Month",
+    duration: 6,
+    unitPrice: 12.5,
+    price: 58.0,
+    discount: 42,
+    total: 100.0,
+    tag: "Basic",
+    status: "active",
+  },
+  {
+    key: 9,
+    unit: "Year",
+    duration: 1,
+    unitPrice: 12.5,
+    price: 100.0,
+    discount: 50,
+    total: 200.0,
+    tag: "Premium",
+    status: "active",
+  },
+  {
+    key: 10,
+    unit: "Month",
+    duration: 1,
+    unitPrice: 12.5,
+    price: 15.0,
+    discount: 0,
+    total: 15.0,
+    tag: "Standard",
+    status: "inactive",
+  },
+  {
+    key: 11,
+    unit: "Month",
+    duration: 6,
+    unitPrice: 12.5,
+    price: 9.0,
+    discount: 10,
+    total: 10.0,
+    tag: "Basic",
+    status: "active",
+  },
 ];

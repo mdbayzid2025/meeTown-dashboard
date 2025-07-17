@@ -35,17 +35,22 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
         setEditData(null);
     }
 
-    // Watch the Unit value to update Duration options dynamically
-    const unit = Form.useWatch('Unit', form);
+    const duration = Form.useWatch('duration', form); // watch the 'unit' field
+    const unit = Form.useWatch('unit', form); // watch the 'unit' field
+    const unitPrice = Form.useWatch('unitPrice', form); // watch the 'unit' field
+    const price = Form.useWatch('price', form); // watch the 'unit' field
+    const discount = Form.useWatch('discount', form); // watch the 'unit' field
+   
+    useEffect(() => {
+  const calculatedPrice = duration && unitPrice ? duration * unitPrice : 0;
+  const calculatedTotal = discount ? +(calculatedPrice - (calculatedPrice * discount / 100)).toFixed(2) : calculatedPrice;
 
-    const monthOptions = [
-        "1 Month", "2 Months", "3 Months", "4 Months", "5 Months",
-        "6 Months", "7 Months", "8 Months", "9 Months", "10 Months", "11 Months"
-    ];
+  form.setFieldsValue({
+    price: calculatedPrice,
+    total: calculatedTotal,
+  });
+}, [duration, unitPrice, discount]);
 
-    const yearOptions = [
-        "1 Year", "2 Years", "3 Years", "4 Years", "5 Years"
-    ];
     return (
         <Modal
             open={open}
@@ -55,14 +60,6 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
             title={<p className="text-2xl font-semibold text-primary text-center">{editData ? 'Edit Package' : 'Add Package'}</p>}
             footer={false}
             centered
-            // styles={{
-            //     content: {
-            //         background: '#EBEBEB'
-            //     },
-            //     header: {
-            //         background: '#EBEBEB'
-            //     }
-            // }}
         >
             <Divider />
             <Form
@@ -78,8 +75,8 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
                         rules={[{ required: true, message: "Select Package Unit" }]}
                     >
                         <Select placeholder="Select Unit" style={{ height: 42 }}>
-                            <Option value="monthly" style={{ height: 42 }}>Monthly</Option>
-                            <Option value="yearly" style={{ height: 42 }}>Yearly</Option>
+                            <Option value="month" style={{ height: 42 }}>Month</Option>
+                            <Option value="year" style={{ height: 42 }}>Year</Option>
                         </Select>
                     </FormItem>
 
@@ -88,17 +85,15 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
                         label={<p className='font-semibold text-[16px] text-black'>Duration</p>}
                         rules={[{ required: true, message: "Select Package Duration" }]}
                     >
-                        <Select placeholder="Select Duration" style={{ height: 42 }}>
-                            {(unit === "monthly" ? monthOptions : yearOptions).map(option => (
-                                <Option key={option} value={option} style={{ height: 42 }}>{option}</Option>
-                            ))}
-                        </Select>
+                        <InputNumber disabled={!unit} 
+                        placeholder={`${!unit ? "Select" : "Enter"} ${ !unit ? "Unit" : unit === 'year' ? 'year' : 'month'} `} 
+                        style={{ height: 42, width: "100%" }} />
                     </FormItem>
 
                     <FormItem
                         name="unitPrice"
                         label={<p className='font-semibold text-[16px] text-black'>Unit Price</p>}
-                        rules={[{ required: true, message: "Enter unit price" }]}
+                        rules={[{ required:true, message: "Enter unit price" }]}
                     >
                         <InputNumber name='unitPrice' placeholder="Unit price" style={{ height: 42, width: "100%" }} />
                     </FormItem>
@@ -108,7 +103,7 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
                         label={<p className='font-semibold text-[16px] text-black'>Price</p>}
                         rules={[{ required: true, message: "Enter unit price" }]}
                     >
-                        <InputNumber name='price' placeholder="Price" style={{ height: 42, width: "100%" }} disabled/>
+                        <InputNumber name='price' value={duration && unitPrice ? duration * unitPrice : 0} placeholder={`${duration && unitPrice ? duration * unitPrice : "Price"}`}  style={{ height: 42, width: "100%" }} disabled />
                     </FormItem>
 
                     <FormItem
@@ -124,7 +119,7 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
                         label={<p className='font-semibold text-[16px] text-black'>Total Price</p>}
                         rules={[{ required: true, message: "Enter total price" }]}
                     >
-                        <InputNumber name='total' placeholder="Total" style={{ height: 42, width: "100%" }} disabled/>
+                        <InputNumber name='total' placeholder={`${price ? price : 0 } `}  style={{ height: 42, width: "100%" }} disabled />
                     </FormItem>
 
                     <FormItem
