@@ -9,17 +9,15 @@ const { Sider } = Layout;
 const Sidebar = () => {
   const location = useLocation();
 
-  const generateSidebarMenu = (items: any) => {
-    return items.map((item: any) => {
+const sidebarItemGenerator = (items: any[]) => {
+    return items.map(item => {
       return {
-        key: item.key,
-        label: <Link to={`/${item.path}`}>{item.label}</Link>,
+        key: `/${item.path}`,
         icon: item.icon,
-      }
-    })
-  }
-
-  console.log("pathname", location?.pathname)
+        label: <Link to={`/${item.path}`}>{item.label}</Link>,
+      };
+    });
+  };
 
   return (
     <ConfigProvider
@@ -45,7 +43,7 @@ const Sidebar = () => {
         theme='light'
         breakpoint='lg'
         collapsedWidth="0"
-      
+
       >
         <Link to="/">
           <div
@@ -68,8 +66,8 @@ const Sidebar = () => {
 
         }}>
           <Menu theme="light" mode='inline'
-            items={generateSidebarMenu(sidebarItems)}
-            selectedKeys={[ sidebarItems.find(item => location.pathname.startsWith(`/${item.path}`))?.key || '']} // <- FIXED
+            items={sidebarItemGenerator(sidebarItems)}
+            selectedKeys={[location.pathname]}
             style={{ flexGrow: 1, overflowY: "auto" }}
 
           />

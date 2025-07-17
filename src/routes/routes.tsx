@@ -14,6 +14,7 @@ import Support from '../dasbboard/Support';
 import About from '../dasbboard/About';
 import PrivacyPolicy from '../dasbboard/PrivacyPolicy';
 import PasswordChange from '../dasbboard/dashboard/PasswordChange';
+import FAQ from '../dasbboard/FAQ';
 
 const router = createBrowserRouter([
     {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
             { path: "privacy-policy", element: <PrivacyPolicy /> },
             { path: "terms-condition", element: <PrivacyPolicy /> },
              { path: "password-change", element: <PasswordChange /> },
-             { path: "faq", element: <PasswordChange /> },
+             { path: "faq", element: <FAQ /> },
         ]
     },
     { path: "login", element: <Login /> },

@@ -29,10 +29,10 @@ const FAQ = () => {
 
     
     return (
-        <div className='bg-white p-6 rounded-2xl'>
+        <div className=' p-6 rounded-2xl'>
             <div className="flex items-center justify-between mb-6">
-                <h1 className="font-semibold text-2xl text-[#009A54]">FAQ</h1>
-                <Button onClick={()=>setOpen(!open)} type="primary" size='large' className='flex items-center'> <FiPlus size={24} />Add Content</Button>
+                <h1 className="text-xl font-semibold text-grayMedium mb-6">FAQ</h1>
+                <Button onClick={()=>setOpen(!open)} type="primary" size='large' className='flex items-center'> <FiPlus size={24} />Add FAQ</Button>
             </div>
 
             <div className=''>
@@ -93,7 +93,7 @@ const FaqAddModal = ({ open, setOpen, editData, setEditData }: faqProps) => {
     }
     return (
         <Modal
-            title={<p className="text-xl font-semibold text-[#009A54]">{editData ? "Update FAQ" : "Add FAQ"}</p>}
+            title={<p className="text-xl font-semibold text-primary">{editData ? "Update FAQ" : "Add FAQ"}</p>}
             open={open}
             onCancel={handleClose}
             centered

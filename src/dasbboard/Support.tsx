@@ -11,8 +11,6 @@ const Support = () => {
 
     const [data, setData] = useState([
         { key: 1, email: "support@example.com", contact: "+880123456789" },
-        { key: 2, email: "info@example.com", contact: "+8801999888777" },
-        { key: 3, email: "admin@example.com", contact: "+8801711223344" },
     ]);
 
     const supportColumns = [
