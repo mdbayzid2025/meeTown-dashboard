@@ -28,7 +28,7 @@ const PackageList = () => {
             render: (price: number) => (<p className='text-primary'>${price}</p>)
         },
         { title: "Discount", dataIndex: "discount", key: "discount",
-            render: (discount: number) => (<p className='text-primary'>{discount}%</p>)
+            render: (discount: number) => (<p className='text-primary'>{discount}% </p>)
          },
         { title: "Total Price", dataIndex: "total", key: "total", 
              render: (total: number) => (<p className='text-primary font-semibold'>${total}</p>)
