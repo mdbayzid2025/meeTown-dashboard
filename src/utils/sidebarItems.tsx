@@ -12,7 +12,7 @@ export const sidebarItems = [
   {
     key: "dashboard",
     label: "Dashboard",
-    path: "dashboard",
+    path: "",
     icon: <RxDashboard  size={20}/>
   },
   {
@@ -25,42 +25,42 @@ export const sidebarItems = [
     key: "subscribers",
     label: "Subscriber's List",
     path: "subscribers",
-    icon: <RiVipCrownFill /> 
+    icon: <RiVipCrownFill size={20}/> 
   },
   {
     key: "package",
     label: "Package",
     path: "package-list",
-    icon: <GoPackage />
+    icon: <GoPackage size={20}/>
   },
   {
     key: "password-change",
     label: "Change Password",
     path: "password-change",
-    icon: <CiLock />
+    icon: <CiLock size={20}/>
   },
   {
     key: "about",
     label: "About Us",
     path: "about",
-    icon: <PiUsersThreeLight />
+    icon: <PiUsersThreeLight size={20}/>
   },
   {
-    key: "privacy-policy",
-    label: "Privacy Policy",
-    path: "privacy-policy",
-    icon: <AiOutlineSafetyCertificate />
+    key: "faq",
+    label: "FAQ",
+    path: "faq",
+    icon: <AiOutlineSafetyCertificate size={20}/>
   },
   {
     key: "terms-condition",
     label: "Terms & Condition",
     path: "terms-condition",
-    icon: <IoDocumentTextOutline />
+    icon: <IoDocumentTextOutline size={20}/>
   },
   {
     key: "support",
     label: "Help & Support",
     path: "support",
-    icon: <BiSupport />
+    icon: <BiSupport size={20}/>
   },
 ];
