@@ -22,27 +22,27 @@ export const sidebarItems = [
     icon: <FaRegCircleUser size={20}/>
   },
   {
-    key: "subscription",
-    label: "Subscription",
-    path: "subscription",
+    key: "subscribers",
+    label: "Subscriber's List",
+    path: "subscribers",
     icon: <RiVipCrownFill /> 
   },
   {
     key: "package",
     label: "Package",
-    path: "package",
+    path: "package-list",
     icon: <GoPackage />
   },
   {
-    key: "change-password",
+    key: "password-change",
     label: "Change Password",
-    path: "change-password",
+    path: "password-change",
     icon: <CiLock />
   },
   {
-    key: "about-us",
+    key: "about",
     label: "About Us",
-    path: "about-us",
+    path: "about",
     icon: <PiUsersThreeLight />
   },
   {
@@ -58,9 +58,9 @@ export const sidebarItems = [
     icon: <IoDocumentTextOutline />
   },
   {
-    key: "help-support",
+    key: "support",
     label: "Help & Support",
-    path: "help-support",
+    path: "support",
     icon: <BiSupport />
   },
 ];

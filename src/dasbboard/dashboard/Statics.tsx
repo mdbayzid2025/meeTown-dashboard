@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaRegUser } from 'react-icons/fa6'
 
 const Statics = () => {
@@ -28,7 +27,7 @@ const Statics = () => {
     <div className='grid grid-cols-4 gap-14 '>
         {
             staticsData && staticsData.map(item=>
-                <div className="bg-[#EBEBEB] px-5 py-8 rounded-lg">
+                <div className="bg-[#EBEBEB] px-5 py-5 rounded-lg">
                 <div className="flex items-center gap-5">
                     <div className="w-12 h-12 bg-primary flex items-center justify-center rounded-full text-white">
                         {item.icon}

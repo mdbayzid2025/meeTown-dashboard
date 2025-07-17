@@ -53,4 +53,6 @@ body{
   width: 100% !important;
 }
 
-
+.subscriptionTable .ant-table-pagination {
+  justify-content: center;
+}

@@ -1,10 +1,12 @@
-import React from 'react'
 import { Button, ConfigProvider, Table } from 'antd'
-import { IoIosArrowDown } from 'react-icons/io'
+import { useState } from 'react';
 import { SlEye } from 'react-icons/sl'
-import { TbEyeClosed } from 'react-icons/tb'
+import UserDetailsModal from './UserDetailsModal';
 
 const UserList = () => {
+    const [selectedUser, setSelectedUser] = useState<any>(null);
+    const [detailsOpen, setDetailsOpen] = useState(false);
+
 
     const userColumns = [
         { title: "Sl. No", dataIndex: "key", key: "key" },
@@ -22,15 +24,18 @@ const UserList = () => {
         {
             title: "Status", dataIndex: "status", key: "status", render: (status: string) => (
                 <div className="flex items-center gap-2 ">
-                    <Button type="primary"  danger={status !== "active"} className='w-[100px]'>{status}</Button>
-                    <Button icon={<IoIosArrowDown />} />
+                    <Button type="primary" danger={status !== "active"} className='w-[100px]'>{status}</Button>
+                    {/* <Button icon={<IoIosArrowDown />} /> */}
                 </div>
             )
         },
         {
             title: "View", key: "view", render: (record: any) => (
-                <div className="">
-                    {record?.status === "active" ? <SlEye size={15} /> : <TbEyeClosed size={15} />}
+                <div className="cursor-pointer" onClick={() => {
+                    setSelectedUser(record);
+                    setDetailsOpen(true);
+                }}>
+                    <SlEye size={15} />
                 </div>
             )
         }
@@ -43,13 +48,24 @@ const UserList = () => {
                     Table: {
                         headerBg: "#F7F7F7",
                         bodySortBg: "#F7F7F7",
-                        colorBgContainer: "#F7F7F7"
+                        colorBgContainer: "#F7F7F7",
                     }
                 }
             }}>
 
-            <Table columns={userColumns} dataSource={users} />
+                <Table columns={userColumns} dataSource={users} />
             </ConfigProvider>
+            <div className="flex items-center justify-between gap-10 pr-10">
+                <div className="w-full bg-white h-full py-5 px-3 pr-24">
+                    <p className='text-2xl text-primary text-center '>Hello, This User 19s Starting A New profile. <br /> </p>
+                    <p className='text-orange-500 text-xl font-semibold text-center mt-3'>If Any Problem You Can Report And Block This Accounts</p>
+                </div>
+                <div className="flex flex-col gap-3 w-[200px]">
+                    <Button type='primary' size='large'>Active</Button>
+                    <Button type='primary' size='large' danger>Report</Button>
+                </div>
+            </div>
+            <UserDetailsModal open={detailsOpen} setOpen={setDetailsOpen} data={selectedUser} />
         </div>
     )
 }

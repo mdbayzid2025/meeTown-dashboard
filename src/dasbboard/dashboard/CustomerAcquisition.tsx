@@ -1,4 +1,3 @@
-import React from 'react'
 import { Bar, BarChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const CustomerAcquisition = () => {
@@ -20,9 +19,9 @@ const CustomerAcquisition = () => {
 
 
     return (
-        <div className='bg-white py-5  rounded-xl w-[70%]'>
+        <div className='bg-white py-5  rounded-xl w-3/5 2xl:w-[70%]'>
             <p className='px-10 mb-7 font-semibold text-xl'>Overall Customer Acquisition</p>
-            <ResponsiveContainer width="100%" height={260}>
+            <ResponsiveContainer width="100%" height={200}>
                 <BarChart
                     data={customerAcqData}
                     margin={{
@@ -35,7 +34,7 @@ const CustomerAcquisition = () => {
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip />                    
-                    <Bar dataKey="total" barSize={15} radius={50} fill="#002C66"
+                    <Bar dataKey="total" barSize={20} radius={50} fill="#002C66"
                     background={{ fill: '#eee', radius: 50}} activeBar={<Rectangle fill="pink" stroke="blue" />} />                    
 
                 </BarChart>

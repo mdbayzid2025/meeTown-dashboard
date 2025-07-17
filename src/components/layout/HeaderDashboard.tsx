@@ -1,7 +1,6 @@
 import { Avatar, Badge, Input } from 'antd'
-import React from 'react'
 import { GoBell } from 'react-icons/go'
-import { IoSearch, IoSearchOutline } from 'react-icons/io5'
+import { IoSearch } from 'react-icons/io5'
 
 const HeaderDashboard = () => {
   return (
@@ -15,11 +14,11 @@ const HeaderDashboard = () => {
             <Avatar shape="circle" size="large" icon={<GoBell size={24} className='text-grayMedium' />} />
           </Badge>
 
-          <div className="flex items-center gap-3 bg-[#EBEBEB] py-2.5 px-4 rounded-md">
+          <div className="flex items-center gap-3  py-2.5 px-4 rounded-md">
             <img src="https://i.ibb.co/sJbPZbhw/494219200-2564029370601695-4810029999983361589-n.jpg" alt="" className='w-10 h-10 rounded-full object-cover' />
             <div className="">
               <h4 className='font-bold text-primary text-lg'>Afsana Mimi</h4>
-              <p className='text-sm font-semibold text-grayMedium'>Seller Account</p>
+              <p className='text-sm font-semibold text-grayMedium'>Admin</p>
             </div>
           </div>
         </div>

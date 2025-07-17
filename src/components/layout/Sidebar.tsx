@@ -1,8 +1,7 @@
-import { Button, ConfigProvider, Layout, Menu } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Button, ConfigProvider, Layout, Menu } from 'antd';
+import { MdLogout } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import { sidebarItems } from '../../utils/sidebarItems';
-import { MdLogout } from 'react-icons/md';
 
 const { Sider } = Layout;
 
@@ -20,6 +19,8 @@ const Sidebar = () => {
     })
   }
 
+  console.log("pathname", location?.pathname)
+
   return (
     <ConfigProvider
       theme={{
@@ -34,7 +35,7 @@ const Sidebar = () => {
             itemActiveBg: "#002C66",
             itemMarginBlock: 12,
             itemBorderRadius: 0,
-            itemColor: "#9A9A9C",            
+            itemColor: "#9A9A9C",
           }
         }
       }}
@@ -44,6 +45,7 @@ const Sidebar = () => {
         theme='light'
         breakpoint='lg'
         collapsedWidth="0"
+      
       >
         <Link to="/">
           <div
@@ -58,14 +60,17 @@ const Sidebar = () => {
             <img src="/logo.png" className="mx-auto w-[150px] h-[80px] object-contain overflow-visible" alt="" />
           </div>
         </Link>
+
         <div style={{
-          display: "flex", flexDirection: "column", 
-          height: "calc(100vh - 80px)"
+          display: "flex",
+          flexDirection: "column",
+          height: "calc(100vh - 100px)"
 
         }}>
-          <Menu theme="light" mode='inline' items={generateSidebarMenu(sidebarItems)}
-            selectedKeys={[location.pathname.replace("/", "") || "dashboard"]}
-             style={{ flexGrow: 1, overflowY: "auto" }}
+          <Menu theme="light" mode='inline'
+            items={generateSidebarMenu(sidebarItems)}
+            selectedKeys={[ sidebarItems.find(item => location.pathname.startsWith(`/${item.path}`))?.key || '']} // <- FIXED
+            style={{ flexGrow: 1, overflowY: "auto" }}
 
           />
 
@@ -85,7 +90,7 @@ const Sidebar = () => {
                 color: "#002C66",
                 marginBlock: 5,
                 marginTop: "auto",
-                borderRadius: 0,                
+                borderRadius: 0,
               }}
             >
               <MdLogout size={24} />

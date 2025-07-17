@@ -12,7 +12,7 @@ const MainLayout = () => {
     return (
         <Layout
             style={{
-                minHeight: "100vh",
+                height: "100vh",
             }}>
             <Sidebar />
             <Layout>

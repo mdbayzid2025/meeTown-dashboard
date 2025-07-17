@@ -1,15 +1,14 @@
-import { Button, ConfigProvider, Divider, Form, Input } from 'antd';
+import { Button, ConfigProvider, Form, Input } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { useNavigate } from 'react-router-dom';
-import img from "/authImage.png";
 
 
-const NewPassword = () => {
+const PasswordChange = () => {
   const navigate = useNavigate()
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
-    navigate("/change-password")
+    navigate("/verify-otp")
   };
 
 
@@ -30,15 +29,10 @@ const NewPassword = () => {
         },
       }}
     >
-      <div className='bg-[#EBEAEA] flex items-center justify-center h-screen gap-10 px-10'>
-        <div className="w-full  max-w-[650px]">
-          <img src={img} className='w-full h-full object-cover rounded-tl-[55px] rounded-br-[55px]' />
-        </div>
-        <div className="pt-10 pb-5 px-12 bg-white w-full  max-w-[650px] rounded-xl">
-          <h1 className='text-black font-bold text-3xl mb-5'>Set a new password</h1>
-          
-
-          <Divider style={{ borderColor: '#EBEBEB' }} />
+      <div className=' flex items-center justify-center'>
+        <div className="pt-10 pb-5 px-12  w-full max-w-[650px] rounded-xl">
+          <h1 className='text-black font-bold text-3xl mb-5 text-center'>Change Password</h1>
+          <p className='font-medium text-grayMedium text-lg text-center px-10 mb-10 '>Enter the e-mail Associate With Your Account & Well Sent An E-mail with code To Reset Your Passport </p>
           <Form
             // form={form}
             onFinish={onFinish}
@@ -46,32 +40,40 @@ const NewPassword = () => {
             className='mt-4'
           >
             <FormItem
-              label={<p className='text-black font-semibold text-lg '>Password</p>}
-              name="password"
+              label={<p className='text-black font-semibold text-lg '>Old Password</p>}
+              name="oldPassword"
               rules={[{
-                required: true, message: "Enter your password",
+                required: true, message: "Enter your old password",
               }]}
             >
-              <Input.Password name='password' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter your password' />
+              <Input.Password name='oldPassword' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter your old password' />
+            </FormItem>
+            <FormItem
+              label={<p className='text-black font-semibold text-lg'>New Password</p>}
+              name="newPassword"
+              rules={[{
+                required: true, message: "Enter your new password",
+              }]}
+            >
+              <Input.Password name='newPassword' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter your new password' />
             </FormItem>
 
             <FormItem
               label={<p className='text-black font-semibold text-lg '>Confirm Password</p>}
               name="confirmPassword"
+              dependencies={["newPassword"]}
               rules={[{
                 required: true, message: "Enter Confirm password",
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
+                  if (!value || getFieldValue('newPassword') === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject(new Error('The new password that you entered do not match!'));
                 },
               }),
-              ]}
-              dependencies={["password"]}
-
+              ]}            
             >
               <Input.Password name='confirmPassword' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter Confirm password' />
             </FormItem>
@@ -85,4 +87,4 @@ const NewPassword = () => {
   )
 }
 
-export default NewPassword;
+export default PasswordChange;

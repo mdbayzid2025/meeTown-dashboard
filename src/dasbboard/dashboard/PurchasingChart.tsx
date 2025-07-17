@@ -1,5 +1,4 @@
 import { Select } from 'antd';
-import React from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 
@@ -52,6 +51,7 @@ const PurchasingChart = () => {
                             tick={{ fill: '#888', fontSize: 12 }} // 👈 This ensures labels are visible
                         />
                         <YAxis axisLine={false} tickLine={false} />
+                        <CartesianGrid vertical={false} strokeDasharray="3 3" />
                         <Tooltip />
                         <Area type="monotone" dataKey="total" stroke="#002C66" fillOpacity={1} fill="url(#total)" />
                     </AreaChart>

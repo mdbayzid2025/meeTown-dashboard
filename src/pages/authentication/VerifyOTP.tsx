@@ -1,8 +1,8 @@
-import { Button, ConfigProvider, Divider, Form, Input } from 'antd';
+import { Button, ConfigProvider, Divider, Form } from 'antd';
+import { InputOTP } from 'antd-input-otp';
 import FormItem from 'antd/es/form/FormItem';
 import { useNavigate } from 'react-router-dom';
 import img from "/authImage.png";
-import { InputOTP } from 'antd-input-otp';
 
 
 const VerifyOTP = () => {

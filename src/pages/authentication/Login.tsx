@@ -1,10 +1,8 @@
-import React from 'react'
-import img from "/authImage.png";
 import { Button, Checkbox, ConfigProvider, Form, Input } from 'antd';
-import { useForm } from 'antd/es/form/Form';
 import FormItem from 'antd/es/form/FormItem';
-import { Link } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
+import { Link } from 'react-router-dom';
+import img from "/authImage.png";
 
 
 const Login = () => {
