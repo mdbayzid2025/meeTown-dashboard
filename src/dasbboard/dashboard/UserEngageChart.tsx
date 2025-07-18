@@ -8,6 +8,30 @@ const UserEngageChart = () => {
 
     const COLORS = ['#002C66', '#002A6052',];
 
+
+    const renderCustomizedLabel = ({
+        cx, cy, midAngle, innerRadius, outerRadius, index,
+    } : any) => {
+        const RADIAN = Math.PI / 180;
+        const radius = innerRadius + (outerRadius - innerRadius) / 2;
+        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+        return (
+            <text
+                x={x}
+                y={y}
+                fill="white"
+                textAnchor="middle"               
+                fontSize={14}
+                fontWeight={600}
+            >
+                {`${data[index].value}%`}
+            </text>
+        );
+    };
+
+
     return (
         <div className='w-2/5 2xl:w-[30%] bg-white rounded-xl border-2 border-gray py-6 px-5'>
             <div className="flex justify-between items-center">
@@ -28,6 +52,7 @@ const UserEngageChart = () => {
                         )}
                     </div>
                 </div>
+
                 <div className="max-w-[65%] w-full pt-10">
                     <ResponsiveContainer width="100%" height={200}>
                         <PieChart>
@@ -35,13 +60,14 @@ const UserEngageChart = () => {
                                 data={data}
                                 cx="50%"
                                 cy="50%"
-                                labelLine={false}
+                                label={renderCustomizedLabel}
                                 outerRadius={80}
                                 fill="#8884d8"
                                 dataKey="value"
                                 innerRadius={30}
                                 paddingAngle={5}
                                 cornerRadius={5}
+                                 labelLine={false}
                             >
                                 {data.map((entry, index) => (
                                     <Cell key={`cell-${entry.name}`} fill={COLORS[index % COLORS.length]} />
