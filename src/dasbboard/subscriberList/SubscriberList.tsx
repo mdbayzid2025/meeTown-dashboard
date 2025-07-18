@@ -1,6 +1,5 @@
 import { Button, ConfigProvider, Table } from 'antd'
 import { SlEye } from 'react-icons/sl'
-import { TbEyeClosed } from 'react-icons/tb'
 
 const SubscriberList = () => {
 
@@ -34,7 +33,7 @@ const SubscriberList = () => {
         {
             title: "View", key: "view", render: (record: any) => (
                 <div className="cursor-pointer">
-                    <SlEye size={15} />
+                    {record && <SlEye size={15} />}
                 </div>
             )
         }
