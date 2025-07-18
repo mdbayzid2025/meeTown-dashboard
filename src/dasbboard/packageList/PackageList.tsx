@@ -1,11 +1,11 @@
 import { PlusCircleOutlined } from '@ant-design/icons'
-import { Button, ConfigProvider, Table } from 'antd'
+import { Button, Table } from 'antd'
 import { useEffect, useState } from 'react'
 import { LiaEdit } from 'react-icons/lia'
 import { SlEye } from 'react-icons/sl'
+import { useSearchParams } from 'react-router-dom'
 import PackageDetailsModal from './PackageDetailsModal'
 import PackageEditModal from './PackageEditModal'
-import { useSearchParams } from 'react-router-dom'
 
 const PackageList = () => {
     const [open, setOpen] = useState<boolean>(false);
