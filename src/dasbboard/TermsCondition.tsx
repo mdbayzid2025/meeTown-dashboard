@@ -1,7 +1,7 @@
 import JoditEditor from 'jodit-react';
 import { useRef, useState } from 'react';
 
-const Tams = () => {
+const TermsCondition = () => {
     const editor = useRef(null);
     const [content, setContent] = useState('');
 
@@ -27,4 +27,4 @@ const Tams = () => {
     )
 }
 
-export default Tams
+export default TermsCondition;

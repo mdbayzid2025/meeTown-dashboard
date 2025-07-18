@@ -16,11 +16,7 @@ const UserDetailsModal = ({ open, setOpen, data }: Props) => {
             footer={null}
             centered
             width={600}
-            title={null}
-            styles={{
-                content: { background: '#F5F7FA', borderRadius: 12 },
-                header: { background: '#F5F7FA' },
-            }}
+            title={null}           
         >
             <div className="">
                 {/* User Photo */}

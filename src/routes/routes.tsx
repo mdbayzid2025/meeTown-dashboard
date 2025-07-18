@@ -1,20 +1,21 @@
-import { createBrowserRouter } from 'react-router-dom'
-import App from '../App'
-import ErrorPage from '../pages/error/ErrorPage'
-import Dashboard from '../dasbboard/dashboard/Dashboard';
-import Login from '../pages/authentication/Login';
-import ForgetPassword from '../pages/authentication/ForgetPassword';
-import VerifyOTP from '../pages/authentication/VerifyOTP';
-import NewPassword from '../pages/authentication/NewPassword';
-import ChangePassword from '../pages/authentication/ChangePassword';
-import UserList from '../dasbboard/userList/UserList';
-import SubscriberList from '../dasbboard/subscriberList/SubscriberList';
-import PackageList from '../dasbboard/packageList/PackageList';
-import Support from '../dasbboard/Support';
+import { createBrowserRouter } from 'react-router-dom';
+import App from '../App';
 import About from '../dasbboard/About';
-import PrivacyPolicy from '../dasbboard/PrivacyPolicy';
+import Dashboard from '../dasbboard/dashboard/Dashboard';
 import PasswordChange from '../dasbboard/dashboard/PasswordChange';
 import FAQ from '../dasbboard/FAQ';
+import PackageList from '../dasbboard/packageList/PackageList';
+import PrivacyPolicy from '../dasbboard/PrivacyPolicy';
+import SubscriberList from '../dasbboard/subscriberList/SubscriberList';
+import Support from '../dasbboard/Support';
+import TermsCondition from '../dasbboard/TermsCondition';
+import UserList from '../dasbboard/userList/UserList';
+import ChangePassword from '../pages/authentication/ChangePassword';
+import ForgetPassword from '../pages/authentication/ForgetPassword';
+import Login from '../pages/authentication/Login';
+import NewPassword from '../pages/authentication/NewPassword';
+import VerifyOTP from '../pages/authentication/VerifyOTP';
+import ErrorPage from '../pages/error/ErrorPage';
 
 const router = createBrowserRouter([
     {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
             { path: "support", element: <Support /> },
             { path: "about", element: <About /> },
             { path: "privacy-policy", element: <PrivacyPolicy /> },
-            { path: "terms-condition", element: <PrivacyPolicy /> },
+            { path: "terms-condition", element: <TermsCondition /> },
              { path: "password-change", element: <PasswordChange /> },
              { path: "faq", element: <FAQ /> },
         ]

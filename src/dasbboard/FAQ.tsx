@@ -8,7 +8,7 @@ import TextArea from 'antd/es/input/TextArea';
 const FAQ = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [editData, setEditData] = useState<any | null>(null);
-    
+
     const faqData = [
         {
             key: 1,
@@ -27,12 +27,12 @@ const FAQ = () => {
         },
     ]
 
-    
+
     return (
         <div className=' p-6 rounded-2xl'>
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-xl font-semibold text-grayMedium mb-6">FAQ</h1>
-                <Button onClick={()=>setOpen(!open)} type="primary" size='large' className='flex items-center'> <FiPlus size={24} />Add FAQ</Button>
+                <Button onClick={() => setOpen(!open)} type="primary" size='large' className='flex items-center'> <FiPlus size={24} />Add FAQ</Button>
             </div>
 
             <div className=''>
@@ -51,15 +51,15 @@ const FAQ = () => {
                         </div>
                         <div className='w-14'>
                             <div className="flex flex-col items-center gap-3 text-[#999999]">
-                                <FiEdit className='cursor-pointer' onClick={()=>{setOpen(true); setEditData(item)}} size={24} />
-                                <GoTrash className='cursor-pointer' size={24} color='red'/>
+                                <FiEdit className='cursor-pointer' onClick={() => { setOpen(true); setEditData(item) }} size={24} />
+                                <GoTrash className='cursor-pointer' size={24} color='red' />
                             </div>
                         </div>
                     </div>
                 )
                 }
             </div>
-            <FaqAddModal open={open} setOpen={setOpen} editData={editData} setEditData={setEditData}/>
+            <FaqAddModal open={open} setOpen={setOpen} editData={editData} setEditData={setEditData} />
         </div>
     )
 }
@@ -68,28 +68,29 @@ const FAQ = () => {
 
 export type faqProps = {
     open: boolean;
-    setOpen: (open : boolean) => void;
+    setOpen: (open: boolean) => void;
     editData?: any | null;
-    setEditData: (editData: any | null)=>void;
-    
+    setEditData: (editData: any | null) => void;
+
 }
 
 const FaqAddModal = ({ open, setOpen, editData, setEditData }: faqProps) => {
     const [form] = Form.useForm()
     const handleClose = () => {
-         form.resetFields();
+        form.resetFields();
         setOpen(false);
         setEditData(null)
     }
 
     useEffect(() => {
-        if(editData){
+        if (editData) {
             form.setFieldsValue(editData)
         }
-    }, [editData,setEditData])
+    }, [editData, setEditData])
 
     const onFinish = (values: any) => {
         console.log("values", values);
+        setOpen(false);
     }
     return (
         <Modal
@@ -103,7 +104,7 @@ const FaqAddModal = ({ open, setOpen, editData, setEditData }: faqProps) => {
                 form={form}
                 layout='vertical'
                 onFinish={onFinish}
-                style={{marginTop: 15}}
+                style={{ marginTop: 15 }}
             >
                 <FormItem
                     label={editData ? "Update FAQ" : "Add FAQ"}

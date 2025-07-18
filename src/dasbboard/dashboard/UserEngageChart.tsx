@@ -2,22 +2,21 @@ import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 
 const UserEngageChart = () => {
     const data = [
-        { name: 'New', value: 62, bgColor: "#002C66" },        
-        { name: 'Returning', value: 13, bgColor: "#002A6052" },
-        { name: 'Inactive', value: 23, bgColor: "#EBEBEB" },
+        { name: 'Active', value: 53, bgColor: "#002C66" },
+        { name: 'Inactive', value: 23, bgColor: "#002A6052" },
     ];
 
-    const COLORS = ['#002C66', '#002A6052', '#EBEBEB'];
+    const COLORS = ['#002C66', '#002A6052',];
 
     return (
-        <div className='w-2/5 2xl:w-[30%] bg-white rounded-xl border py-10 px-5'>
-            <div className="flex justify-between">
-                <div className="w-1/3 xl:w-full">
-                <div className="mb-10">
-                    <p className='text-lg xl:text-3xl text-grayMedium xl:mb-5 whitespace-nowrap font-semibold'>User Engagement</p>
-                    <h1 className='text-2xl xl:text-4xl text-black font-bold'>4,209</h1>
-                </div>
-                    <div className="flex flex-col mt-[50px]">
+        <div className='w-2/5 2xl:w-[30%] bg-white rounded-xl border-2 border-gray py-6 px-5'>
+            <div className="flex justify-between items-center">
+                <div className="w-1/3 xl:w-1/2 2xl:w-full">
+                    <div className="mb-10">
+                        <p className='text-lg lg:text-xl xl:text-3xl text-grayMedium xl:mb-5 whitespace-nowrap font-semibold'>User Engagement</p>
+                        <h1 className='text-2xl xl:text-4xl text-black font-bold'>4,209</h1>
+                    </div>
+                    <div className="flex flex-col mt-[80px]">
                         {data && data.map(item =>
                             <div className="flex items-center gap-3">
                                 <span
@@ -29,7 +28,7 @@ const UserEngageChart = () => {
                         )}
                     </div>
                 </div>
-                <div className="w-[65%] xl:w-full">
+                <div className="max-w-[65%] w-full pt-10">
                     <ResponsiveContainer width="100%" height={200}>
                         <PieChart>
                             <Pie
@@ -52,7 +51,6 @@ const UserEngageChart = () => {
                     </ResponsiveContainer>
                 </div>
             </div>
-
         </div>
     )
 }

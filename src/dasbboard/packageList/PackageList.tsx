@@ -1,18 +1,27 @@
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { Button, ConfigProvider, Table } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LiaEdit } from 'react-icons/lia'
 import { SlEye } from 'react-icons/sl'
 import PackageDetailsModal from './PackageDetailsModal'
 import PackageEditModal from './PackageEditModal'
+import { useSearchParams } from 'react-router-dom'
 
 const PackageList = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [editData, setEditData] = useState<any | null>(null);
     const [showDetails, setShowDetails] = useState<boolean>(false);
-    const [selectedData, setSelectedData] = useState<any | null>(null)
+    const [selectedData, setSelectedData] = useState<any | null>(null);
+    
+    const [searchParams] = useSearchParams();
+    const [seachQuery, setSearchQuery] = useState("");
 
 
+    useEffect(()=>{
+      const search = searchParams.get("searchQuery");
+      setSearchQuery(search || "")
+
+    },[searchParams])
 
     const userColumns = [
         { title: "Id", dataIndex: "key", key: "key" },
@@ -44,6 +53,8 @@ const PackageList = () => {
         }
     ]
 
+    const filteredPackage = packageData.filter(p=> p.unit.toLowerCase().includes(seachQuery.toLowerCase()) || p.tag.toLowerCase().includes(seachQuery.toLowerCase()) || p.status.toLowerCase().includes(seachQuery.toLowerCase()))
+
     const handleSubmit = (values: any) => {
         console.log("value", values);
         setOpen(!open)
@@ -54,28 +65,8 @@ const PackageList = () => {
                 <h3 className='text-xl font-semibold text-grayMedium mb-6'>All Subscriber’s</h3>
                 <Button onClick={() => setOpen(!open)} type='primary' size='large' icon={<PlusCircleOutlined style={{ fontSize: 20 }} />} iconPosition='end'>Add New</Button>
             </div>
-            <ConfigProvider theme={{
-                components: {
-                    Table: {
-                        headerBg: "#F7F7F7",
-                        bodySortBg: "#F7F7F7",
-                        colorBgContainer: "#F7F7F7",
-                        lineHeight: 0,
-                    },
-                    Pagination: {
-                        itemActiveBg: "rgb(0,44,102)",
-                        itemBg: "rgba(0,42,96,0.3215686274509804)",
-                        colorPrimary: "rgb(255,255,255)",
-                        colorText: "#000000",
-                        borderRadius: 25,
-                        itemSize: 40,
-                        colorPrimaryHover: "#ffffff"
-                    }
-                }
-            }}>
 
-                <Table columns={userColumns} dataSource={packageData} pagination={{ pageSize: 9, }} className='subscriptionTable' />
-            </ConfigProvider>
+                <Table columns={userColumns} dataSource={filteredPackage} pagination={{ pageSize: 9, }} className='subscriptionTable' />            
 
             <PackageEditModal open={open} setOpen={setOpen} editData={editData} setEditData={setEditData} onSubmit={handleSubmit} />
             <PackageDetailsModal open={showDetails} setOpen={setShowDetails} data={selectedData} />
