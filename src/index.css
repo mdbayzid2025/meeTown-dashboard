@@ -56,3 +56,8 @@ body{
 .subscriptionTable .ant-table-pagination {
   justify-content: center;
 }
+
+
+.ant-menu-item:not(.ant-menu-item-selected):active {
+  color: #ffffff !important;
+}

@@ -31,9 +31,10 @@ const sidebarItemGenerator = (items: any[]) => {
             itemSelectedColor: "#fff",
             itemHeight: 42,
             itemActiveBg: "#002C66",
+            // itemActiveColor: "#ffffff",
             itemMarginBlock: 12,
             itemBorderRadius: 0,
-            itemColor: "#9A9A9C",
+            itemColor: "#767676",
           }
         }
       }}

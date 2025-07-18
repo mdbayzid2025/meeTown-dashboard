@@ -86,6 +86,4 @@ export const users = [
         status: "active",
         photo: "https://i.ibb.co/sJbPZbhw/494219200-2564029370601695-4810029999983361589-n.jpg"
     },
-
-
 ];
