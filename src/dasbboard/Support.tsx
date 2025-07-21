@@ -1,33 +1,70 @@
-import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, ConfigProvider, Form, Input, Modal, Table } from 'antd';
+import { Button, ConfigProvider, Form, Input, Modal, Select, Table, Tag } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { useEffect, useState } from 'react';
 import { LiaEdit } from 'react-icons/lia';
+import { SlEye } from 'react-icons/sl';
 
 const Support = () => {
     const [open, setOpen] = useState<boolean>(false);
+    const [viewOpen, setViewOpen] = useState<boolean>(false);
     const [editData, setEditData] = useState<any | null>(null);
+    const [viewData, setViewData] = useState<any | null>(null);
     const [form] = Form.useForm();
 
     const [data, setData] = useState([
-        { key: 1, email: "support@example.com", contact: "+880123456789" },
+        {
+            key: 1,
+            email: "support@example.com",
+            contact: "+880123456789",
+            message: "issue pending and we are looking into it. This message is deliberately long to test the view modal functionality.",
+            status: "Pending"
+        }
     ]);
 
     const supportColumns = [
         { title: "ID", dataIndex: "key", key: "key" },
-        { title: "Email", dataIndex: "email", key: "email" },
-        { title: "Contact Number", dataIndex: "contact", key: "contact" },
+        {
+            title: "Email / Contact", render: (record: any) => (
+                <h3>{record?.contact || record?.email}</h3>
+            )
+        },
+        {
+            title: "Message", key: "message",
+            render: (record: any) => (
+                <span>{record?.message?.slice(0, 100)}{record?.message?.length > 100 ? '...' : ''}</span>
+            )
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            render: (status: string) => (
+                <Tag
+                    color={
+                        status === "Pending" ? "orange" : status === "Resolved" ? "green" : status === "Closed" ? "red" : "default"
+                    }
+                    className="capitalize"
+                >
+                    {status}
+                </Tag>
+            ),
+        },
         {
             title: "Action",
             key: "action",
             render: (record: any) => (
                 <div className="flex items-center gap-5">
-                    <Button
+                    <LiaEdit size={20} onClick={() => {
+                        setEditData(record);
+                        setOpen(true);
+                    }} className="!text-primary cursor-pointer" />
+                    <SlEye
+                        size={20}
+                        className='cursor-pointer'
                         onClick={() => {
-                            setEditData(record);
-                            setOpen(true);
+                            setViewData(record);
+                            setViewOpen(true);
                         }}
-                        icon={<LiaEdit size={20} className="!text-primary" />}
                     />
                 </div>
             )
@@ -63,18 +100,6 @@ const Support = () => {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-semibold text-grayMedium mb-6">Support Information</h3>
-                <Button
-                    onClick={() => {
-                        setEditData(null);
-                        setOpen(true);
-                    }}
-                    type="primary"
-                    size="large"
-                    icon={<PlusCircleOutlined style={{ fontSize: 20 }} />}
-                    iconPosition="end"
-                >
-                    Add New
-                </Button>
             </div>
 
             <ConfigProvider theme={{
@@ -104,6 +129,7 @@ const Support = () => {
                 />
             </ConfigProvider>
 
+            {/* Add/Edit Modal */}
             <Modal
                 open={open}
                 onCancel={handleClose}
@@ -142,12 +168,49 @@ const Support = () => {
                         <Input placeholder="Enter contact number" style={{ height: 42 }} />
                     </FormItem>
 
+                    <FormItem
+                        name="message"
+                        label={<p className="font-semibold text-[16px] text-black">Support Message</p>}
+                        rules={[{ required: true, message: "Enter message" }]}
+                    >
+                        <Input.TextArea rows={4} placeholder="Enter message" />
+                    </FormItem>
+
+                    <FormItem
+                        name="status"
+                        label={<p className="font-semibold text-[16px] text-black">Status</p>}
+                        rules={[{ required: true, message: "Select status" }]}
+                    >
+                        <Select placeholder="Select status" style={{ height: 42 }}>
+                            <Select.Option value="Pending">Pending</Select.Option>
+                            <Select.Option value="Resolved">Resolved</Select.Option>
+                            <Select.Option value="Closed">Closed</Select.Option>
+                        </Select>
+                    </FormItem>
+
                     <div className="flex items-center justify-center mt-4">
                         <Button type="primary" size="large" htmlType="submit">
-                            {editData ? "Update Support Info" : "Add Support Info"}
+                            {editData ? "Edit Support Info" : "Add Support Info"}
                         </Button>
                     </div>
                 </Form>
+            </Modal>
+
+            {/* View Modal */}
+            <Modal
+                open={viewOpen}
+                onCancel={() => setViewOpen(false)}
+                footer={null}
+                centered
+                title={<p className="text-xl font-semibold text-primary text-center">Support Details</p>}
+            >
+                <div className="mt-4 space-y-3 text-base">
+                    <p><strong>Email:</strong> {viewData?.email}</p>
+                    <p><strong>Contact:</strong> {viewData?.contact}</p>
+                    <p><strong>Status:</strong> {viewData?.status}</p>
+                    <p><strong>Message:</strong></p>
+                    <p className="bg-gray-100 p-3 rounded">{viewData?.message}</p>
+                </div>
             </Modal>
         </div>
     );

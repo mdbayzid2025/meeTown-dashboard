@@ -36,8 +36,7 @@ const UserList = () => {
     {
       title: "Status", dataIndex: "status", key: "status", render: (status: string) => (
         <div className="flex items-center gap-2 ">
-          <Button type="primary" danger={status !== "active"} className='w-[100px] capitalize'>{status}</Button>
-          {/* <Button icon={<IoIosArrowDown />} /> */}
+          <Button type="primary" danger={status !== "active"} className='w-[100px] capitalize'>{status}</Button>          
         </div>
       )
     },
