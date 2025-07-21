@@ -23,11 +23,11 @@ const UserList = () => {
     { title: "Sl. No", dataIndex: "key", key: "key" },
     {
       title: "Name", render: (record: any) => (
-        <div className="flex items-center gap-3">
+        <div  className="flex items-center gap-3">
           <img src={record?.photo} className='w-14 h-14 rounded-full object-cover' alt="" />
           <h4>{record?.name}</h4>
         </div>
-      )
+      ),      width: 220
     },
     { title: "Email", dataIndex: "email", key: "email" },
     { title: "Contact", dataIndex: "contact", key: "contact" },
@@ -57,7 +57,8 @@ const UserList = () => {
   return (
     <div>
       <h3 className='text-xl font-semibold text-grayMedium mb-10'>Total User</h3>
-      <Table columns={userColumns} dataSource={filterUser} pagination={{ pageSize: 6 }} className='subscriptionTable' />
+      {/* <Table columns={userColumns} dataSource={filterUser} pagination={{ pageSize: 6 }} className='subscriptionTable' /> */}
+      <Table  style={{width: "99%"}} columns={userColumns} dataSource={filterUser} pagination={{ pageSize: 6 }} className='' />
       <UserDetailsModal open={detailsOpen} setOpen={setDetailsOpen} data={selectedUser} />
     </div>
   )

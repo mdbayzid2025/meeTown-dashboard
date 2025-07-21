@@ -17,8 +17,7 @@ function App() {
          Table: {
                         headerBg: "#F7F7F7",
                         bodySortBg: "#F7F7F7",
-                        colorBgContainer: "#F7F7F7",
-                        lineHeight: 0,
+                        colorBgContainer: "#F7F7F7",                        
                     },
                     Pagination: {
                         itemActiveBg: "rgb(0,44,102)",
