@@ -4,11 +4,12 @@ import HeaderDashboard from './HeaderDashboard';
 import Sidebar from './Sidebar';
 
 
-const {Content} = Layout;
+const { Content } = Layout;
 const MainLayout = () => {
     const {
         token: { borderRadiusLG }
     } = theme.useToken();
+
     return (
         <Layout
             style={{
@@ -18,16 +19,16 @@ const MainLayout = () => {
             <Layout>
                 <HeaderDashboard />
 
-                <Content style={{margin:20}} className='overflow-y-auto'>
-                <div 
-                style={{
-                    width: "100%",
-                    background: "#F7F7F7",
-                    borderRadius: borderRadiusLG
-                }}
-                >
-                    <Outlet />
-                </div>
+                <Content style={{ margin: 20 }} className='overflow-y-auto'>
+                    <div
+                        style={{
+                            width: "100%",
+                            background: "#F7F7F7",
+                            borderRadius: borderRadiusLG
+                        }}
+                    >
+                        <Outlet />
+                    </div>
                 </Content>
             </Layout>
 

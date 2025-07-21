@@ -1,4 +1,4 @@
-import { Button, ConfigProvider, Table } from 'antd'
+import { Button, Table } from 'antd'
 import { useEffect, useState } from 'react'
 import { SlEye } from 'react-icons/sl'
 import { useSearchParams } from 'react-router-dom'
@@ -54,29 +54,9 @@ const SubscriberList = () => {
     const filterSubscriber = subscribers.filter(subscriber=>subscriber?.name.toLowerCase().includes(searchQuery) || subscriber?.contact.toLowerCase().includes(searchQuery))
     return (
         <div>
-            <h3 className='text-xl font-semibold text-grayMedium mb-6'>All Subscriber’s</h3>
-            <ConfigProvider theme={{
-                components: {
-                    Table: {
-                        headerBg: "#F7F7F7",
-                        bodySortBg: "#F7F7F7",
-                        colorBgContainer: "#F7F7F7",
-                        lineHeight: 0,
-                    },
-                    Pagination: {
-                        itemActiveBg: "rgb(0,44,102)",
-                        itemBg: "rgba(0,42,96,0.3215686274509804)",
-                        colorPrimary: "rgb(255,255,255)",
-                        colorText: "#000000",
-                        borderRadius: 25,
-                        itemSize: 40,
-                        colorPrimaryHover: "#ffffff"
-                    }
-                }
-            }}>
-
-                <Table columns={userColumns} dataSource={filterSubscriber} pagination={{ pageSize: 7, align: "center" }} className='subscriptionTable' />
-            </ConfigProvider>
+            <h3 className='text-xl font-semibold text-grayMedium mb-6'>All Subscriber’s</h3>        
+                {/* <Table columns={userColumns} dataSource={filterSubscriber} pagination={{ pageSize: 7, align: "center" }} className='subscriptionTable' />             */}
+                <Table columns={userColumns} dataSource={filterSubscriber} className='subscriptionTable' />            
         </div>
     )
 }

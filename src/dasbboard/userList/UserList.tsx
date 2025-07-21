@@ -8,13 +8,13 @@ const UserList = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
 
- const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
 
 
- useEffect(() => {
+  useEffect(() => {
     const search = searchParams.get("searchQuery");
-    if(search){
+    if (search) {
       setSearchQuery(search || "");
     }
   }, [searchParams]); // ✅ watch the whole object
@@ -23,11 +23,11 @@ const UserList = () => {
     { title: "Sl. No", dataIndex: "key", key: "key" },
     {
       title: "Name", render: (record: any) => (
-        <div  className="flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <img src={record?.photo} className='w-14 h-14 rounded-full object-cover' alt="" />
           <h4>{record?.name}</h4>
         </div>
-      ),      width: 220
+      ), width: 220
     },
     { title: "Email", dataIndex: "email", key: "email" },
     { title: "Contact", dataIndex: "contact", key: "contact" },
@@ -36,7 +36,7 @@ const UserList = () => {
     {
       title: "Status", dataIndex: "status", key: "status", render: (status: string) => (
         <div className="flex items-center gap-2 ">
-          <Button type="primary" danger={status !== "active"} className='w-[100px] capitalize'>{status}</Button>          
+          <Button type="primary" danger={status !== "active"} className='w-[100px] capitalize'>{status}</Button>
         </div>
       )
     },
@@ -52,13 +52,12 @@ const UserList = () => {
     }
   ]
 
-  const filterUser = users.filter(user=>user.name.toLowerCase().includes(searchQuery.toLowerCase()) || user.contact.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filterUser = users.filter(user => user.name.toLowerCase().includes(searchQuery.toLowerCase()) || user.contact.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <div>
       <h3 className='text-xl font-semibold text-grayMedium mb-10'>Total User</h3>
-      {/* <Table columns={userColumns} dataSource={filterUser} pagination={{ pageSize: 6 }} className='subscriptionTable' /> */}
-      <Table  style={{width: "99%"}} columns={userColumns} dataSource={filterUser} pagination={{ pageSize: 6 }} className='' />
+      <Table columns={userColumns} dataSource={filterUser} pagination={{ pageSize: 6 }} className='subscriptionTable' />
       <UserDetailsModal open={detailsOpen} setOpen={setDetailsOpen} data={selectedUser} />
     </div>
   )

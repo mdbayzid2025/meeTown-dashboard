@@ -9,7 +9,7 @@ const { Sider } = Layout;
 const Sidebar = () => {
   const location = useLocation();
 
-const sidebarItemGenerator = (items: any[]) => {
+  const sidebarItemGenerator = (items: any[]) => {
     return items.map(item => {
       return {
         key: `/${item.path}`,
@@ -44,7 +44,8 @@ const sidebarItemGenerator = (items: any[]) => {
         theme='light'
         breakpoint='lg'
         collapsedWidth="0"
-
+        trigger={null}        
+        className='hidden md:block'
       >
         <Link to="/">
           <div

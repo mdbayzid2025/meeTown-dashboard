@@ -19,7 +19,7 @@ const CustomerAcquisition = () => {
 
 
     return (
-        <div className='bg-white py-5  rounded-xl w-3/5 2xl:w-[70%]'>
+        <div className='bg-white py-5  rounded-xl w-full md:w-3/5 2xl:w-[70%]'>
             <p className='px-10 mb-7 font-semibold text-xl'>Overall Customer Acquisition</p>
             <ResponsiveContainer width="100%" height={200}>
                 <BarChart

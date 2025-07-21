@@ -33,7 +33,7 @@ const UserEngageChart = () => {
 
 
     return (
-        <div className='w-2/5 2xl:w-[30%] bg-white rounded-xl border-2 border-gray py-6 px-5'>
+        <div className='w-full md:w-2/5 2xl:w-[30%] bg-white rounded-xl border-2 border-gray py-6 px-5'>
             <div className="flex justify-between items-center">
                 <div className="w-1/3 xl:w-1/2 2xl:w-full">
                     <div className="mb-10">

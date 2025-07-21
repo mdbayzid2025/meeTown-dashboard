@@ -7,7 +7,7 @@ const Dashboard = () => {
   return (
     <div>
       <Statics />
-      <div className="my-6 flex items-center justify-between gap-5 xl:gap-10">
+      <div className="my-6 flex flex-col md:flex-row items-center justify-between gap-5 xl:gap-10">
         <CustomerAcquisition />
         <UserEngageChart />
       </div>

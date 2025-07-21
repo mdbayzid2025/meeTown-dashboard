@@ -1,4 +1,4 @@
-import { Button, ConfigProvider, Form, Input, Modal, Select, Table, Tag } from 'antd';
+import { Button, Form, Input, Modal, Select, Table, Tag } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { useEffect, useState } from 'react';
 import { LiaEdit } from 'react-icons/lia';
@@ -100,34 +100,14 @@ const Support = () => {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-semibold text-grayMedium mb-6">Support Information</h3>
-            </div>
-
-            <ConfigProvider theme={{
-                components: {
-                    Table: {
-                        headerBg: "#F7F7F7",
-                        bodySortBg: "#F7F7F7",
-                        colorBgContainer: "#F7F7F7",
-                        lineHeight: 0,
-                    },
-                    Pagination: {
-                        itemActiveBg: "rgb(0,44,102)",
-                        itemBg: "rgba(0,42,96,0.3215686274509804)",
-                        colorPrimary: "rgb(255,255,255)",
-                        colorText: "#000000",
-                        borderRadius: 25,
-                        itemSize: 40,
-                        colorPrimaryHover: "#ffffff"
-                    }
-                }
-            }}>
+            </div>            
                 <Table
                     columns={supportColumns}
                     dataSource={data}
                     pagination={{ pageSize: 9 }}
                     className="subscriptionTable"
                 />
-            </ConfigProvider>
+            
 
             {/* Add/Edit Modal */}
             <Modal
