@@ -148,22 +148,12 @@ const Support = () => {
                     layout="vertical"
                     onFinish={handleSubmit}
                     style={{ marginTop: 20 }}
-                >
-                    <FormItem
-                        name="email"
-                        label={<p className="font-semibold text-[16px] text-black">Email</p>}
-                        rules={[
-                            { required: true, message: "Enter email address" },
-                            { type: "email", message: "Enter a valid email address" }
-                        ]}
-                    >
-                        <Input placeholder="Enter support email" style={{ height: 42 }} />
-                    </FormItem>
+                >                   
 
                     <FormItem
                         name="contact"
-                        label={<p className="font-semibold text-[16px] text-black">Contact Number</p>}
-                        rules={[{ required: true, message: "Enter contact number" }]}
+                        label={<p className="font-semibold text-[16px] text-black">Contact / Email</p>}
+                        rules={[{ required: true, message: "Enter contact/email number" }]}
                     >
                         <Input placeholder="Enter contact number" style={{ height: 42 }} />
                     </FormItem>
@@ -204,9 +194,8 @@ const Support = () => {
                 centered
                 title={<p className="text-xl font-semibold text-primary text-center">Support Details</p>}
             >
-                <div className="mt-4 space-y-3 text-base">
-                    <p><strong>Email:</strong> {viewData?.email}</p>
-                    <p><strong>Contact:</strong> {viewData?.contact}</p>
+                <div className="mt-4 space-y-3 text-base">                    
+                    <p><strong>Email /Contact:</strong> {viewData?.contact ?? viewData?.email}</p>
                     <p><strong>Status:</strong> {viewData?.status}</p>
                     <p><strong>Message:</strong></p>
                     <p className="bg-gray-100 p-3 rounded">{viewData?.message}</p>
