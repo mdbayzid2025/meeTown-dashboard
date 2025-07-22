@@ -16,6 +16,7 @@ import Login from '../pages/authentication/Login';
 import NewPassword from '../pages/authentication/NewPassword';
 import VerifyOTP from '../pages/authentication/VerifyOTP';
 import ErrorPage from '../pages/error/ErrorPage';
+import NotificationPage from '../dasbboard/NotificationPage';
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,7 @@ const router = createBrowserRouter([
             { path: "terms-condition", element: <TermsCondition /> },
              { path: "password-change", element: <PasswordChange /> },
              { path: "faq", element: <FAQ /> },
+             { path: "notification", element: <NotificationPage /> },
         ]
     },
     { path: "login", element: <Login /> },

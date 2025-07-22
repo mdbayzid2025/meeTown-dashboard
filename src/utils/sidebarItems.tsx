@@ -40,17 +40,18 @@ export const sidebarItems = [
     icon: <CiLock size={20}/>
   },
   {
-    key: "about",
-    label: "About Us",
-    path: "about",
-    icon: <PiUsersThreeLight size={20}/>
-  },
-  {
     key: "faq",
     label: "FAQ",
     path: "faq",
     icon: <AiOutlineSafetyCertificate size={20}/>
   },
+  {
+    key: "about",
+    label: "About Us",
+    path: "about",
+    icon: <PiUsersThreeLight size={20}/>
+  },
+  
   {
     key: "terms-condition",
     label: "Terms & Condition",
