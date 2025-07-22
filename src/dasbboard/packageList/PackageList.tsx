@@ -66,7 +66,7 @@ const PackageList = () => {
                 <Button onClick={() => setOpen(!open)} type='primary' size='large' icon={<PlusCircleOutlined style={{ fontSize: 20 }} />} iconPosition='end'>Add New</Button>
             </div>
 
-                <Table columns={userColumns} dataSource={filteredPackage} pagination={{ pageSize: 9, }} className='subscriptionTable' />            
+                <Table columns={userColumns} dataSource={filteredPackage} pagination={{ pageSize: 9, }} scroll={{x: "max-content"}} className='subscriptionTable' />            
 
             <PackageEditModal open={open} setOpen={setOpen} editData={editData} setEditData={setEditData} onSubmit={handleSubmit} />
             <PackageDetailsModal open={showDetails} setOpen={setShowDetails} data={selectedData} />

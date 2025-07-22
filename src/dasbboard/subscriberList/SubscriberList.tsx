@@ -1,6 +1,5 @@
 import { Button, Table } from "antd";
 import { useEffect, useState } from "react";
-import { SlEye } from "react-icons/sl";
 import { useSearchParams } from "react-router-dom";
 
 const SubscriberList = () => {
@@ -23,9 +22,9 @@ const SubscriberList = () => {
             display: "flex",
             alignItems: "center",
             gap: 15,
-            padding: 40,
+            paddingInline: 40,
           }}
-          className=" p-4"
+          className=""
         >
           <div className="h-[50px] w-[50px]">
             <img
@@ -73,14 +72,7 @@ const SubscriberList = () => {
           {/* <Button icon={<IoIosArrowDown />} /> */}
         </div>
       ),
-    },
-    {
-      title: "View",
-      key: "view",
-      render: (record: any) => (
-        <div className="cursor-pointer">{record && <SlEye size={15} />}</div>
-      ),
-    },
+    },    
   ];
 
   const filterSubscriber = subscribers.filter(
@@ -98,6 +90,8 @@ const SubscriberList = () => {
         columns={userColumns}
         dataSource={filterSubscriber}
         className="subscriptionTable"
+        scroll={{ x: 'max-content' }}
+
       />
     </div>
   );

@@ -4,6 +4,8 @@ import { SlEye } from "react-icons/sl";
 import { useSearchParams } from "react-router-dom";
 import UserDetailsModal from "./UserDetailsModal";
 
+
+
 const UserList = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -110,8 +112,9 @@ const UserList = () => {
       <Table
         columns={userColumns}
         dataSource={filterUser}
-        pagination={{ pageSize: 6 }}
-        className="subscriptionTable"
+        pagination={{ pageSize: 6 }}                
+         scroll={{ x: 'max-content' }}
+         className={` subscriptionTable`}        
       />
       <UserDetailsModal
         open={detailsOpen}
@@ -133,8 +136,7 @@ export const users = [
     point: 120,
     status: "active",
     contact: "+8801700001101",
-    photo:
-      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
+    photo: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
   },
   {
     key: 2,

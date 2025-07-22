@@ -63,9 +63,9 @@ const HeaderDashboard = () => {
             </Badge>
 
             <div className="flex items-center gap-3 rounded-md">
-              <img src="https://i.ibb.co/sJbPZbhw/494219200-2564029370601695-4810029999983361589-n.jpg" alt="" className='w-10 h-10 rounded-full object-cover' />
+              <img src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg" alt="" className='w-10 h-10 rounded-full object-cover' />
               <div className="hidden md:block">
-                <h4 className='font-bold text-primary text-lg'>Afsana Mimi</h4>
+                <h4 className='font-bold text-primary text-lg'>Mimi Akter</h4>
                 <p className='text-sm font-semibold text-grayMedium'>Admin</p>
               </div>
             </div>

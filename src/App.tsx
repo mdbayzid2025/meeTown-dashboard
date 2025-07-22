@@ -18,7 +18,8 @@ function App() {
               headerBg: "#F7F7F7",
               bodySortBg: "#F7F7F7",
               colorBgContainer: "#F7F7F7",    
-              cellPaddingBlock: 6          
+              cellPaddingBlock: 6,
+              stickyScrollBarBg: "#002C66",                               
             },            
             Pagination: {
               itemActiveBg: "rgb(0,44,102)",
