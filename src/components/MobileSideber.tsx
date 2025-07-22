@@ -15,7 +15,7 @@ const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
     return items.map(item => ({
       key: `/${item.path}`,
       icon: item.icon,
-      label: <Link to={`/${item.path}`}>{item.label}</Link>,
+      label: <Link onClick={() => onClose()} to={`/${item.path}`}>{item.label}</Link>,
     }));
   };
 
@@ -43,24 +43,26 @@ const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
           <Link to="/">
             <img
               src="/logo.png"
-              className="mx-auto w-[150px] h-[80px] object-contain overflow-visible"
+              className="mx-auto w-[150px] h-[50px] object-contain overflow-visible"
               alt="Logo"
             />
           </Link>
         }
-        closable
+        closable={false}
         onClose={onClose}
         open={open}
         footer={false}
         placement="left"
         width={250}
         className="md:hidden"
+
       >
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            height: 'calc(100vh - 100px)',
+            height: 'calc(100vh - 90px)',
+            borderTop: "1px solid #ededed"
           }}
         >
           <Menu

@@ -42,14 +42,16 @@ const HeaderDashboard = () => {
 
 
   return (
-    <div className='bg-white min-h-[80px] w-full px-5'>
-      <div className="flex items-center justify-between py-3 flex-wrap flex-col-reverse md:flex-row">
+    <div className={`bg-white  w-full px-5  md:mb-0`}>
+    {/* <div className={`bg-white ${!hideSearch ? "max-h-[130px] lg:min-h-[80px]" : "min-h-[80px]"} w-full px-5  md:mb-0`}> */}
+      <div className="flex items-center justify-between pt-5 pb-2 md:py-3 flex-wrap flex-col-reverse md:flex-row">
 
         {!hideSearch &&
-          <div className="w-full md:w-1/3 mt-5">
+          <div className="w-full md:w-1/3 mt-3 md:mt-0 pt-0">
+          {/* <div className="w-full md:w-1/3 mt-5"> */}
             <Form form={form}>
               <FormItem name="search">
-                <Input name='search' style={{ background: "#EBEBEB", height: 50, borderRadius: 14, border: "none", color: "#767676", fontSize: 15 }} className='font-medium' prefix={<IoSearch size={24} />} placeholder='Search here...' />
+                <Input name='search' style={{ background: "#EBEBEB", height: 40, borderRadius: 14, border: "none", color: "#767676", fontSize: 15 }} className='font-medium' prefix={<IoSearch size={24} />} placeholder='Search here...' />
               </FormItem>
             </Form>
           </div>}

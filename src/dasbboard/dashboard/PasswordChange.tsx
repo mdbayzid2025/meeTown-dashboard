@@ -29,10 +29,10 @@ const PasswordChange = () => {
         },
       }}
     >
-      <div className=' flex items-center justify-center'>
-        <div className="pt-10 pb-5 px-12  w-full max-w-[650px] rounded-xl">
+      <div className=' flex items-center justify-center h-full w-full min-h-[60vh]'>
+        <div className="pt-10 pb-5 md:px-12  w-full max-w-[650px] rounded-xl">
           <h1 className='text-black font-bold text-3xl mb-5 text-center'>Change Password</h1>
-          <p className='font-medium text-grayMedium text-lg text-center px-10 mb-10 '>Enter the e-mail Associate With Your Account & Well Sent An E-mail with code To Reset Your Passport </p>
+          <p className='font-medium text-grayMedium text-sm md:text-lg text-center px-10 mb-10 '>Enter the e-mail Associate With Your Account & Well Sent An E-mail with code To Reset Your Passport </p>
           <Form
             // form={form}
             onFinish={onFinish}

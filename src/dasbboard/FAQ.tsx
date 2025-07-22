@@ -1,9 +1,9 @@
-import { Button, Checkbox, Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
+import FormItem from 'antd/es/form/FormItem';
+import TextArea from 'antd/es/input/TextArea';
 import { useEffect, useState } from 'react';
 import { FiEdit, FiPlus } from 'react-icons/fi';
 import { GoTrash } from 'react-icons/go';
-import FormItem from 'antd/es/form/FormItem';
-import TextArea from 'antd/es/input/TextArea';
 
 const FAQ = () => {
     const [open, setOpen] = useState<boolean>(false);
@@ -29,7 +29,7 @@ const FAQ = () => {
 
 
     return (
-        <div className=' p-6 rounded-2xl'>
+        <div className=' md:p-6 rounded-2xl'>
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-xl font-semibold text-grayMedium mb-6">FAQ</h1>
                 <Button onClick={() => setOpen(!open)} type="primary" size='large' className='flex items-center'> <FiPlus size={24} />Add FAQ</Button>
@@ -38,23 +38,21 @@ const FAQ = () => {
             <div className=''>
                 {faqData && faqData.map(item =>
                     <div className='flex items-start justify-between gap-3'>
-                        <div className='w-10' >
-                            <Checkbox ></Checkbox>
-                        </div>
                         <div className='w-full'>
-                            <div className="bg-[#F9F9F9] px-4 text-lg font-medium py-2 rounded-xl text-black/80 mb-3 shadow-md">
-                                {item.question}
+                            <div className="bg-[#F9F9F9] px-4 mb-3 py-2 rounded-xl shadow-md flex items-center justify-between gap-3">
+                                <p className='text-lg font-medium text-black/80  '>{item.question}</p> 
+                                <div className='w-14'>
+                                    <div className="flex  items-center gap-3 text-[#999999]">
+                                        <FiEdit className='cursor-pointer' onClick={() => { setOpen(true); setEditData(item) }} size={24} />
+                                        <GoTrash className='cursor-pointer' size={24} color='red' />
+                                    </div>
+                                </div>
                             </div>
                             <div className="bg-[#F9F9F9] px-4 py-2 rounded-md text-lg font-medium text-justify text-[#635d5d]/80 mb-6 shadow-md">
                                 {item.answer}
                             </div>
                         </div>
-                        <div className='w-14'>
-                            <div className="flex flex-col items-center gap-3 text-[#999999]">
-                                <FiEdit className='cursor-pointer' onClick={() => { setOpen(true); setEditData(item) }} size={24} />
-                                <GoTrash className='cursor-pointer' size={24} color='red' />
-                            </div>
-                        </div>
+
                     </div>
                 )
                 }

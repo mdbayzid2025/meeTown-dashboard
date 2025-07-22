@@ -68,7 +68,7 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
                 form={form}
                 style={{ marginTop: 20 }}
             >
-                <div className="grid grid-cols-2 gap-x-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5">
                     <FormItem
                         name="unit"
                         label={<p className='font-semibold text-[16px] text-black'>Unit</p>}

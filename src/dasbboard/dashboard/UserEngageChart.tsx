@@ -2,8 +2,8 @@ import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 
 const UserEngageChart = () => {
     const data = [
-        { name: 'Active', value: 53, bgColor: "#002C66" },
-        { name: 'Inactive', value: 23, bgColor: "#002A6052" },
+        { name: 'Active', value: 53, bgColor: "#002C66", total: 105 },
+        { name: 'Inactive', value: 47, bgColor: "#002A6052", total: 80 },
     ];
 
     const COLORS = ['#002C66', '#002A6052',];
@@ -47,6 +47,7 @@ const UserEngageChart = () => {
                                     className="w-3 xl:w-5 h-3 xl:h-5 rounded-md"
                                     style={{ backgroundColor: item.bgColor }}
                                 ></span>
+                                <span className='font-bold text-xl'>{item.total}</span>
                                 <p className='text-md xl:text-lg text-[#9A9A9C] font-semibold'>{item.name}</p>
                             </div>
                         )}

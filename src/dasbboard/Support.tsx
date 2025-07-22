@@ -1,3 +1,75 @@
+import { Button, ConfigProvider, Form, Input } from 'antd';
+import FormItem from 'antd/es/form/FormItem';
+import { useNavigate } from 'react-router-dom';
+
+
+const Support = () => {
+  const navigate = useNavigate()
+
+  const onFinish = (values: any) => {
+    console.log('Success:', values);
+    navigate("/verify-otp")
+  };
+
+
+  return (
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#002C66',
+
+          colorBgContainer: '#F1F4F9',
+        },
+        components: {
+          Input: {
+            borderRadius: 8,
+            colorBorder: '#9E9898',
+            colorPrimaryBg: "#fff",
+          },
+        },
+      }}
+    >
+      <div className=' flex items-center justify-center h-full w-full min-h-[60vh]'>
+        <div className="pt-10 pb-5 md:px-12  w-full max-w-xl  rounded-xl">
+          <h1 className='text-black font-bold text-3xl mb-5 text-center'>Help & Support</h1>          
+          <Form
+            // form={form}
+            onFinish={onFinish}
+            layout='vertical'
+            className='mt-4'
+          >
+            <FormItem
+              label={<p className='text-black font-semibold text-lg '>Email</p>}
+              name="email"
+              rules={[{
+                required: true, message: "Enter email here",
+              }]}
+            >
+              <Input name='email' style={{ height: 45, width: "100%", backgroundColor: "transparent" }} placeholder='Enter your email' />
+            </FormItem>
+            <FormItem
+              label={<p className='text-black font-semibold text-lg'>Phone No</p>}
+              name="phone"
+              rules={[{
+                required: true, message: "Enter your phone here",
+              }]}
+            >
+              <Input name='phone' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter your phone' />
+            </FormItem>
+        
+
+            <Button type='primary' size='large' htmlType='submit' style={{ width: "100%", height: 50, borderRadius: 20, marginTop: 15}}>Update</Button>
+          </Form>
+
+        </div>
+      </div>
+    </ConfigProvider>
+  )
+}
+
+export default Support;
+
+/*
 import { Button, Form, Input, Modal, Select, Table, Tag } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { useEffect, useState } from 'react';
@@ -108,8 +180,7 @@ const Support = () => {
                     className="subscriptionTable"
                 />
             
-
-            {/* Add/Edit Modal */}
+            
             <Modal
                 open={open}
                 onCancel={handleClose}
@@ -165,8 +236,7 @@ const Support = () => {
                     </div>
                 </Form>
             </Modal>
-
-            {/* View Modal */}
+            
             <Modal
                 open={viewOpen}
                 onCancel={() => setViewOpen(false)}
@@ -186,3 +256,5 @@ const Support = () => {
 };
 
 export default Support;
+
+*/
