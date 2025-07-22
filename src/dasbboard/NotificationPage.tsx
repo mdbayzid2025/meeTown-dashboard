@@ -21,19 +21,18 @@ const NotificationPage = () => {
       ) : (
         <div className=" mt-6">
           {notifications.map((item) => (
-            <div className={`flex items-center justify-between ${item?.status == "read" ? "bg-white" : "bg-gray"} px-3 py-5 shadow mb-5 rounded-xl`}>
+            <div className={`flex items-center justify-between ${item?.status == "read" ? "bg-white" : "bg-gray"} px-3 py-5 shadow mb-5 rounded-xl gap-2`}>
               <div className="flex items-center gap-2 md:gap-5">
                 <Button
                   type="primary"
                   shape="circle"
-                  size="large"
-                  style={{ width: 50, height: 50 }}
+                  size="large"                  
                   // icon={<PiBellSimpleFill size={25} color="#ffffff" />}
                   icon={<BellOutlined style={{ fontSize: 25}}/>}
                 />
                 <div className="">
-                  <p className="font-bold text-lg text-nowrap md:text-xl mb-2">{item?.title}</p>
-                  <p className="text-[15px] mb-1">{item?.description}</p>
+                  <p className="font-bold text-[16px] text-nowrap md:text-xl mb-2">{item?.title}</p>
+                  <p className="text-[14px] mb-1">{item?.description}</p>
                   <p className="text-[15px] text-grayMedium font-semibold">{item?.date}</p>
                 </div>
               </div>

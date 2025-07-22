@@ -66,7 +66,7 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
                 onFinish={onFinish}
                 layout='vertical'
                 form={form}
-                style={{ marginTop: 20 }}
+                style={{ marginTop: 20, overflowY: "auto", maxHeight: "60vh", }}
             >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5">
                     <FormItem
