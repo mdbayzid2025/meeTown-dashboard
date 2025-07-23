@@ -10,7 +10,7 @@ import MobileSidebar from "../MobileSideber";
 const HeaderDashboard = () => {
   const [open, setOpen] = useState(false);
 
-  const links = ["/about", "/support", "/notification", "/password-change", "/faq", "/terms-condition"];
+  const links = ["/about", "/support", "/notification", "/profile", "/password-change", "/faq", "/terms-condition"];
   const location = useLocation();
   const hideSearch = links.includes(location?.pathname);
 
@@ -46,6 +46,14 @@ const HeaderDashboard = () => {
       </div>
     ),
   },  
+  {
+    type: 'divider',
+  },
+  {
+    key: '2',
+    label: <Link to="/profile" className="font-bold text-primary">Profile</Link>,
+    extra: '⌘P',
+  },
 ];
 
   return (
@@ -96,7 +104,9 @@ const HeaderDashboard = () => {
                 className="w-10 h-10 rounded-full object-cover"
               />
               </Dropdown>
+              <Link to="/profile">
 
+              <div className="flex items-center gap-3">
               <img
                 src="https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg"
                 alt=""
@@ -106,6 +116,8 @@ const HeaderDashboard = () => {
                 <h4 className="font-bold text-primary text-lg">Mimi Akter</h4>
                 <p className="text-sm font-semibold text-grayMedium">Admin</p>
               </div>
+              </div>
+              </Link>
             </div>
           </div>
         </div>

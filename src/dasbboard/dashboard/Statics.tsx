@@ -33,8 +33,8 @@ const Statics = () => {
                         {item.icon}
                     </div>
                     <div className="">
-                        <h1 className='font-bold text-3xl'>{item.total}</h1>
-                        <p>{item.name}</p>
+                        <h1 className='font-bold text-3xl mb-2'>{item.total}</h1>
+                        <p className='text-lg font-semibold text-grayMedium'>{item.name}</p>
                     </div>
                 </div>
                 </div>
