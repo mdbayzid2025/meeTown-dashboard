@@ -41,7 +41,7 @@ const UserDetailsModal = ({ open, setOpen, data }: Props) => {
                 <Divider className="bg-gray-300 my-6 w-full" />
 
                 {/* Info Section */}
-                <div className="grid grid-cols-2 text-[15px]">
+                <div className="grid md:grid-cols-2 text-[15px]">
                     <div className="text-start mb-4">
                         <p className="text-gray-500 font-medium mb-1">Email</p>
                         <p className="text-gray-800 font-semibold">{data?.email}</p>

@@ -19,6 +19,7 @@ function App() {
               colorBgContainer: "#F7F7F7",
               cellPaddingBlock: 6,
               stickyScrollBarBg: "#002C66",
+              lineHeight: 3.5
             },
             Pagination: {
               itemActiveBg: "rgb(0,44,102)",

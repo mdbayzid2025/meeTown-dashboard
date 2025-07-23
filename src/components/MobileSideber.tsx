@@ -1,14 +1,13 @@
-import { Button, ConfigProvider, Drawer, Menu } from 'antd';
+import { Button, ConfigProvider, Menu } from 'antd';
 import { MdLogout } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import { sidebarItems } from '../utils/sidebarItems';
 
-interface MobileSidebarProps {
-  open: boolean;
+interface MobileSidebarProps {  
   onClose: () => void;
 }
 
-const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
+const MobileSidebar = ({ onClose }: MobileSidebarProps) => {
   const location = useLocation();
 
   const sidebarItemGenerator = (items: any[]) => {
@@ -37,32 +36,14 @@ const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
           },
         },
       }}
-    >
-      <Drawer
-        title={
-          <Link to="/">
-            <img
-              src="/logo.png"
-              className="mx-auto w-[150px] h-[50px] object-contain overflow-visible"
-              alt="Logo"
-            />
-          </Link>
-        }
-        closable={false}
-        onClose={onClose}
-        open={open}
-        footer={false}
-        placement="left"
-        width={250}
-        className="md:hidden"
-
-      >
+    >              
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            height: 'calc(100vh - 90px)',
-            borderTop: "1px solid #ededed"
+            height: 'calc(100vh - 80px)',
+            borderTop: "1px solid #ededed",
+            width: 250
           }}
         >
           <Menu
@@ -84,7 +65,7 @@ const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
                 borderTop: '1px solid #767676',
                 paddingInline: 20,
                 outline: 'none',
-                height: 45,
+                height: 50,
                 background: 'transparent',
                 color: '#002C66',
                 marginBlock: 5,
@@ -97,7 +78,7 @@ const MobileSidebar = ({ open, onClose }: MobileSidebarProps) => {
             </Button>
           </Link>
         </div>
-      </Drawer>
+            
     </ConfigProvider>
   );
 };

@@ -106,13 +106,13 @@ const UserList = () => {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold text-grayMedium mb-10">
+      <h3 className="text-xl font-semibold text-grayMedium mb-6">
         Total User
       </h3>
       <Table
         columns={userColumns}
         dataSource={filterUser}
-        pagination={{ pageSize: 6 }}                
+        pagination={{ pageSize: 9 }}                
          scroll={{ x: 'max-content' }}
          className={` subscriptionTable`}        
       />

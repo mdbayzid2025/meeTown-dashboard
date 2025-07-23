@@ -10,7 +10,7 @@ import MobileSidebar from "../MobileSideber";
 const HeaderDashboard = () => {
   const [open, setOpen] = useState(false);
 
-  const links = ["/about", "/", "/password-change", "/faq", "/terms-condition"];
+  const links = ["/about", "/support", "/notification", "/password-change", "/faq", "/terms-condition"];
   const location = useLocation();
   const hideSearch = links.includes(location?.pathname);
 
@@ -112,22 +112,22 @@ const HeaderDashboard = () => {
       </div>
 
       <Drawer
-        title="Basic Drawer"
+        title={<Link to="/">
+            <img
+              src="/logo.png"
+              className="mx-auto w-[150px] h-[50px] object-contain overflow-visible"
+              alt="Logo"
+            />
+          </Link>}        
         closable
         onClose={onClose}
         open={open}
         footer={false}
         placement="left"
-        closeIcon={<span aria-label="Close Button">×</span>}
-        styles={{
-          body: {
-            padding: 0,
-            margin: 0,
-            width: "102%",
-          },
-        }}
+        closeIcon={false}
+        width={250}
       >
-        <MobileSidebar open={open} onClose={() => setOpen(!open)} />
+        <MobileSidebar onClose={() => setOpen(!open)} />
       </Drawer>
     </div>
   );

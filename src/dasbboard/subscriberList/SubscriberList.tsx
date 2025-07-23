@@ -1,4 +1,4 @@
-import { Button, Table } from "antd";
+import { Table } from "antd";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -62,14 +62,7 @@ const SubscriberList = () => {
       key: "status",
       render: (status: string) => (
         <div className="flex items-center gap-2 ">
-          <Button
-            type="primary"
-            danger={status !== "active"}
-            className="w-[100px] capitalize"
-          >
-            {status}
-          </Button>
-          {/* <Button icon={<IoIosArrowDown />} /> */}
+          <span className={`${status === "active" ? "text-green-500" : "text-red"}  text-[16px] capitalize`}>{status}</span>
         </div>
       ),
     },    
@@ -91,7 +84,7 @@ const SubscriberList = () => {
         dataSource={filterSubscriber}
         className="subscriptionTable"
         scroll={{ x: 'max-content' }}
-
+        pagination={{pageSize: 10}}
       />
     </div>
   );

@@ -62,7 +62,7 @@ const PackageList = () => {
     return (
         <div>
             <div className="flex items-center justify-between mb-6">
-                <h3 className='text-xl font-semibold text-grayMedium mb-6'>All Subscriber’s</h3>
+                <h3 className='text-xl font-semibold text-grayMedium mb-6'>Package List</h3>
                 <Button onClick={() => setOpen(!open)} type='primary' size='large' icon={<PlusCircleOutlined style={{ fontSize: 20 }} />} iconPosition='end'>Add New</Button>
             </div>
 
