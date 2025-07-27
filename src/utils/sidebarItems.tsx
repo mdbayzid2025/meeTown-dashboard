@@ -2,7 +2,9 @@ import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { BiSupport } from "react-icons/bi";
 import { CiLock } from "react-icons/ci";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { GiTripleBeak } from "react-icons/gi";
 import { GoPackage } from "react-icons/go";
+import { GrUserSettings } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { PiUsersThreeLight } from "react-icons/pi";
 import { RiVipCrownFill } from "react-icons/ri";
@@ -20,6 +22,24 @@ export const sidebarItems = [
     label: "All User",
     path: "users-list",
     icon: <FaRegCircleUser size={20}/>
+  },
+  {
+    key: "trip-history",
+    label: "Trip History",
+    path: "trip-history",
+    icon: <GiTripleBeak size={20}/>
+  },
+  {
+    key: "all-admin",
+    label: "Manage Admin",
+    path: "all-admin",
+    icon: <GrUserSettings size={20}/>
+  },
+  {
+    key: "moderation-reporting",
+    label: "Moderation & Report",
+    path: "moderation-reporting",
+    icon: <GrUserSettings size={20}/>
   },
   {
     key: "subscribers",

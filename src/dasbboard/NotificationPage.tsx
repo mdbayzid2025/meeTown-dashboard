@@ -16,7 +16,7 @@ const NotificationPage = () => {
       {notifications.length === 0 ? (
         <Empty description="No Notifications Found" />
       ) : (
-        <div className=" mt-6">
+        <div className="">
           {notifications.map((item) => (
             <div className={`flex items-center justify-between bg-white px-3 py-4 shadow mb-5 rounded-xl gap-2`}>
               <div className="flex items-center gap-2 md:gap-5">
@@ -28,8 +28,8 @@ const NotificationPage = () => {
                   icon={<BellOutlined style={{ fontSize: 25}}/>}
                 />
                 <div className="">
-                  <p className={`${item?.status == "read" ? "font-semibold" : "font-bold"} text-[16px] text-nowrap md:text-xl mb-2`}>{item?.title}</p>
-                  <p className={`text-[14px] mb-1 ${item?.status == "read" ? "font-normal" : "font-bold"}`}>{item?.description}</p>
+                  <p className={`${item?.status == "read" ? "font-medium" : "font-bold"} text-[16px] text-nowrap md:text-xl mb-2`}>{item?.title}</p>
+                  <p className={`text-[15px] mb-1 ${item?.status == "read" ? "font-normal" : "font-bold"}`}>{item?.description}</p>
                   <p className={`${item?.status == "read" ? "font-semibold" : "font-bold"} text-[15px] text-grayMedium `}>{item?.date}</p>
                 </div>
               </div>                
