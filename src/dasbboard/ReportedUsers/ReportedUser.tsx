@@ -1,6 +1,4 @@
-import { DownOutlined } from "@ant-design/icons";
-import { Button, Dropdown, Form, Input, Menu, Table } from "antd";
-import type { MenuProps } from "antd";
+import { Form, Input, Table } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import { useState } from "react";
 import { IoSearch } from "react-icons/io5";
