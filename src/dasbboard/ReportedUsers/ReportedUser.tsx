@@ -19,13 +19,13 @@ const ReportedUsers = () => {
   const searchInput = Form.useWatch("search", form) || "";
 
   // The menu for the "Status" action dropdown
-  const items: MenuProps["items"] = [
-    { key: "1", label: "Suspend User" },
-    { key: "2", label: "Warn User" },
-    { key: "3", label: "Delete Report", danger: true },
-  ];
+  // const items: MenuProps["items"] = [
+  //   { key: "1", label: "Suspend User" },
+  //   { key: "2", label: "Warn User" },
+  //   { key: "3", label: "Delete Report", danger: true },
+  // ];
 
-  const menu = <Menu items={items} />;
+  // const menu = <Menu items={items} />;
 
   const reportedUserColumns = [
     {
@@ -64,17 +64,17 @@ const ReportedUsers = () => {
       dataIndex: "reportDate",
       key: "reportDate",
     },
-    {
-      title: "Status",
-      key: "status",
-      render: () => (
-        <Dropdown overlay={menu} trigger={["click"]}>
-          <Button type="primary">
-            Activate <DownOutlined />
-          </Button>
-        </Dropdown>
-      ),
-    },
+    // {
+    //   title: "Status",
+    //   key: "status",
+    //   render: () => (
+    //     <Dropdown overlay={menu} trigger={["click"]}>
+    //       <Button type="primary">
+    //         Activate <DownOutlined />
+    //       </Button>
+    //     </Dropdown>
+    //   ),
+    // },
     {
       title: "Status",
       dataIndex: "status",
@@ -144,17 +144,25 @@ const ReportedUsers = () => {
   return (
     <div className="p-4">
       <div className="mb-6">
-        <h3 className="text-2xl font-semibold text-gray-800">Reported Users</h3>
+        <h3 className="text-2xl font-semibold text-grayMedium">Reported Users</h3>
       </div>
 
       <div className="mb-4">
-        <div className="w-full md:w-1/3">
+        <div className="w-full md:w-1/3 mt-3 md:mt-0 pt-0">          
           <Form form={form}>
-            <FormItem name="search" noStyle>
+            <FormItem name="search">
               <Input
-                size="large"
-                style={{ borderRadius: 8 }}
-                prefix={<IoSearch size={16} className="text-gray-400" />}
+                name="search"
+                style={{
+                  background: "#EBEBEB",
+                  height: 40,
+                  borderRadius: 14,
+                  border: "none",
+                  color: "#767676",
+                  fontSize: 15,
+                }}
+                className="font-medium"
+                prefix={<IoSearch size={16} />}
                 placeholder="Search here..."
               />
             </FormItem>

@@ -203,7 +203,7 @@ const TripHistory = () => {
 
   return (
     <div className="md:p-4">
-      <h3 className="text-xl font-semibold text-gray-700 md:mb-6">Trip History</h3>
+      <h3 className="text-xl font-semibold text-grayMedium md:mb-6">Trip History</h3>
 
       {/* --- FILTERS & ACTIONS --- */}
       <div className="mb-6   rounded-lg">

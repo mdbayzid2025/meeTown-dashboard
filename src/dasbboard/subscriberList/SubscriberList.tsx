@@ -1,10 +1,14 @@
-import { Table } from "antd";
+import { Form, Input, Table } from "antd";
+import FormItem from "antd/es/form/FormItem";
 import { useEffect, useState } from "react";
+import { IoSearch } from "react-icons/io5";
 import { useSearchParams } from "react-router-dom";
 
 const SubscriberList = () => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [form] = Form.useForm();
 
   useEffect(() => {
     const search = searchParams.get("searchQuery");
@@ -54,8 +58,7 @@ const SubscriberList = () => {
           {record?.duration > 1 && "s"}
         </div>
       ),
-    },
-    { title: "Point", dataIndex: "point", key: "point" },
+    },    
     {
       title: "Status",
       dataIndex: "status",
@@ -74,10 +77,31 @@ const SubscriberList = () => {
       subscriber?.contact.toLowerCase().includes(searchQuery)
   );
   return (
-    <div>
-      <h3 className="text-xl font-semibold text-grayMedium mb-6">
+    <div className="p-4">
+      <h3 className="text-2xl font-semibold text-grayMedium mb-6">
         All Subscriber’s
       </h3>
+      <div className="w-full md:w-1/3 mt-3 md:mt-0 pt-0">          
+          <Form form={form}>
+            <FormItem name="search">
+              <Input
+                name="search"
+                style={{
+                  background: "#EBEBEB",
+                  height: 40,
+                  borderRadius: 14,
+                  border: "none",
+                  color: "#767676",
+                  fontSize: 15,
+                }}
+                className="font-medium"
+                prefix={<IoSearch size={16} />}
+                placeholder="Search here..."
+              />
+            </FormItem>
+          </Form>
+        </div>
+
       {/* <Table columns={userColumns} dataSource={filterSubscriber} pagination={{ pageSize: 7, align: "center" }} className='subscriptionTable' />             */}
       <Table
         columns={userColumns}
