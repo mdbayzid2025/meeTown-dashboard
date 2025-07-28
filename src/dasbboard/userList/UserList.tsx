@@ -68,7 +68,7 @@ const UserList = () => {
       ),
     },
     { title: "Contact", dataIndex: "contact", key: "contact" },
-    { title: "Address", dataIndex: "address", key: "address" },        
+    // { title: "Address", dataIndex: "address", key: "address" },        
     {
       title: "Status",
       dataIndex: "status",
