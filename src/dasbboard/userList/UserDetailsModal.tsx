@@ -1,5 +1,7 @@
 import { Modal, Tag, Divider } from "antd";
 import UserTripHistory from "./UserTripHistory";
+import moment from 'moment';
+
 
 type Props = {
   open: boolean;
@@ -22,7 +24,11 @@ const UserDetailsModal = ({ open, setOpen, data }: Props) => {
       <div className="overflow-y-auto max-h-[600px] md:max-h-[700px]">
         {/* User Photo */}
         <img
-          src={data?.photo}
+          src={data?.image && data?.image.startsWith("http" || "https")
+                  ? data?.image
+                  : data?.image
+                  ? `imageUrl${data?.image}`
+                  : "/default-avatar.png"}
           alt="User"
           className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-md mb-3 mx-auto"
         />
@@ -53,7 +59,9 @@ const UserDetailsModal = ({ open, setOpen, data }: Props) => {
 
           <div className="text-start mb-2">
             <p className="text-gray-500 font-medium mb-1">A/C Creation Date</p>
-            <p className="text-gray-800 font-semibold">{data?.createdAt}</p>
+            <p className="text-gray-800 font-semibold">
+               {moment(data?.date).format("MMMM D, YYYY")}
+              </p>
           </div>
 
           <div className="text-start mb-2">

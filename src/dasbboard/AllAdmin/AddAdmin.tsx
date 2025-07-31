@@ -47,6 +47,18 @@ const AddAdmin = ({ open, setOpen, onSubmit }: Props) => {
         <div className="grid grid-cols-1 gap-x-5">
           <FormItem
           className="!mb-2"
+            name="name"
+            label={
+              <p className="font-semibold text-[16px] text-black">Name</p>
+            }
+            rules={[
+              { required: true, message: "Enter name" },              
+            ]}
+          >
+            <Input placeholder="Name" style={{ height: 42 }} />
+          </FormItem>
+          <FormItem
+          className="!mb-2"
             name="email"
             label={
               <p className="font-semibold text-[16px] text-black">Email</p>

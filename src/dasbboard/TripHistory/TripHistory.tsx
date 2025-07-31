@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import { useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
+import { useGetTripsQuery } from "../../redux/features/trip/tripApi";
 
 dayjs.extend(isBetween);
 const { RangePicker } = DatePicker;
@@ -84,16 +85,16 @@ const tripsData = [
   },
 ];
 
-
-
 const TripHistory = () => {
   // --- STATE MANAGEMENT FOR FILTERS ---
   const [tripView, setTripView] = useState<"all" | "popular">("all");
-  const [destinationQuery, ] = useState("");
+  const [destinationQuery] = useState("");
   const [dateRange, setDateRange] = useState<[dayjs.Dayjs, dayjs.Dayjs] | null>(
     null
   );
   const [form] = Form.useForm();
+
+  const { data: getTrips, isLoading } = useGetTripsQuery(null);
 
   // --- DERIVED STATE & CALCULATIONS using useMemo for performance ---
   const tripStats = useMemo(() => {
@@ -171,17 +172,18 @@ const TripHistory = () => {
       title: "Destination",
       dataIndex: "destination",
       key: "destination",
-      sorter: (a:any, b:any) => a.destination.localeCompare(b.destination),
+      sorter: (a: any, b: any) => a.destination.localeCompare(b.destination),
     },
     {
       title: "Trip Dates",
       key: "dates",
-      render: (_:any, record:any) => (
+      render: (_: any, record: any) => (
         <span>{`${dayjs(record.startDate).format("MMM D, YYYY")} - ${dayjs(
           record.endDate
         ).format("MMM D, YYYY")}`}</span>
       ),
-      sorter: (a:any, b:any) => dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
+      sorter: (a: any, b: any) =>
+        dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
     },
     {
       title: "Mode of Travel",
@@ -201,9 +203,13 @@ const TripHistory = () => {
     },
   ];
 
+  console.log("getTrips", getTrips);
+
   return (
     <div className="md:p-4">
-      <h3 className="text-xl font-semibold text-grayMedium md:mb-6">Trip History</h3>
+      <h3 className="text-xl font-semibold text-grayMedium md:mb-6">
+        Trip History
+      </h3>
 
       {/* --- FILTERS & ACTIONS --- */}
       <div className="mb-6   rounded-lg">
@@ -242,7 +248,7 @@ const TripHistory = () => {
               onChange={(e) => setTripView(e.target.value)}
               optionType="button"
               buttonStyle="solid"
-              size="large"              
+              size="large"
               className="whitespace-nowrap w-full"
             >
               <Radio.Button value="all">All Trips</Radio.Button>

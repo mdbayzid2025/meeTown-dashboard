@@ -28,7 +28,7 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success(data?.message);
-      Cookies.set("accessToken", data?.data);
+      Cookies.set("accessToken", data?.data?.accessToken);      
       form.resetFields();
       setTimeout(() => {
         userCtx?.refetch?.();

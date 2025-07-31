@@ -1,54 +1,62 @@
-import { Select, Space } from 'antd';
+import { Select, Space, Spin } from "antd";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useUpdateSearchParams } from "../../utils/updateSearchParams";
 
+const { Option } = Select;
 
-
-// Sample countries data
-const countries = [
-  { name: "United States", code: "us" },
-  { name: "United Kingdom", code: "gb" },
-  { name: "Canada", code: "ca" },
-  { name: "Germany", code: "de" },
-  { name: "Bangladesh", code: "bd" },
-  { name: "India", code: "in" },
-  { name: "Australia", code: "au" },
-  { name: "Japan", code: "jp" }
-];
-
-// Function to render flag image
-const getFlagUrl = (code: string) =>
-  `https://flagcdn.com/w40/${code.toLowerCase()}.png`; // You can use w20, w40, w80 for size
-
-
-const {Option} = Select;
 const NationalityFilter = () => {
-   
- const handleChange = (value: string) => {
-    console.log(`Selected: ${value}`);
+  const [countries, setCountries] = useState<
+    { name: string; iso2: string; flag: string }[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+
+  const updateSearchParams = useUpdateSearchParams();
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await axios.get(
+          "https://countriesnow.space/api/v0.1/countries/flag/images"
+        );
+        const data = res.data;
+        // Optionally sort by name
+        data?.data.sort((a: any, b: any) => a.name.localeCompare(b.name));
+        setCountries(data?.data);
+      } catch (error) {
+        console.error("Failed to load countries:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  const handleChange = (value: string) => {
+    updateSearchParams({ location: value });
   };
 
   return (
-    <div>
-        <Select
+    <Select
       showSearch
-      allowClear 
+      allowClear
       placeholder="Nationality"
       optionFilterProp="label"
       onChange={handleChange}
       filterOption={(input, option) =>
         (option?.label as string).toLowerCase().includes(input.toLowerCase())
       }
-      style={{ height: 42, }}
-      className='w-[150px] md:w-[200px]'
+      style={{ height: 42 }}
+      className="w-[180px] md:w-[240px]"
+      loading={loading}
+      notFoundContent={loading ? <Spin size="small" /> : "No countries found"}
     >
       {countries.map((country) => (
-        <Option
-          key={country.code}
-          value={country.code}
-          label={country.name}
-        >
+        <Option key={country.iso2} value={country?.name} label={country.name}>
           <Space>
             <img
-              src={getFlagUrl(country.code)}
+              src={country.flag}
               alt={country.name}
               style={{ width: 20, height: 15, objectFit: "cover" }}
             />
@@ -57,8 +65,7 @@ const NationalityFilter = () => {
         </Option>
       ))}
     </Select>
-    </div>
-  )
-}
+  );
+};
 
 export default NationalityFilter;
