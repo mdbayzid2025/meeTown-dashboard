@@ -24,7 +24,7 @@ const UserDetailsModal = ({ open, setOpen, data }: Props) => {
       <div className="overflow-y-auto max-h-[600px] md:max-h-[700px]">
         {/* User Photo */}
         <img
-          src={data?.image && data?.image.startsWith("http" || "https")
+          src={data?.image && data?.image.startsWith("http")
                   ? data?.image
                   : data?.image
                   ? `imageUrl${data?.image}`

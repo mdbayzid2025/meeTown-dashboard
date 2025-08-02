@@ -50,7 +50,7 @@ const columns = [
       <div className="">
         <img
           src={
-            text && text.startsWith("http" || "https")
+            text && text.startsWith("http")
               ? text
               : text
               ? `imageUrl${text}`

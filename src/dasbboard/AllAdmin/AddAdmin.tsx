@@ -1,4 +1,4 @@
-import { Button, Divider, Form, Input, Modal, Select } from "antd";
+import { Button, Divider, Form, Input, Modal } from "antd";
 import FormItem from "antd/es/form/FormItem";
 
 type Props = {
@@ -7,9 +7,8 @@ type Props = {
   onSubmit: (data: any) => void;
 };
 
-const { Option } = Select;
 
-const AddAdmin = ({ open, setOpen, onSubmit }: Props) => {
+const AddAdmin = ({ open, setOpen,  onSubmit }: Props) => {
   const [form] = Form.useForm();
 
   const handleClose = () => {
@@ -20,7 +19,7 @@ const AddAdmin = ({ open, setOpen, onSubmit }: Props) => {
   const onFinish = (values: any) => {
     onSubmit(values);
     form.resetFields();
-    setOpen(false);
+    // setOpen(false);
   };
 
   return (
@@ -101,18 +100,6 @@ const AddAdmin = ({ open, setOpen, onSubmit }: Props) => {
           >
             <Input.Password style={{ height: 42 }} placeholder="Confirm Password"/>
           </Form.Item>
-
-          <FormItem
-          className="!mb-2"
-            name="role"
-            label={<p className="font-semibold text-[16px] text-black">Role</p>}
-            rules={[{ required: true, message: "Select a role" }]}
-          >
-            <Select placeholder="Select Role" style={{ height: 42 }}>
-              <Option value="admin">Admin</Option>
-              <Option value="super-admin">Super Admin</Option>
-            </Select>
-          </FormItem>
         </div>
 
         <div className="flex items-center justify-center mt-6">

@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import { useMemo, useState } from "react";
 import { IoSearch } from "react-icons/io5";
-import { useGetTripsQuery } from "../../redux/features/trip/tripApi";
 
 dayjs.extend(isBetween);
 const { RangePicker } = DatePicker;
@@ -94,7 +93,7 @@ const TripHistory = () => {
   );
   const [form] = Form.useForm();
 
-  const { data: getTrips, isLoading } = useGetTripsQuery(null);
+
 
   // --- DERIVED STATE & CALCULATIONS using useMemo for performance ---
   const tripStats = useMemo(() => {
@@ -153,7 +152,7 @@ const TripHistory = () => {
     }
 
     // 3. Filter by date range
-    if (dateRange) {
+    if (dateRange) {      
       const [startFilter, endFilter] = dateRange;
       data = data.filter((trip) => {
         const tripStart = dayjs(trip.startDate);
@@ -203,7 +202,6 @@ const TripHistory = () => {
     },
   ];
 
-  console.log("getTrips", getTrips);
 
   return (
     <div className="md:p-4">

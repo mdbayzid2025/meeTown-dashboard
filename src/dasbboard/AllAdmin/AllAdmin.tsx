@@ -1,11 +1,19 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, Table } from "antd";
 import FormItem from "antd/es/form/FormItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiLock, FiUnlock } from "react-icons/fi";
 import { IoSearch } from "react-icons/io5";
 import { SlEye } from "react-icons/sl";
-import { useGetAdminQuery } from "../../redux/features/user/userApi";
+import { toast } from "react-toastify";
+import debounce from "lodash/debounce";
+
+import {
+  useCreateAdminMutation,
+  useGetAdminQuery,
+} from "../../redux/features/user/userApi";
+import { getSearchParams } from "../../utils/getSearchParams";
+import { useUpdateSearchParams } from "../../utils/updateSearchParams";
 import AddAdmin from "./AddAdmin";
 import AdminDetailsModal from "./AdminDetailsModal";
 
@@ -13,13 +21,23 @@ const AllAdmin = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
-
+  
 
   const [form] = Form.useForm();
 
-  const { data: adminData, isLoading } = useGetAdminQuery(undefined);
+  const { data: adminData, isLoading, refetch } = useGetAdminQuery(undefined);
+  const [createAdmin] = useCreateAdminMutation(undefined);
 
+  const { status, searchTerm } = getSearchParams();
+  const updateSearchParams = useUpdateSearchParams();
 
+  useEffect(() => {
+    updateSearchParams({ role: "ADMIN" });
+  }, []);
+
+  useEffect(() => {
+    refetch();
+  }, [status, searchTerm]);
 
   const userColumns = [
     {
@@ -102,11 +120,13 @@ const AllAdmin = () => {
           >
             <SlEye size={16} />
           </div>
-          {record?.status == "unblock" ? (
+          <button >
+          {record?.status == "Active" ? (
             <FiUnlock size={16} className="text-green-600 cursor-pointer" />
           ) : (
             <FiLock size={16} className="text-red-600 cursor-pointer" />
           )}
+          </button>
         </div>
       ),
     },
@@ -115,11 +135,29 @@ const AllAdmin = () => {
   // const searchInput = Form.useWatch("search", form);
 
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+    updateSearchParams({ status: value });
   };
-  const handleSubmit = (values: any) => {
-    console.log("value", values);
-    setOpen(!open);
+
+const handleSearch = debounce((value : any) => {
+  // fetch data
+  updateSearchParams({ searchTerm: value });
+  
+}, 300);
+
+  const handleSubmit = async (values: any) => {
+    const { confirmPassword, ...restData } = values;
+
+    try {
+      const res = await createAdmin(restData);
+      if (res?.data) {
+        toast.success("Profile image updated");
+        refetch();
+        setOpen(!open);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Upload failed");
+    }
   };
 
   return (
@@ -134,6 +172,11 @@ const AllAdmin = () => {
             <FormItem name="search">
               <Input
                 name="search"
+                // onChange={(e) =>
+                //   updateSearchParams({ searchTerm: e.target.value })
+                // }
+                onChange={(e) => handleSearch(e.target.value)}
+
                 style={{
                   background: "#EBEBEB",
                   height: 40,
@@ -156,8 +199,8 @@ const AllAdmin = () => {
             style={{ width: 120, height: 42 }}
             onChange={handleChange}
             options={[
-              { value: "unblock", label: "unblock" },
-              { value: "block", label: "Block" },
+              { value: "Active", label: "Active" },
+              { value: "Inactive", label: "Inactive" },
             ]}
           />
 
@@ -177,6 +220,7 @@ const AllAdmin = () => {
         columns={userColumns}
         dataSource={adminData?.users}
         loading={isLoading}
+        rowKey="_id"
         scroll={{ x: "max-content" }}
         className={` subscriptionTable`}
       />
@@ -191,36 +235,3 @@ const AllAdmin = () => {
 };
 
 export default AllAdmin;
-
-export const users = [
-  {
-    key: 1,
-    name: "Mimi Akter",
-    email: "afsana@example.com",
-    role: "Super Admin",
-    nationality: "Bangladesh",
-    address: "3890 Poplar Dr.",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 120,
-    status: "unblock",
-    contact: "+8801700001101",
-    photo: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 2,
-    name: "Lena Martins",
-    email: "lena.martins@example.com",
-    role: "Support Admin",
-    nationality: "Bangladesh",
-    address: "1423 Oak Street",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 95,
-    status: "block",
-    contact: "+8801700001102",
-    photo: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-    createdAt: "12-10-2025",
-  },
-];

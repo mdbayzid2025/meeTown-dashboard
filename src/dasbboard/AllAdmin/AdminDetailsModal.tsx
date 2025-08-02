@@ -22,7 +22,13 @@ const AdminDetailsModal = ({ open, setOpen, data }: Props) => {
       <div className="overflow-y-auto max-h-[600px] md:max-h-[700px]">
         {/* Admin Photo */}
         <img
-          src={data?.photo}
+          src={
+            data?.image && data?.image.startsWith("http")
+              ? data?.image
+              : data?.image
+              ? `imageUrl${data?.image}`
+              : "/default-avatar.png"
+          }
           alt="Admin"
           className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-md mb-3 mx-auto"
         />
@@ -42,7 +48,7 @@ const AdminDetailsModal = ({ open, setOpen, data }: Props) => {
           </h2>
 
           {/* Role */}
-          <p className="text-gray-600 text-sm">{data?.role ?? "Admin"}</p>
+          <p className="text-gray-600 text-sm">{data?.role ?? ""}</p>
         </div>
 
         <Divider className="bg-gray-300 !my-3 w-full" />
@@ -56,7 +62,9 @@ const AdminDetailsModal = ({ open, setOpen, data }: Props) => {
 
           <div>
             <p className="text-gray-500 font-medium mb-1">Phone</p>
-            <p className="text-gray-800 font-semibold">{data?.phone || "N/A"}</p>
+            <p className="text-gray-800 font-semibold">
+              {data?.phone || "N/A"}
+            </p>
           </div>
 
           <div>
@@ -66,7 +74,9 @@ const AdminDetailsModal = ({ open, setOpen, data }: Props) => {
 
           <div>
             <p className="text-gray-500 font-medium mb-1">Last Login</p>
-            <p className="text-gray-800 font-semibold">{data?.lastLogin || "N/A"}</p>
+            <p className="text-gray-800 font-semibold">
+              {data?.lastLogin || "N/A"}
+            </p>
           </div>
 
           <div className="col-span-2">
@@ -91,7 +101,6 @@ const AdminDetailsModal = ({ open, setOpen, data }: Props) => {
 
         {/* Actions */}
         <div className="flex flex-wrap justify-center gap-3">
-          
           <Tooltip title="Suspend the admin temporarily">
             <Button type="default" danger size="large">
               Block
