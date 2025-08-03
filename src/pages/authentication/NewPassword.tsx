@@ -1,15 +1,32 @@
 import { Button, ConfigProvider, Divider, Form, Input } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useResetPasswordMutation } from '../../redux/features/auth/authApi';
 import img from "/authImage.png";
 
-
 const NewPassword = () => {
-  const navigate = useNavigate()
+  const [resetPassword, {isLoading}] = useResetPasswordMutation();
+  const navigate = useNavigate();
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-    navigate("/change-password")
+  const resetToken = Cookies.get("resetToken");
+
+  const onFinish = async (values: any) => {
+    console.log('Success:', resetToken);
+    try {
+      const res = await resetPassword({resetToken, ...values})
+      
+      console.log('Response:', res);
+      if(res?.data) {        
+        toast.success(res?.data?.message);
+        navigate("/login");
+      } 
+    } catch (error) {
+      console.log('Error:', error);
+      toast.error("Something went wrong, please try again later");      
+    }
+    // navigate("/change-password")
   };
 
 
@@ -47,12 +64,12 @@ const NewPassword = () => {
           >
             <FormItem
               label={<p className='text-black font-semibold text-lg '>Password</p>}
-              name="password"
+              name="newPassword"
               rules={[{
                 required: true, message: "Enter your password",
               }]}
             >
-              <Input.Password name='password' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter your password' />
+              <Input.Password name='newPassword' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter your password' />
             </FormItem>
 
             <FormItem
@@ -63,20 +80,20 @@ const NewPassword = () => {
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
+                  if (!value || getFieldValue('newPassword') === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject(new Error('The new password that you entered do not match!'));
                 },
               }),
               ]}
-              dependencies={["password"]}
+              dependencies={["newPassword"]}
 
             >
               <Input.Password name='confirmPassword' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter Confirm password' />
             </FormItem>
 
-            <Button type='primary' size='large' htmlType='submit' style={{ width: "100%", height: 50, borderRadius: 20, marginTop: 15}}>Update Password</Button>
+            <Button type='primary' size='large' loading={isLoading} htmlType='submit' style={{ width: "100%", height: 50, borderRadius: 20, marginTop: 15}}>Update Password</Button>
           </Form>
 
         </div>

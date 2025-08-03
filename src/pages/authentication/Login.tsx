@@ -77,7 +77,7 @@ const Login = () => {
           />
         </div>
 
-        <div className="pt-10 pb-5 px-12 bg-white w-full  max-w-[650px] rounded-xl">
+        <div className="!pb-10 md:pt-10 md:pb-5 px-12 bg-white w-full  max-w-[650px] rounded-xl">
           <h1 className="text-black font-bold text-3xl mb-3">Login </h1>
 
           <Form onFinish={onFinish} layout="vertical" className="mt-4">
@@ -147,27 +147,7 @@ const Login = () => {
             >
               {isLoading ? "Signing..." : "Sign In"}
             </Button>
-          </Form>
-          <p className="font-bold text-xl my-5 text-center text-grayMedium">
-            Or Sign in with
-          </p>
-          <Button
-            size="large"
-            icon={<FcGoogle />}
-            htmlType="submit"
-            style={{
-              width: "100%",
-              height: 50,
-              background: "transparent",
-              fontSize: 17,
-            }}
-          >
-            Continue with Google
-          </Button>
-          <p className="text-grayMedium font-medium text-center mt-5 text-lg">
-            Already have an account?{" "}
-            <span className="font-bold text-black">Sign Up</span>
-          </p>
+          </Form>          
         </div>
       </div>
     </ConfigProvider>
