@@ -1,13 +1,12 @@
 import { Button, Checkbox, ConfigProvider, Form, Input } from "antd";
 import FormItem from "antd/es/form/FormItem";
-import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
-import img from "/authImage.png";
-import { useLoginAdminMutation } from "../../redux/features/auth/authApi";
-import { useContext, useEffect } from "react";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { UserContext } from "../../context/UserContext";
+import { useLoginAdminMutation } from "../../redux/features/auth/authApi";
+import img from "/authImage.png";
 
 export type errorType = {
   data: {
