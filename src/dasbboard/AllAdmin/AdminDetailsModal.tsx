@@ -5,9 +5,10 @@ type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
   data: any | null;
+  onStatusChange: (id: string) => void;
 };
 
-const AdminDetailsModal = ({ open, setOpen, data }: Props) => {
+const AdminDetailsModal = ({ open, setOpen, data, onStatusChange }: Props) => {
   const handleClose = () => setOpen(false);
 
   return (
@@ -20,7 +21,6 @@ const AdminDetailsModal = ({ open, setOpen, data }: Props) => {
       title={null}
     >
       <div className="overflow-y-auto max-h-[600px] md:max-h-[700px]">
-        {/* Admin Photo */}
         <img
           src={
             data?.image && data?.image.startsWith("http")
@@ -34,51 +34,43 @@ const AdminDetailsModal = ({ open, setOpen, data }: Props) => {
         />
 
         <div className="text-center">
-          {/* Status */}
           <Tag
-            color={data?.status === "active" ? "green" : "red"}
+            color={data?.status === "Active" ? "green" : "red"}
             className="text-sm mb-2 px-4 py-1 rounded-full"
           >
             {data?.status?.toUpperCase()}
           </Tag>
 
-          {/* Name */}
           <h2 className="text-2xl font-semibold text-primary mb-1">
             {data?.name}
           </h2>
 
-          {/* Role */}
           <p className="text-gray-600 text-sm">{data?.role ?? ""}</p>
         </div>
 
         <Divider className="bg-gray-300 !my-3 w-full" />
 
-        {/* Info Section */}
         <div className="grid md:grid-cols-2 text-[15px] gap-4">
           <div>
             <p className="text-gray-500 font-medium mb-1">Email</p>
             <p className="text-gray-800 font-semibold">{data?.email}</p>
           </div>
-
           <div>
             <p className="text-gray-500 font-medium mb-1">Phone</p>
             <p className="text-gray-800 font-semibold">
               {data?.phone || "N/A"}
             </p>
           </div>
-
           <div>
             <p className="text-gray-500 font-medium mb-1">Account Created</p>
             <p className="text-gray-800 font-semibold">{data?.createdAt}</p>
           </div>
-
           <div>
             <p className="text-gray-500 font-medium mb-1">Last Login</p>
             <p className="text-gray-800 font-semibold">
               {data?.lastLogin || "N/A"}
             </p>
           </div>
-
           <div className="col-span-2">
             <p className="text-gray-500 font-medium mb-1">Privileges</p>
             {data?.privileges?.length > 0 ? (
@@ -99,13 +91,29 @@ const AdminDetailsModal = ({ open, setOpen, data }: Props) => {
 
         <Divider className="bg-gray-300 !my-4 w-full" />
 
-        {/* Actions */}
         <div className="flex flex-wrap justify-center gap-3">
-          <Tooltip title="Suspend the admin temporarily">
-            <Button type="default" danger size="large">
-              Block
-            </Button>
-          </Tooltip>
+          {data?.status === "Active" ? (
+            <Tooltip title="Suspend this admin temporarily">
+              <Button
+                type="default"
+                danger
+                size="large"
+                onClick={() => onStatusChange(data?._id)}
+              >
+                Block
+              </Button>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Reactivate this admin">
+              <Button
+                type="primary"
+                size="large"
+                onClick={() => onStatusChange(data?._id)}
+              >
+                Unblock
+              </Button>
+            </Tooltip>
+          )}
           <Tooltip title="Permanently delete this admin account">
             <Button
               type="primary"

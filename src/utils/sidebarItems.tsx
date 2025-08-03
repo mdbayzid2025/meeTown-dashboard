@@ -30,6 +30,12 @@ export const sidebarItems = [
     icon: <GiTripleBeak size={20}/>
   },
   {
+    key: "popular-trip",
+    label: "Popular Trip",
+    path: "popular-trip",
+    icon: <GiTripleBeak size={20}/>
+  },
+  {
     key: "all-admin",
     label: "Manage Admin",
     path: "all-admin",

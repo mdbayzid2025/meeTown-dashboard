@@ -1,177 +1,75 @@
-import { DatePicker, Form, Input, Radio, Table, Tag } from "antd";
+import {
+  DatePicker,
+  Form,
+  Input,
+  Table,
+  Tag,
+  type DatePickerProps
+} from "antd";
 import FormItem from "antd/es/form/FormItem";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
+import { SlEye } from "react-icons/sl";
+import { imageUrl } from "../../redux/base/baseAPI";
+import { useGetTripsQuery } from "../../redux/features/trip/tripApi";
+import { getSearchParams } from "../../utils/getSearchParams";
+import { useUpdateSearchParams } from "../../utils/updateSearchParams";
+import TripDetailsModal from "./TripDetailsModal";
 
 dayjs.extend(isBetween);
-const { RangePicker } = DatePicker;
-
-// --- MOCK DATA BASED ON THE PROVIDED 'Add a Trip' FORM ---
-const tripsData = [
-  {
-    key: 1,
-    travelerName: "Mimi Akter",
-    destination: "Miami",
-    startDate: "2025-12-15",
-    endDate: "2025-12-18",
-    travelMethod: "Flight",
-    accommodation: "Hotel",
-  },
-  {
-    key: 2,
-    travelerName: "John Doe",
-    destination: "Paris",
-    startDate: "2025-07-20",
-    endDate: "2025-07-28",
-    travelMethod: "Flight",
-    accommodation: "Airbnb",
-  },
-  {
-    key: 3,
-    travelerName: "Mimi Akter",
-    destination: "Paris",
-    startDate: "2025-09-05",
-    endDate: "2025-09-12",
-    travelMethod: "Flight",
-    accommodation: "Hotel",
-  },
-  {
-    key: 4,
-    travelerName: "Lena Martins",
-    destination: "Tokyo",
-    startDate: "2025-07-10",
-    endDate: "2025-07-25",
-    travelMethod: "Flight",
-    accommodation: "Hostel",
-  },
-  {
-    key: 5,
-    travelerName: "Peter Jones",
-    destination: "New York",
-    startDate: "2025-08-01",
-    endDate: "2025-08-05",
-    travelMethod: "Bus",
-    accommodation: "Hotel",
-  },
-  {
-    key: 6,
-    travelerName: "Mimi Akter",
-    destination: "London",
-    startDate: "2025-06-15",
-    endDate: "2025-06-22",
-    travelMethod: "Flight",
-    accommodation: "Hotel",
-  },
-  {
-    key: 7,
-    travelerName: "Sarah Lee",
-    destination: "Miami",
-    startDate: "2025-07-01",
-    endDate: "2025-07-08",
-    travelMethod: "Flight",
-    accommodation: "Resort",
-  },
-  {
-    key: 8,
-    travelerName: "David Chen",
-    destination: "Paris",
-    startDate: "2025-10-02",
-    endDate: "2025-10-10",
-    travelMethod: "Train",
-    accommodation: "Hotel",
-  },
-];
 
 const TripHistory = () => {
-  // --- STATE MANAGEMENT FOR FILTERS ---
-  const [tripView, setTripView] = useState<"all" | "popular">("all");
-  const [destinationQuery] = useState("");
-  const [dateRange, setDateRange] = useState<[dayjs.Dayjs, dayjs.Dayjs] | null>(
-    null
-  );
+  // --- STATE MANAGEMENT FOR FILTERS ---  
+  const [showDetails, setShowDetails] = useState<boolean>(false);
+  const [selectedData, setSelectedData] = useState<any | null>(null);
   const [form] = Form.useForm();
 
+  const { data: tripData, isLoading, refetch } = useGetTripsQuery(undefined);
 
+  const { startDate, endDate } = getSearchParams();
+  const updateSearchParams = useUpdateSearchParams();
 
-  // --- DERIVED STATE & CALCULATIONS using useMemo for performance ---
-  const tripStats = useMemo(() => {
-    const destinationCounts: { [key: string]: number } = {};
-    const travelerCounts: { [key: string]: number } = {};
-    const activeTravelersThisMonth = new Set<string>();
-
-    // Using current date context: July 27, 2025
-    const now = dayjs("2025-07-27");
-
-    tripsData.forEach((trip) => {
-      destinationCounts[trip.destination] =
-        (destinationCounts[trip.destination] || 0) + 1;
-      travelerCounts[trip.travelerName] =
-        (travelerCounts[trip.travelerName] || 0) + 1;
-
-      const tripStartDate = dayjs(trip.startDate);
-      if (
-        tripStartDate.year() === now.year() &&
-        tripStartDate.month() === now.month()
-      ) {
-        activeTravelersThisMonth.add(trip.travelerName);
-      }
-    });
-
-    const popularDestinations = Object.entries(destinationCounts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3)
-      .map((item) => item[0]);
-    const frequentTravelers = Object.entries(travelerCounts)
-      .filter(([, count]) => count > 1)
-      .map(([name]) => name);
-
-    return {
-      popularDestinations,
-      frequentTravelers,
-      activeTravelersCount: activeTravelersThisMonth.size,
-    };
-  }, []);
-
-  const filteredTrips = useMemo(() => {
-    let data = [...tripsData];
-
-    // 1. Filter by view (All vs Popular)
-    if (tripView === "popular") {
-      data = data.filter((trip) =>
-        tripStats.popularDestinations.includes(trip.destination)
-      );
-    }
-
-    // 2. Filter by destination search query
-    if (destinationQuery) {
-      data = data.filter((trip) =>
-        trip.destination.toLowerCase().includes(destinationQuery.toLowerCase())
-      );
-    }
-
-    // 3. Filter by date range
-    if (dateRange) {      
-      const [startFilter, endFilter] = dateRange;
-      data = data.filter((trip) => {
-        const tripStart = dayjs(trip.startDate);
-        const tripEnd = dayjs(trip.endDate);
-        return tripStart.isBefore(endFilter) && tripEnd.isAfter(startFilter);
-      });
-    }
-
-    return data;
-  }, [tripView, destinationQuery, dateRange, tripStats.popularDestinations]);
+  useEffect(() => {
+    refetch();
+  }, [startDate, endDate]);
 
   // --- TABLE COLUMN DEFINITIONS ---
   const tripColumns = [
-    { title: "Traveler Name", dataIndex: "travelerName", key: "travelerName" },
     {
-      title: "Destination",
-      dataIndex: "destination",
-      key: "destination",
-      sorter: (a: any, b: any) => a.destination.localeCompare(b.destination),
+      title: "Place",
+      dataIndex: "place",
+      key: "place",
+      render: (text: any, record: any) => (
+        <div className="flex items-center gap-2">
+          <div className="h-[50px] w-[50px]">
+          <img
+          style={{
+                height: 50,
+                width: 50,
+                borderRadius: 50,
+                objectFit: "cover",
+              }}
+            src={
+              record?.image && record?.image.startsWith("http")
+                ? record?.image
+                : record?.image
+                ? `${imageUrl}${record?.image}`
+                : "/default-avatar.png"
+            }
+            alt=""
+          />
+          </div>
+          <span>{text}</span>
+        </div>
+      ),
+      sorter: (a: any, b: any) => a.place.localeCompare(b.place),
+    },
+    {
+      title: "Country Code",
+      dataIndex: "countryCode",
+      key: "countryCode",
     },
     {
       title: "Trip Dates",
@@ -186,12 +84,13 @@ const TripHistory = () => {
     },
     {
       title: "Mode of Travel",
-      dataIndex: "travelMethod",
-      key: "travelMethod",
+      dataIndex: "vehicle",
+      key: "vehicle",
       render: (method: string) => {
         let color = "blue";
         if (method === "Bus") color = "orange";
         if (method === "Train") color = "green";
+        if (method === "Airplane") color = "purple";
         return <Tag color={color}>{method.toUpperCase()}</Tag>;
       },
     },
@@ -200,8 +99,53 @@ const TripHistory = () => {
       dataIndex: "accommodation",
       key: "accommodation",
     },
+    {
+      title: "Travel With",
+      dataIndex: "travelWith",
+      key: "travelWith",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (record: any) => (
+        <div className="flex items-center gap-5">
+          {/* <LiaEdit
+          onClick={() => {
+            setEditData(record);
+            setOpen(true);
+          }}
+          size={20}
+          className="!text-primary cursor-pointer"
+        /> */}
+          <SlEye
+            onClick={() => {
+              setShowDetails(true);
+              setSelectedData(record);
+            }}
+            size={15}
+            className="cursor-pointer !text-primary"
+          />
+          {/* <GoTrash
+          onClick={() => {
+            setDeleteItem(record?._id);
+            setOpenDelete(true);
+          }}
+          size={20}
+          className="text-red-600 cursor-pointer hover:text-red-800"
+        /> */}
+        </div>
+      ),
+    },
   ];
 
+  const handleStartDate: DatePickerProps["onChange"] = (_, dateString) => {
+    updateSearchParams({ startDate: dateString });
+    console.log("Start Date:", dateString);
+  };
+
+  const handleEndDate: DatePickerProps["onChange"] = (_, dateString) => {
+    updateSearchParams({ endDate: dateString });
+  };
 
   return (
     <div className="md:p-4">
@@ -240,25 +184,18 @@ const TripHistory = () => {
               </FormItem>
             </Form>
           </div>
+
           <div className="flex items-center gap-3">
-            <Radio.Group
-              value={tripView}
-              onChange={(e) => setTripView(e.target.value)}
-              optionType="button"
-              buttonStyle="solid"
-              size="large"
-              className="whitespace-nowrap w-full"
-            >
-              <Radio.Button value="all">All Trips</Radio.Button>
-              <Radio.Button value="popular">Popular Trips</Radio.Button>
-            </Radio.Group>
-            <RangePicker
-              style={{ height: 40 }}
-              onChange={(dates) =>
-                setDateRange(dates as [dayjs.Dayjs, dayjs.Dayjs] | null)
-              }
-              className="w-full"
-            />
+            <div className="flex items-center gap-3">
+              <span className="whitespace-nowrap font-semibold">
+                Start Date:
+              </span>
+              <DatePicker onChange={handleStartDate} className="min-w-32" />
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="whitespace-nowrap font-semibold">End Date:</span>
+              <DatePicker onChange={handleEndDate} className="min-w-32" />
+            </div>
           </div>
         </div>
       </div>
@@ -267,12 +204,20 @@ const TripHistory = () => {
       <div className=" rounded-lg">
         <Table
           columns={tripColumns}
-          dataSource={filteredTrips}
+          dataSource={tripData?.data?.data}
+          loading={isLoading}
+          rowKey="key"
           scroll={{ x: "max-content" }}
           pagination={{ pageSize: 5 }}
           className="subscriptionTable"
         />
       </div>
+
+      <TripDetailsModal
+        open={showDetails}
+        setOpen={() => setShowDetails(!showDetails)}
+        data={selectedData}
+      />
     </div>
   );
 };

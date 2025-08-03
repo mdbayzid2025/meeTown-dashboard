@@ -23,6 +23,7 @@ const MainLayout = () => {
                     <div
                         style={{
                             width: "100%",
+                            height: "100%",
                             background: "#F7F7F7",
                             borderRadius: borderRadiusLG
                         }}

@@ -1,14 +1,32 @@
 import { Button, ConfigProvider, Form, Input } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { useNavigate } from 'react-router-dom';
-
+import { useChangePasswordMutation } from '../../redux/features/auth/authApi';
+import { toast } from 'react-toastify';
+import { useForm } from 'antd/es/form/Form';
+import Cookies from 'js-cookie';
 
 const PasswordChange = () => {
+  const [ChangePassword, {isLoading}] = useChangePasswordMutation()
   const navigate = useNavigate()
+  const [form] = useForm()
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-    navigate("/verify-otp")
+  const onFinish = async (values: any) => {    
+    try {
+      const res = await ChangePassword(values);
+        console.error("res", res);
+      if(res?.data){
+        toast.success('Password Changed');      
+        form.resetFields()  
+        Cookies.remove("accessToken");
+        navigate("/login");
+      }
+    } catch (error) {
+        console.error(error);
+      toast.error("Status Upload failed");
+      
+    }
+    // navigate("/verify-otp")
   };
 
 
@@ -34,19 +52,19 @@ const PasswordChange = () => {
           <h1 className='text-black font-bold text-3xl mb-5 text-center'>Change Password</h1>
           <p className='font-medium text-grayMedium text-sm md:text-lg text-center px-10 mb-10 '>Enter the e-mail Associate With Your Account & Well Sent An E-mail with code To Reset Your Passport </p>
           <Form
-            // form={form}
+            form={form}
             onFinish={onFinish}
             layout='vertical'
             className='mt-4'
           >
             <FormItem
               label={<p className='text-black font-semibold text-lg '>Old Password</p>}
-              name="oldPassword"
+              name="currentPassword"
               rules={[{
                 required: true, message: "Enter your old password",
               }]}
             >
-              <Input.Password name='oldPassword' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter your old password' />
+              <Input.Password name='currentPassword' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter your old password' />
             </FormItem>
             <FormItem
               label={<p className='text-black font-semibold text-lg'>New Password</p>}
@@ -78,7 +96,7 @@ const PasswordChange = () => {
               <Input.Password name='confirmPassword' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter Confirm password' />
             </FormItem>
 
-            <Button type='primary' size='large' htmlType='submit' style={{ width: "100%", height: 50, borderRadius: 20, marginTop: 15}}>Update Password</Button>
+            <Button type='primary' size='large' htmlType='submit' loading={isLoading} style={{ width: "100%", height: 50, borderRadius: 20, marginTop: 15}}>Change Password</Button>
           </Form>
 
         </div>

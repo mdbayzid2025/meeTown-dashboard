@@ -32,6 +32,15 @@ const userApi = baseApi.injectEndpoints({
         }
       }
     }),
+    updateStatus: build.mutation({
+      query: (id)=>{
+        console.log("id", id);        
+        return {
+          url: `/users/toggle-status/${id}`,
+          method: "PATCH",
+        }
+      }
+    })
   }),
 });
 
@@ -41,5 +50,6 @@ export const {
     useGetProfileQuery,
     
     useEditProfileMutation,
-    useCreateAdminMutation
+    useCreateAdminMutation,
+    useUpdateStatusMutation,
  } = userApi;

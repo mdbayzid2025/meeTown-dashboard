@@ -1,15 +1,14 @@
 import { Button, ConfigProvider, Divider, Form, Input } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
-import { useNavigate } from 'react-router-dom';
+
 import img from "/authImage.png";
 
 
 const ChangePassword = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const onFinish = (values: any) => {
-    console.log('Success:', values);
-    navigate("/verify-otp")
+    console.log('Success:', values);    
   };
 
 
@@ -85,7 +84,7 @@ const ChangePassword = () => {
               <Input.Password name='confirmPassword' style={{ height: 45, backgroundColor: "transparent" }} placeholder='Enter Confirm password' />
             </FormItem>
 
-            <Button type='primary' size='large' htmlType='submit' style={{ width: "100%", height: 50, borderRadius: 20, marginTop: 15}}>Update Password</Button>
+            <Button type='primary' size='large' htmlType='submit' style={{ width: "100%", height: 50, borderRadius: 20, marginTop: 15}}>Change Password</Button>
           </Form>
 
         </div>

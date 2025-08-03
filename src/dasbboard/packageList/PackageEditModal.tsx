@@ -47,7 +47,7 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
 
   form.setFieldsValue({
     price: calculatedPrice,
-    total: calculatedTotal,
+    totalPrice: calculatedTotal,
   });
 }, [duration, unitPrice, discount]);
 
@@ -75,8 +75,8 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
                         rules={[{ required: true, message: "Select Package Unit" }]}
                     >
                         <Select placeholder="Select Unit" style={{ height: 42 }}>
-                            <Option value="month" style={{ height: 42 }}>Month</Option>
-                            <Option value="year" style={{ height: 42 }}>Year</Option>
+                            <Option value="Month" style={{ height: 42 }}>Month</Option>
+                            <Option value="Year" style={{ height: 42 }}>Year</Option>
                         </Select>
                     </FormItem>
 
@@ -115,7 +115,7 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
                     </FormItem>
 
                     <FormItem
-                        name="total"
+                        name="totalPrice"
                         label={<p className='font-semibold text-[16px] text-black'>Total Price</p>}
                         rules={[{ required: true, message: "Enter total price" }]}
                     >
@@ -124,26 +124,15 @@ const PackageEditModal = ({ open, setOpen, editData, setEditData, onSubmit }: pa
 
                     <FormItem
                         name="tag"
-                        label={<p className='font-semibold text-[16px] text-black w-full'>Tag</p>}
-                        rules={[{ required: true, message: "Select Tag" }]}
+                        label={<p className='font-semibold text-[16px] text-black w-full'>Tag</p>}                        
                     >
                         <Select placeholder="Select Tag" style={{ height: 42, width: "100%" }}>
-                            <Option value="basic" style={{ height: 42 }}>Basic</Option>
-                            <Option value="standard" style={{ height: 42 }}>Standard</Option>
-                            <Option value="premium" style={{ height: 42 }}>Premium</Option>
+                            <Option value="Basic" style={{ height: 42 }}>Basic</Option>
+                            <Option value="Standard" style={{ height: 42 }}>Standard</Option>
+                            <Option value="Premium" style={{ height: 42 }}>Premium</Option>
                         </Select>
                     </FormItem>
-
-                    {/* <FormItem
-                        name="status"
-                        label={<p className='font-semibold text-[16px] text-black'>Status</p>}
-                        rules={[{ required: true, message: "Select Tag" }]}
-                    >
-                        <Select placeholder="Select Tag" style={{ height: 42 }}>
-                            <Option value="active" style={{ height: 42 }}>Active</Option>
-                            <Option value="inactive" style={{ height: 42 }}>Inactive</Option>
-                        </Select>
-                    </FormItem> */}
+                 
                 </div>
                 <div className="flex items-center justify-center">
                     <Button type='primary' size='large' htmlType='submit'>{editData ? "Edit Package" : "Add  Package"}</Button>

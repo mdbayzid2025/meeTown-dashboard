@@ -21,13 +21,17 @@ import NewPassword from "../pages/authentication/NewPassword";
 import VerifyOTP from "../pages/authentication/VerifyOTP";
 import ErrorPage from "../pages/error/ErrorPage";
 import TripHistory from "../dasbboard/TripHistory/TripHistory";
-
-
+import PopulerTrip from "../dasbboard/PopulerTrip/PopulerTrip";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <PrivateRoute>
+        <App />
+      </PrivateRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Dashboard /> },
@@ -42,6 +46,7 @@ const router = createBrowserRouter([
       { path: "terms-condition", element: <TermsCondition /> },
       { path: "moderation-reporting", element: <ReportedUsers /> },
       { path: "trip-history", element: <TripHistory /> },
+      { path: "popular-trip", element: <PopulerTrip /> },
 
       { path: "password-change", element: <PasswordChange /> },
       { path: "faq", element: <FAQ /> },

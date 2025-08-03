@@ -11,6 +11,7 @@ import debounce from "lodash/debounce";
 import {
   useCreateAdminMutation,
   useGetAdminQuery,
+  useUpdateStatusMutation,
 } from "../../redux/features/user/userApi";
 import { getSearchParams } from "../../utils/getSearchParams";
 import { useUpdateSearchParams } from "../../utils/updateSearchParams";
@@ -27,6 +28,7 @@ const AllAdmin = () => {
 
   const { data: adminData, isLoading, refetch } = useGetAdminQuery(undefined);
   const [createAdmin] = useCreateAdminMutation(undefined);
+  const [updateStatus] = useUpdateStatusMutation();
 
   const { status, searchTerm } = getSearchParams();
   const updateSearchParams = useUpdateSearchParams();
@@ -120,12 +122,12 @@ const AllAdmin = () => {
           >
             <SlEye size={16} />
           </div>
-          <button >
-          {record?.status == "Active" ? (
-            <FiUnlock size={16} className="text-green-600 cursor-pointer" />
-          ) : (
-            <FiLock size={16} className="text-red-600 cursor-pointer" />
-          )}
+          <button onClick={() => handleUpdateStatus(record?._id)}>
+            {record?.status == "Active" ? (
+              <FiUnlock size={16} className="text-green-600 cursor-pointer" />
+            ) : (
+              <FiLock size={16} className="text-red-600 cursor-pointer" />
+            )}
           </button>
         </div>
       ),
@@ -138,11 +140,10 @@ const AllAdmin = () => {
     updateSearchParams({ status: value });
   };
 
-const handleSearch = debounce((value : any) => {
-  // fetch data
-  updateSearchParams({ searchTerm: value });
-  
-}, 300);
+  const handleSearch = debounce((value: any) => {
+    // fetch data
+    updateSearchParams({ searchTerm: value });
+  }, 300);
 
   const handleSubmit = async (values: any) => {
     const { confirmPassword, ...restData } = values;
@@ -160,6 +161,22 @@ const handleSearch = debounce((value : any) => {
     }
   };
 
+  const handleUpdateStatus = async (id:any) => {
+    try {      
+      const res = await updateStatus(id);      
+      setDetailsOpen(false); // If Open details modal shoud
+      if(res?.data){
+        toast.success("Update Status");        
+        refetch()
+
+
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Status Upload failed");
+    }
+  };
+  
   return (
     <div className="md:p-4">
       <div className="flex items-center justify-between mb-6">
@@ -172,11 +189,7 @@ const handleSearch = debounce((value : any) => {
             <FormItem name="search">
               <Input
                 name="search"
-                // onChange={(e) =>
-                //   updateSearchParams({ searchTerm: e.target.value })
-                // }
                 onChange={(e) => handleSearch(e.target.value)}
-
                 style={{
                   background: "#EBEBEB",
                   height: 40,
@@ -228,6 +241,7 @@ const handleSearch = debounce((value : any) => {
         open={detailsOpen}
         setOpen={setDetailsOpen}
         data={selectedUser}
+        onStatusChange={handleUpdateStatus}
       />
       <AddAdmin open={open} setOpen={setOpen} onSubmit={handleSubmit} />
     </div>

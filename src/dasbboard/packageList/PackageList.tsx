@@ -1,39 +1,50 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Table } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Table } from "antd";
+import { useState } from "react";
+import { GoTrash } from "react-icons/go";
 import { LiaEdit } from "react-icons/lia";
 import { SlEye } from "react-icons/sl";
-import { useSearchParams } from "react-router-dom";
+import {
+  useAddPackageMutation,
+  useDeletePackageMutation,
+  useGetPackagesQuery,
+  useUpdatePackageMutation,
+} from "../../redux/features/packages/packageApi";
 import PackageDetailsModal from "./PackageDetailsModal";
 import PackageEditModal from "./PackageEditModal";
-import { GoTrash } from "react-icons/go";
-import FormItem from "antd/es/form/FormItem";
-import { IoSearch } from "react-icons/io5";
+import { toast } from "react-toastify";
+import DeleteItemsModal from "../../components/shared/DeleteItemsModal";
 
 const PackageList = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [editData, setEditData] = useState<any | null>(null);
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const [selectedData, setSelectedData] = useState<any | null>(null);
+  const [deleteItem, setDeleteItem] = useState("");
+  const [openDelete, setOpenDelete] = useState(false);
 
-  const [searchParams] = useSearchParams();
-  const [seachQuery, setSearchQuery] = useState("");
+  const {data: packagedata, isLoading, refetch } = useGetPackagesQuery(undefined);
 
-  const [form] = Form.useForm();
-
-  useEffect(() => {
-    const search = searchParams.get("searchQuery");
-    setSearchQuery(search || "");
-  }, [searchParams]);
+  const [addPackage] = useAddPackageMutation();
+  const [updatePackage] = useUpdatePackageMutation();
+  const [deletePackage] = useDeletePackageMutation();
 
   const userColumns = [
-    { title: "Id", dataIndex: "key", key: "key" },
+    {
+      title: "Id",
+      dataIndex: "_id",
+      key: "_id",
+      render: (_: any, __: any, index: number) => (
+        <p className="text-primary">{index + 1}</p>
+      ),
+    },
     { title: "Unit", dataIndex: "unit", key: "unit" },
     {
       title: "Duration",
+      key: "duration",
       render: (record: any) => (
-        <p className="text-primary ">
-          {record?.duration} {record?.unit == "Month" ? "month" : "year"}
+        <p className="text-primary">
+          {record?.duration} {record?.unit === "Month" ? "month" : "year"}
           {record?.duration > 1 ? "s" : ""}
         </p>
       ),
@@ -43,7 +54,7 @@ const PackageList = () => {
       dataIndex: "unitPrice",
       key: "unitPrice",
       render: (unitPrice: number) => (
-        <p className="text-primary ">${unitPrice}</p>
+        <p className="text-primary">${unitPrice}</p>
       ),
     },
     {
@@ -56,14 +67,12 @@ const PackageList = () => {
       title: "Discount",
       dataIndex: "discount",
       key: "discount",
-      render: (discount: number) => (
-        <p className="text-primary">{discount}% </p>
-      ),
+      render: (discount: number) => <p className="text-primary">{discount}%</p>,
     },
     {
       title: "Total Price",
-      dataIndex: "total",
-      key: "total",
+      dataIndex: "totalPrice",
+      key: "totalPrice",
       render: (total: number) => (
         <p className="text-primary font-semibold">${total}</p>
       ),
@@ -73,14 +82,15 @@ const PackageList = () => {
       title: "Action",
       key: "action",
       render: (record: any) => (
-        <div className="flex items-center gap-5 ">
-
+        <div className="flex items-center gap-5">
           <LiaEdit
             onClick={() => {
               setEditData(record);
               setOpen(!open);
             }}
-          size={20} className="!text-primary cursor-pointer" />
+            size={20}
+            className="!text-primary cursor-pointer"
+          />
           <SlEye
             onClick={() => {
               setShowDetails(!showDetails);
@@ -90,51 +100,64 @@ const PackageList = () => {
             className="cursor-pointer !text-primary"
           />
           <GoTrash
+          onClick={() => {
+            setDeleteItem(record?._id);
+            setOpenDelete(true)}
+          }
             size={20}
-            className="text-red-600 cursor-pointer hover:text-red-800"            
+            className="text-red-600 cursor-pointer hover:text-red-800"
           />
         </div>
       ),
     },
   ];
 
-  const filteredPackage = packageData.filter(
-    (p) =>
-      p.unit.toLowerCase().includes(seachQuery.toLowerCase()) ||
-      p.tag.toLowerCase().includes(seachQuery.toLowerCase()) ||
-      p.status.toLowerCase().includes(seachQuery.toLowerCase())
-  );
-
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     console.log("value", values);
+    try {
+      if (editData) {
+        const res = await updatePackage({data: values, id: editData?._id});
+        if (res?.data) {
+          toast.success("Package Updated");
+          refetch();
+          setOpen(false);
+          setEditData(null);
+        }
+      } else {
+        const res = await addPackage(values);
+        if (res?.data) {
+          // Optionally, you can handle the response or update the state here          
+          toast.success("Package added successfully");
+          refetch();
+          setOpen(false);
+          setEditData(null);
+        }
+      }
+    } catch (error) {
+      console.log("Error adding package:", error);
+    }
     setOpen(!open);
   };
+
+  const handleDelete = async () => {
+    try {
+      const res = await deletePackage(deleteItem); 
+      if (res?.data) {
+        toast.success("Package deleted successfully");
+        refetch();
+        setOpenDelete(false);
+        setDeleteItem("");
+      } 
+    }catch (error) {
+      console.error("Error deleting package:", error);
+      toast.error("Failed to delete package");
+    }
+  }
+
   return (
     <div className="p-4">
-        <h3 className="text-xl font-semibold text-grayMedium mb-3">
-          Package List
-        </h3>
       <div className="flex flex-col md:flex-row  items-end md:items-center justify-between mb-6">
-         <div className="w-full md:w-1/3 md:mt-0 pt-5 order-2 md:order-1">          
-          <Form form={form}>
-            <FormItem name="search" className="!mb-0 md:mb-auto">
-              <Input
-                name="search"
-                style={{
-                  background: "#EBEBEB",
-                  height: 40,
-                  borderRadius: 14,
-                  border: "none",
-                  color: "#767676",
-                  fontSize: 15,
-                }}
-                className="font-medium"
-                prefix={<IoSearch size={16} />}
-                placeholder="Search here..."
-              />
-            </FormItem>
-          </Form>
-        </div>
+        <h3 className="text-xl font-semibold text-grayMedium ">Package List</h3>
 
         <Button
           onClick={() => setOpen(!open)}
@@ -146,12 +169,12 @@ const PackageList = () => {
         >
           Add New
         </Button>
-       
       </div>
 
       <Table
         columns={userColumns}
-        dataSource={filteredPackage}
+        dataSource={packagedata}
+        loading={isLoading}
         pagination={{ pageSize: 9 }}
         scroll={{ x: "max-content" }}
         className="subscriptionTable"
@@ -169,132 +192,15 @@ const PackageList = () => {
         setOpen={setShowDetails}
         data={selectedData}
       />
+
+      <DeleteItemsModal 
+      openDelete={openDelete} 
+      onClose={()=>{setOpenDelete(false); setDeleteItem("")}}   
+      onConfirm={handleDelete}
+      message="Do you want to delete this package?"
+      />
     </div>
   );
 };
 
 export default PackageList;
-
-export const packageData = [
-  {
-    key: 1,
-    unit: "Month",
-    duration: 1,
-    unitPrice: 12.5,
-    price: 12.5,
-    discount: 30,
-    total: 50,
-    tag: "Basic",
-    status: "active",
-  },
-  {
-    key: 2,
-    unit: "Month",
-    duration: 3,
-    unitPrice: 12.5,
-    price: 35.0,
-    discount: 25,
-    total: 46.67,
-    tag: "Standard",
-    status: "active",
-  },
-  {
-    key: 3,
-    unit: "Month",
-    duration: 6,
-    unitPrice: 12.5,
-    price: 65.0,
-    discount: 35,
-    total: 100.0,
-    tag: "Premium",
-    status: "active",
-  },
-  {
-    key: 4,
-    unit: "Year",
-    duration: 3,
-    unitPrice: 12.5,
-    price: 120.0,
-    discount: 40,
-    total: 200.0,
-    tag: "Basic",
-    status: "inactive",
-  },
-  {
-    key: 5,
-    unit: "Month",
-    duration: 6,
-    unitPrice: 12.5,
-    price: 5.0,
-    discount: 0,
-    total: 5.0,
-    tag: "Standart",
-    status: "active",
-  },
-  {
-    key: 6,
-    unit: "Month",
-    duration: 2,
-    unitPrice: 12.5,
-    price: 24.0,
-    discount: 20,
-    total: 30.0,
-    tag: "Premium",
-    status: "active",
-  },
-  {
-    key: 7,
-    unit: "Month",
-    duration: 3,
-    unitPrice: 12.5,
-    price: 32.0,
-    discount: 36,
-    total: 50.0,
-    tag: "Premium",
-    status: "inactive",
-  },
-  {
-    key: 8,
-    unit: "Month",
-    duration: 6,
-    unitPrice: 12.5,
-    price: 58.0,
-    discount: 42,
-    total: 100.0,
-    tag: "Basic",
-    status: "active",
-  },
-  {
-    key: 9,
-    unit: "Year",
-    duration: 1,
-    unitPrice: 12.5,
-    price: 100.0,
-    discount: 50,
-    total: 200.0,
-    tag: "Premium",
-    status: "active",
-  },
-  {
-    key: 10,
-    unit: "Month",
-    duration: 1,
-    unitPrice: 12.5,
-    price: 15.0,
-    discount: 0,
-    total: 15.0,
-    tag: "Standard",
-    status: "inactive",
-  },
-  {
-    key: 11,
-    unit: "Month",
-    duration: 6,
-    unitPrice: 12.5,
-    price: 9.0,
-    discount: 10,
-    total: 10.0,
-    tag: "Basic",
-    status: "active",
-  },
-];
