@@ -9,26 +9,30 @@ import { useGetUsersQuery } from "../../redux/features/user/userApi";
 import { getSearchParams } from "../../utils/getSearchParams";
 import { useUpdateSearchParams } from "../../utils/updateSearchParams";
 import NationalityFilter from "./NationalityFilter";
+import { imageUrl } from "../../redux/base/baseAPI";
 
 const UserList = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-
-  const { status, searchTerm, location } = getSearchParams();
+  const { status, searchTerm, location, page } = getSearchParams();
   const updateSearchParams = useUpdateSearchParams();
-
+  
   const [form] = Form.useForm();
-
+  
   const { data: usersData, refetch, isLoading } = useGetUsersQuery(undefined);
+  const [currentPage, setCurrentPage] = useState(1)
+  
 
-  useEffect(() => {
-    refetch();
-  }, [status, searchTerm, location]);
+  // --------------- Action  -------------------
+useEffect(() => {
+  refetch();
+}, [status, searchTerm, location, page]);
 
-  useEffect(() => {
-    updateSearchParams({ role: "USER" });
-  }, []);
+useEffect(() => {  
+  updateSearchParams({ role: "USER", page:  currentPage});
+}, [currentPage]);
 
+  // ---------------- Table  ---------------------
   const userColumns = [
     {
       title: <span style={{ width: 50, display: "inline-block" }}>Sl. No</span>,
@@ -54,8 +58,8 @@ const UserList = () => {
                 record?.image && record?.image.startsWith("http")
                   ? record?.image
                   : record?.image
-                  ? `imageUrl${record?.image}`
-                  : "/default-avatar.png"
+                  ? `${imageUrl}${record?.image}`
+                  : "/placeholder.png"
               }
               style={{
                 height: 50,
@@ -165,6 +169,12 @@ const UserList = () => {
         rowKey="_id"
         scroll={{ x: "max-content" }}
         className={` subscriptionTable`}
+        pagination={{
+          total: usersData?.pagination?.total,
+          current: currentPage,
+          pageSize: usersData?.pagination?.limit,    
+          onChange: (page) => setCurrentPage(page),     
+        }}
       />
       <UserDetailsModal
         open={detailsOpen}
@@ -177,215 +187,4 @@ const UserList = () => {
 
 export default UserList;
 
-export const users = [
-  {
-    key: 1,
-    name: "Mimi Akter",
-    email: "afsana@example.com",
-    nationality: "Bangladesh",
-    address: "3890 Poplar Dr.",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 120,
-    status: "active",
-    contact: "+8801700001101",
-    photo: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 2,
-    name: "Lena Martins",
-    email: "lena.martins@example.com",
-    nationality: "Bangladesh",
-    address: "1423 Oak Street",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 95,
-    status: "active",
-    contact: "+8801700001102",
-    photo: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 3,
-    name: "Ahmad Rafi",
-    email: "ahmad.rafi@example.com",
-    nationality: "Bangladesh",
-    address: "78 Lakeview Blvd.",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 135,
-    status: "inactive",
-    contact: "+8801700001103",
-    photo: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 4,
-    name: "Chloe Nguyen",
-    email: "chloe.nguyen@example.com",
-    nationality: "Bangladesh",
-    address: "102 Sunset Ave.",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 150,
-    status: "active",
-    contact: "+8801700001104",
-    photo: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 5,
-    name: "Marco D'Souza",
-    email: "marco.dsouza@example.com",
-    nationality: "Bangladesh",
-    address: "21 Hilltop Drive",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 110,
-    status: "inactive",
-    contact: "+8801700001105",
-    photo: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 6,
-    name: "Natalie Rodriguez",
-    email: "natalie.rodriguez@example.com",
-    nationality: "Bangladesh",
-    address: "77 Sunset Boulevard",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 130,
-    status: "active",
-    contact: "+8801700001106",
-    photo: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 7,
-    name: "Liam O'Brien",
-    email: "liam.obrien@example.com",
-    nationality: "Bangladesh",
-    address: "58 Riverfront Lane",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 85,
-    status: "inactive",
-    contact: "+8801700001107",
-    photo: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 8,
-    name: "Sakura Tanaka",
-    email: "sakura.tanaka@example.com",
-    nationality: "Bangladesh",
-    address: "90 Cherry Blossom Way",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 102,
-    status: "active",
-    contact: "+8801700001108",
-    photo: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 9,
-    name: "Carlos Mendes",
-    email: "carlos.mendes@example.com",
-    nationality: "Bangladesh",
-    address: "33 Oceanview Drive",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 117,
-    status: "inactive",
-    contact: "+8801700001109",
-    photo: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 10,
-    name: "Fatima Noor",
-    email: "fatima.noor@example.com",
-    nationality: "Bangladesh",
-    address: "19 Crescent Road",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 142,
-    status: "active",
-    contact: "+8801700001110",
-    photo: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 11,
-    name: "Ethan Zhang",
-    email: "ethan.zhang@example.com",
-    nationality: "Bangladesh",
-    address: "72 Jade Street",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 91,
-    status: "inactive",
-    contact: "+8801700001111",
-    photo: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 12,
-    name: "Maya Patel",
-    email: "maya.patel@example.com",
-    nationality: "Bangladesh",
-    address: "10 Maple Leaf Road",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 125,
-    status: "active",
-    contact: "+8801700001112",
-    photo: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 13,
-    name: "Ahmed El-Sayed",
-    email: "ahmed.elsayed@example.com",
-    nationality: "Bangladesh",
-    address: "38 Desert Rose Street",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 106,
-    status: "inactive",
-    contact: "+8801700001113",
-    photo: "https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 14,
-    name: "Sofia Marino",
-    email: "sofia.marino@example.com",
-    nationality: "Bangladesh",
-    address: "82 Tuscany Lane",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 97,
-    status: "active",
-    contact: "+8801700001114",
-    photo: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg",
-    createdAt: "12-10-2025",
-  },
-  {
-    key: 15,
-    name: "Noah Williams",
-    email: "noah.williams@example.com",
-    nationality: "Bangladesh",
-    address: "25 Horizon Circle",
-    interests: ["Business partner", "Love", "Friends", "Nearby"],
-    reportedStatus: "suspend",
-    point: 121,
-    status: "active",
-    contact: "+8801700001115",
-    photo: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
-    createdAt: "12-10-2025",
-  },
-];
+

@@ -13,8 +13,13 @@ const tripApi = baseApi.injectEndpoints({
     getPopularTrips: builder.query({
       query: ()=>`/trips/popular-trips`,      
       transformResponse: (res: {data: any})=> res?.data
+    }),
+    getUserTrip: builder.query({
+      query: (id)=>`/trips/${id}`,
+      transformResponse: (res: {data :any})=> res?.data,
     })
+
   }),
 });
 
-export const { useGetTripsQuery, useGetPopularTripsQuery } = tripApi;
+export const { useGetTripsQuery, useGetPopularTripsQuery, useGetUserTripQuery } = tripApi;

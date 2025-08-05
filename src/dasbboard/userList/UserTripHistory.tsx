@@ -4,31 +4,23 @@ import {
   CarOutlined,
   EnvironmentOutlined,
 } from "@ant-design/icons";
-import { Table, Tag } from "antd";
+import { Image, Table, Tag } from "antd";
 
 // Sample Data
-const dataSource = [
-  {
-    key: "1",
-    toCity: "Miami",
-    startDate: "15/12/25",
-    endDate: "18/12/25",
-    transport: "Flight",
-    airline: "Delta Airlines",
-    stay: "Hotel",
-  },
-  {
-    key: "2",
-    toCity: "New York",
-    startDate: "20/01/26",
-    endDate: "25/01/26",
-    transport: "Train",
-    airline: "Amtrak Express",
-    stay: "Airbnb",
-  },
-];
+import {
 
-const columns = [
+} from "@ant-design/icons";
+
+import dayjs from "dayjs";
+import { useGetUserTripQuery } from "../../redux/features/trip/tripApi";
+import { imageUrl } from "../../redux/base/baseAPI";
+
+
+const UserTripHistory = ({data}:any) => {
+  const userTrip = useGetUserTripQuery(data?._id);
+console.log("userTrip", userTrip);
+
+  const columns = [
   {
     title: (
       <span>
@@ -39,31 +31,26 @@ const columns = [
     key: "place",
   },
   {
-    title: (
-      <span>
-        Image
-      </span>
-    ),
+    title: "Image",
     dataIndex: "image",
     key: "image",
     render: (text: string) => (
-      <div className="">
-        <img
-          src={
-            text && text.startsWith("http")
-              ? text
-              : text
-              ? `imageUrl${text}`
-              : "/default-avatar.png"
-          }
-          style={{
-            height: 50,
-            width: 50,
-            borderRadius: 50,
-            objectFit: "cover",
-          }}
-        />
-      </div>
+      <Image
+        src={
+          text?.startsWith("http")
+            ? text
+            : text
+            ? `${imageUrl}${text}`
+            : "/default-avatar.png"
+        }
+        alt="trip"
+        style={{
+          height: 50,
+          width: 50,
+          borderRadius: "50%",
+          objectFit: "cover",
+        }}
+      />
     ),
   },
   {
@@ -74,6 +61,7 @@ const columns = [
     ),
     dataIndex: "startDate",
     key: "startDate",
+    render: (date: string) => dayjs(date).format("YYYY-MM-DD"),
   },
   {
     title: (
@@ -83,25 +71,17 @@ const columns = [
     ),
     dataIndex: "endDate",
     key: "endDate",
+    render: (date: string) => dayjs(date).format("YYYY-MM-DD"),
   },
   {
     title: (
       <span>
-        <CarOutlined /> Transport
+        <CarOutlined /> Vehicle
       </span>
     ),
-    dataIndex: "vahicle",
-    key: "vahicle",
+    dataIndex: "vehicle",
+    key: "vehicle",
     render: (text: string) => <Tag color="blue">{text}</Tag>,
-  },
-  {
-    title: (
-      <span>
-        <BankOutlined /> Airline
-      </span>
-    ),
-    dataIndex: "airlineType",
-    key: "airlineType",
   },
   {
     title: (
@@ -109,28 +89,27 @@ const columns = [
         <BankOutlined /> Accommodation
       </span>
     ),
-    dataIndex: "accomodation",
-    key: "accomodation",
+    dataIndex: "accommodation",
+    key: "accommodation",
   },
   {
     title: (
       <span>
-        <BankOutlined /> Stay
+        <BankOutlined /> Travel With
       </span>
     ),
-    dataIndex: "stay",
-    key: "stay",
+    dataIndex: "travelWith",
+    key: "travelWith",
   },
 ];
 
-const UserTripHistory = () => {
   return (
     <div>
       <h2 className="text-lg text-primary  font-semibold mb-3 text-center md:text-start md:py-2">
         User Trip History:{" "}
       </h2>
       <Table
-        dataSource={dataSource}
+        dataSource={userTrip?.data}
         columns={columns}
         bordered
         pagination={false}

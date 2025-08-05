@@ -17,6 +17,7 @@ import { getSearchParams } from "../../utils/getSearchParams";
 import { useUpdateSearchParams } from "../../utils/updateSearchParams";
 import AddAdmin from "./AddAdmin";
 import AdminDetailsModal from "./AdminDetailsModal";
+import { imageUrl } from "../../redux/base/baseAPI";
 
 const AllAdmin = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
@@ -41,6 +42,7 @@ const AllAdmin = () => {
     refetch();
   }, [status, searchTerm]);
 
+  // ------------------ Table Column  ----------------------
   const userColumns = [
     {
       title: <span style={{ width: 50, display: "inline-block" }}>Sl. No</span>,
@@ -72,8 +74,8 @@ const AllAdmin = () => {
                 record?.image && record?.image.startsWith("http")
                   ? record?.image
                   : record?.image
-                  ? `imageUrl${record?.image}`
-                  : "/default-avatar.png"
+                  ? `${imageUrl}${record?.image}`
+                  : "/placeholder.png"
               }
             />
           </div>
@@ -134,6 +136,8 @@ const AllAdmin = () => {
     },
   ];
 
+
+  // ------------------------ Action --------------------------
   // const searchInput = Form.useWatch("search", form);
 
   const handleChange = (value: string) => {
@@ -242,6 +246,7 @@ const AllAdmin = () => {
         setOpen={setDetailsOpen}
         data={selectedUser}
         onStatusChange={handleUpdateStatus}
+        refetch={refetch}
       />
       <AddAdmin open={open} setOpen={setOpen} onSubmit={handleSubmit} />
     </div>

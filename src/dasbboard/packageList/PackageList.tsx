@@ -29,6 +29,7 @@ const PackageList = () => {
   const [updatePackage] = useUpdatePackageMutation();
   const [deletePackage] = useDeletePackageMutation();
 
+  // ------------------ Table Column ----------------------
   const userColumns = [
     {
       title: "Id",

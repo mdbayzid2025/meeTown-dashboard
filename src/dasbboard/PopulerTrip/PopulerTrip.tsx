@@ -32,7 +32,7 @@ const PopulerTrip = () => {
                   ? record?.image
                   : record?.image
                   ? `${imageUrl}${record?.image}`
-                  : "/default-avatar.png"
+                  : "/placeholder.png"
               }
               alt=""
             />
@@ -48,16 +48,24 @@ const PopulerTrip = () => {
       key: "countryCode",
     },
     {
-      title: "Trip Dates",
-      key: "dates",
-      render: (_: any, record: any) => (
-        <span>{`${dayjs(record.startDate).format("MMM D, YYYY")} - ${dayjs(
-          record.endDate
-        ).format("MMM D, YYYY")}`}</span>
+      title: "Start Date",
+      key: "startDate",
+      render: (text: any,) => (
+        <span>{`${dayjs(text).format("MMM D, YYYY")}`}</span>
       ),
       sorter: (a: any, b: any) =>
         dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
     },
+    {
+      title: "End Date",
+      key: "endDate",
+      render: (text: any,) => (
+        <span>{`${dayjs(text).format("MMM D, YYYY")}`}</span>
+      ),
+      sorter: (a: any, b: any) =>
+        dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
+    },
+
     {
       title: "Mode of Travel",
       dataIndex: "vehicle",
@@ -69,17 +77,7 @@ const PopulerTrip = () => {
         if (method === "Airplane") color = "purple";
         return <Tag color={color}>{method.toUpperCase()}</Tag>;
       },
-    },
-    {
-      title: "Accommodation",
-      dataIndex: "accommodation",
-      key: "accommodation",
-    },
-    {
-      title: "Travel With",
-      dataIndex: "travelWith",
-      key: "travelWith",
-    },
+    },   
     {
       title: "Action",
       key: "action",

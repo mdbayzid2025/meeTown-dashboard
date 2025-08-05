@@ -1,4 +1,4 @@
-import { Col, Divider, Modal, Row } from "antd";
+import { Col, Divider, Image, Modal, Row } from "antd";
 import dayjs from "dayjs";
 import { imageUrl } from "../../redux/base/baseAPI";
 import placeholder from "/placeholder.png"
@@ -30,6 +30,23 @@ const TripDetailsModal = ({ open, setOpen, data }: Props) => {
       <Divider />
 
       <Row gutter={[12, 30]}>
+        {data?.image && (
+          <Col span={24}>            
+            <Image
+            width="100%"
+            height={200}
+              src={
+                data?.image && data?.image.startsWith("http")
+                  ? data?.image
+                  : data?.image
+                  ? `${imageUrl}${data?.image}`
+                  : placeholder
+              }
+              alt="trip"
+              className="w-full max-h-[300px] object-cover rounded"
+            />
+          </Col>
+        )}
         <Col span={12}>
           <p className="text-gray-500 text-[15px] font-medium mb-1">Place</p>
           <p className="text-[15px] font-medium capitalize">{data?.place}</p>
@@ -61,38 +78,7 @@ const TripDetailsModal = ({ open, setOpen, data }: Props) => {
         <Col span={12}>
           <p className="text-gray-500 text-[15px] font-medium mb-1">Vehicle</p>
           <p className="text-[15px] font-medium">{data?.vehicle}</p>
-        </Col>
-
-        <Col span={12}>
-          <p className="text-gray-500 text-[15px] font-medium mb-1">
-            Accommodation
-          </p>
-          <p className="text-[15px] font-medium">{data?.accommodation}</p>
-        </Col>
-
-        <Col span={12}>
-          <p className="text-gray-500 text-[15px] font-medium mb-1">
-            Travel With
-          </p>
-          <p className="text-[15px] font-medium">{data?.travelWith}</p>
-        </Col>
-
-        {data?.image && (
-          <Col span={24}>
-            <p className="text-gray-500 text-[15px] font-medium mb-1">Image</p>
-            <img
-              src={
-                data?.image && data?.image.startsWith("http")
-                  ? data?.image
-                  : data?.image
-                  ? `${imageUrl}${data?.image}`
-                  : placeholder
-              }
-              alt="trip"
-              className="w-full max-h-[300px] object-contain rounded"
-            />
-          </Col>
-        )}
+        </Col>        
       </Row>
     </Modal>
   );

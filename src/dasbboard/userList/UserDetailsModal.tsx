@@ -1,6 +1,7 @@
-import { Modal, Tag, Divider } from "antd";
-import UserTripHistory from "./UserTripHistory";
+import { Divider, Modal, Tag } from "antd";
 import moment from 'moment';
+import { imageUrl } from "../../redux/base/baseAPI";
+import UserTripHistory from "./UserTripHistory";
 
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
 
 const UserDetailsModal = ({ open, setOpen, data }: Props) => {
   const handleClose = () => setOpen(false);
-
+  
   return (
     <Modal
       centered
@@ -27,7 +28,7 @@ const UserDetailsModal = ({ open, setOpen, data }: Props) => {
           src={data?.image && data?.image.startsWith("http")
                   ? data?.image
                   : data?.image
-                  ? `imageUrl${data?.image}`
+                  ? `${imageUrl}${data?.image}`
                   : "/default-avatar.png"}
           alt="User"
           className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-md mb-3 mx-auto"
@@ -88,7 +89,7 @@ const UserDetailsModal = ({ open, setOpen, data }: Props) => {
             </p>
           </div>
         </div>
-        <UserTripHistory />
+        <UserTripHistory data={data}/>
       </div>
     </Modal>
   );

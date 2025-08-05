@@ -40,6 +40,14 @@ const userApi = baseApi.injectEndpoints({
           method: "PATCH",
         }
       }
+    }),
+    deleteUser: build.mutation({
+      query: (id)=>{
+        return {
+          url: `/users/${id}`,
+          method: "DELETE"
+        }
+      }
     })
   }),
 });
@@ -49,6 +57,7 @@ export const {
     useGetAdminQuery,
     useGetProfileQuery,
     
+    useDeleteUserMutation,
     useEditProfileMutation,
     useCreateAdminMutation,
     useUpdateStatusMutation,

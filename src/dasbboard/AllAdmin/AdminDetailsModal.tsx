@@ -1,16 +1,45 @@
-import { Modal, Tag, Divider, Button, Tooltip } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Button, Divider, Modal, Tag, Tooltip } from "antd";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import DeleteItemsModal from "../../components/shared/DeleteItemsModal";
+import { imageUrl } from "../../redux/base/baseAPI";
+import { useDeleteUserMutation } from "../../redux/features/user/userApi";
 
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
   data: any | null;
   onStatusChange: (id: string) => void;
+  refetch: () => void;
 };
 
-const AdminDetailsModal = ({ open, setOpen, data, onStatusChange }: Props) => {
+const AdminDetailsModal = ({
+  open,
+  setOpen,
+  data,
+  onStatusChange,
+  refetch,
+}: Props) => {
+  const [openDelete, setOpenDelete] = useState(false);
+  const [deleteUser, { isLoading }] = useDeleteUserMutation();
+
   const handleClose = () => setOpen(false);
 
+  const handleDelete = async () => {
+    setOpenDelete(false);
+    try {
+      const res = await deleteUser(data?._id);
+      if (res?.data) {
+        setOpen(!open)
+        toast.success("Package deleted successfully");
+        refetch();
+      }
+    } catch (error) {
+      console.error("Error deleting package:", error);
+      toast.error("Failed to delete package");
+    }
+  };
   return (
     <Modal
       centered
@@ -26,8 +55,8 @@ const AdminDetailsModal = ({ open, setOpen, data, onStatusChange }: Props) => {
             data?.image && data?.image.startsWith("http")
               ? data?.image
               : data?.image
-              ? `imageUrl${data?.image}`
-              : "/default-avatar.png"
+              ? `${imageUrl}${data?.image}`
+              : "/placeholder.png"
           }
           alt="Admin"
           className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-md mb-3 mx-auto"
@@ -116,6 +145,8 @@ const AdminDetailsModal = ({ open, setOpen, data, onStatusChange }: Props) => {
           )}
           <Tooltip title="Permanently delete this admin account">
             <Button
+              onClick={() => setOpenDelete(true)}
+              loading={isLoading}
               type="primary"
               danger
               size="large"
@@ -125,6 +156,14 @@ const AdminDetailsModal = ({ open, setOpen, data, onStatusChange }: Props) => {
             </Button>
           </Tooltip>
         </div>
+        <DeleteItemsModal
+          openDelete={openDelete}
+          onClose={() => {
+            setOpenDelete(false);
+          }}
+          onConfirm={handleDelete}
+          message="Do you want to delete this package?"
+        />
       </div>
     </Modal>
   );
