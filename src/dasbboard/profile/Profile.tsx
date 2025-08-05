@@ -151,7 +151,7 @@ const Profile = () => {
                     ? profileData.image
                     : profileData?.image
                     ? `${imageUrl}${profileData.image}`
-                    : "/default-avatar.png"
+                    : "/placeholder.png"
                 }
                 className="object-cover rounded-xl min-h-[300px] max-h-[300px]"
                 preview={false}

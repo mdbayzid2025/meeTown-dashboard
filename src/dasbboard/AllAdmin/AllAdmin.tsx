@@ -23,7 +23,11 @@ const AllAdmin = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
-  
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const { status, searchTerm, page } = getSearchParams();
+  const updateSearchParams = useUpdateSearchParams();
 
   const [form] = Form.useForm();
 
@@ -31,16 +35,14 @@ const AllAdmin = () => {
   const [createAdmin] = useCreateAdminMutation(undefined);
   const [updateStatus] = useUpdateStatusMutation();
 
-  const { status, searchTerm } = getSearchParams();
-  const updateSearchParams = useUpdateSearchParams();
-
+  // --------------- Action  -------------------
   useEffect(() => {
-    updateSearchParams({ role: "ADMIN" });
-  }, []);
+    updateSearchParams({ role: "ADMIN", page: currentPage });
+  }, [currentPage]);
 
   useEffect(() => {
     refetch();
-  }, [status, searchTerm]);
+  }, [, searchTerm, page, status]);
 
   // ------------------ Table Column  ----------------------
   const userColumns = [
@@ -102,7 +104,7 @@ const AllAdmin = () => {
         <div className="flex items-center gap-2 ">
           <p
             className={`w-[100px] capitalize ${
-              status == "unblock" ? "text-green-600" : "text-red-600"
+              status == "Active" ? "text-green-600" : "text-red-600"
             }`}
           >
             {status}
@@ -136,7 +138,6 @@ const AllAdmin = () => {
     },
   ];
 
-
   // ------------------------ Action --------------------------
   // const searchInput = Form.useWatch("search", form);
 
@@ -165,22 +166,22 @@ const AllAdmin = () => {
     }
   };
 
-  const handleUpdateStatus = async (id:any) => {
-    try {      
-      const res = await updateStatus(id);      
+  const handleUpdateStatus = async (id: any) => {
+    try {
+      const res = await updateStatus(id);
       setDetailsOpen(false); // If Open details modal shoud
-      if(res?.data){
-        toast.success("Update Status");        
-        refetch()
-
-
+      if (res?.data) {
+        toast.success("Update Status");
+        refetch();
       }
     } catch (error) {
       console.error(error);
       toast.error("Status Upload failed");
     }
   };
-  
+
+  console.log("admindata", adminData);
+
   return (
     <div className="md:p-4">
       <div className="flex items-center justify-between mb-6">
@@ -217,7 +218,7 @@ const AllAdmin = () => {
             onChange={handleChange}
             options={[
               { value: "Active", label: "Active" },
-              { value: "Inactive", label: "Inactive" },
+              { value: "Blocked", label: "Blocked" },
             ]}
           />
 
@@ -237,6 +238,12 @@ const AllAdmin = () => {
         columns={userColumns}
         dataSource={adminData?.users}
         loading={isLoading}
+        pagination={{
+          total: adminData?.pagination?.total,
+          current: currentPage,
+          pageSize: adminData?.pagination?.limit,
+          onChange: (page) => setCurrentPage(page),
+        }}
         rowKey="_id"
         scroll={{ x: "max-content" }}
         className={` subscriptionTable`}

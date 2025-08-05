@@ -29,7 +29,7 @@ const UserDetailsModal = ({ open, setOpen, data }: Props) => {
                   ? data?.image
                   : data?.image
                   ? `${imageUrl}${data?.image}`
-                  : "/default-avatar.png"}
+                  : "/placeholder.png"}
           alt="User"
           className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-md mb-3 mx-auto"
         />

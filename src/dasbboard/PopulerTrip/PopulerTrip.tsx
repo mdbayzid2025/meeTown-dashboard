@@ -49,21 +49,23 @@ const PopulerTrip = () => {
     },
     {
       title: "Start Date",
+      dataIndex: "startDate", // Important to bind the field from data
       key: "startDate",
-      render: (text: any,) => (
-        <span>{`${dayjs(text).format("MMM D, YYYY")}`}</span>
+      render: (date: string) => (
+        <span>{dayjs(date).format("MMM D, YYYY")}</span>
       ),
       sorter: (a: any, b: any) =>
         dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
     },
-    {
-      title: "End Date",
+   {
+      title: "Start Date",
+      dataIndex: "endDate", // Important to bind the field from data
       key: "endDate",
-      render: (text: any,) => (
-        <span>{`${dayjs(text).format("MMM D, YYYY")}`}</span>
+      render: (date: string) => (
+        <span>{dayjs(date).format("MMM D, YYYY")}</span>
       ),
       sorter: (a: any, b: any) =>
-        dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
+        dayjs(a.endDate).unix() - dayjs(b.endDate).unix(),
     },
 
     {
@@ -77,7 +79,7 @@ const PopulerTrip = () => {
         if (method === "Airplane") color = "purple";
         return <Tag color={color}>{method.toUpperCase()}</Tag>;
       },
-    },   
+    },
     {
       title: "Action",
       key: "action",
@@ -112,9 +114,8 @@ const PopulerTrip = () => {
     },
   ];
 
-
   console.log("useGetPopularTripsQuery", tripData);
-  
+
   return (
     <div className="md:p-4">
       <h3 className="text-xl font-semibold text-grayMedium md:mb-6">

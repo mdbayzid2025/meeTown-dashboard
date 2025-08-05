@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { SlEye } from "react-icons/sl";
 
-import UserDetailsModal from "./UserDetailsModal";
+import { imageUrl } from "../../redux/base/baseAPI";
 import { useGetUsersQuery } from "../../redux/features/user/userApi";
 import { getSearchParams } from "../../utils/getSearchParams";
 import { useUpdateSearchParams } from "../../utils/updateSearchParams";
 import NationalityFilter from "./NationalityFilter";
-import { imageUrl } from "../../redux/base/baseAPI";
+import UserDetailsModal from "./UserDetailsModal";
 
 const UserList = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
