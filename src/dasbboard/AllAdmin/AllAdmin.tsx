@@ -180,8 +180,6 @@ const AllAdmin = () => {
     }
   };
 
-  console.log("admindata", adminData);
-
   return (
     <div className="md:p-4">
       <div className="flex items-center justify-between mb-6">

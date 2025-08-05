@@ -4,7 +4,7 @@ import {
   Input,
   Table,
   Tag,
-  type DatePickerProps
+  type DatePickerProps,
 } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import dayjs from "dayjs";
@@ -21,19 +21,26 @@ import TripDetailsModal from "./TripDetailsModal";
 dayjs.extend(isBetween);
 
 const TripHistory = () => {
-  // --- STATE MANAGEMENT FOR FILTERS ---  
+  // --- STATE MANAGEMENT FOR FILTERS ---
   const [showDetails, setShowDetails] = useState<boolean>(false);
   const [selectedData, setSelectedData] = useState<any | null>(null);
   const [form] = Form.useForm();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data: tripData, isLoading, refetch } = useGetTripsQuery(undefined);
 
-  const { startDate, endDate } = getSearchParams();
+  const { status, searchTerm, location, page } = getSearchParams();  
+  
   const updateSearchParams = useUpdateSearchParams();
 
+  // --------------- Action  -------------------
   useEffect(() => {
     refetch();
-  }, [startDate, endDate]);
+  }, [status, searchTerm, location, page]);
+
+  useEffect(() => {
+    updateSearchParams({ page: currentPage });
+  }, [currentPage]);
 
   // --- TABLE COLUMN DEFINITIONS ---
   const tripColumns = [
@@ -44,22 +51,22 @@ const TripHistory = () => {
       render: (text: any, record: any) => (
         <div className="flex items-center gap-2">
           <div className="h-[50px] w-[50px]">
-          <img
-          style={{
+            <img
+              style={{
                 height: 50,
                 width: 50,
                 borderRadius: 50,
                 objectFit: "cover",
               }}
-            src={
-              record?.image && record?.image.startsWith("http")
-                ? record?.image
-                : record?.image
-                ? `${imageUrl}${record?.image}`
-                : "/default-avatar.png"
-            }
-            alt=""
-          />
+              src={
+                record?.image && record?.image.startsWith("http")
+                  ? record?.image
+                  : record?.image
+                  ? `${imageUrl}${record?.image}`
+                  : "/default-avatar.png"
+              }
+              alt=""
+            />
           </div>
           <span>{text}</span>
         </div>
@@ -208,7 +215,12 @@ const TripHistory = () => {
           loading={isLoading}
           rowKey="key"
           scroll={{ x: "max-content" }}
-          pagination={{ pageSize: 5 }}
+          pagination={{
+            total: tripData?.pagination?.total,
+            current: currentPage,
+            pageSize: tripData?.pagination?.limit,
+            onChange: (page) => setCurrentPage(page),
+          }}
           className="subscriptionTable"
         />
       </div>

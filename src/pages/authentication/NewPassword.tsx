@@ -13,14 +13,18 @@ const NewPassword = () => {
   const resetToken = Cookies.get("resetToken");
 
   const onFinish = async (values: any) => {
-    console.log('Success:', resetToken);
+    console.log('Success:', values);
+    const data = {...values, resetToken}
+
+    console.log("sadfasdf", data)
     try {
-      const res = await resetPassword({resetToken, ...values})
+      const res = await resetPassword(data);
       
       console.log('Response:', res);
       if(res?.data) {        
         toast.success(res?.data?.message);
         navigate("/login");
+        Cookies.remove("resetToken")
       } 
     } catch (error) {
       console.log('Error:', error);

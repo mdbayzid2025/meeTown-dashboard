@@ -7,9 +7,6 @@ const PrivateRoute = ({ children } : {children: React.ReactNode}) => {
   const location = useLocation();
 
   const isAuthenticated = Cookies.get("accessToken"); // Replace with actual authentication logic
-//   const user = {
-//     email: "tushar@gmail.com",
-//   };
 
   if(isAuthenticated) {
     return children;

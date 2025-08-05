@@ -7,9 +7,9 @@ export const baseApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "http://10.10.7.7:5002/api/v1",
         prepareHeaders: (headers)=>{
-            const token = Cookies.get("accessToken");            
-            if(token){
-                headers.set("Authorization", `Bearer ${token}`);
+            const token = Cookies.get("accessToken");               
+            if(token){                
+                headers.set("Authorization", `Bearer ${token}`)
             }
             return headers;
         }

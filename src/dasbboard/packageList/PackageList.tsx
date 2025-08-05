@@ -1,6 +1,6 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Table } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
 import { LiaEdit } from "react-icons/lia";
 import { SlEye } from "react-icons/sl";
@@ -14,6 +14,8 @@ import PackageDetailsModal from "./PackageDetailsModal";
 import PackageEditModal from "./PackageEditModal";
 import { toast } from "react-toastify";
 import DeleteItemsModal from "../../components/shared/DeleteItemsModal";
+import { useUpdateSearchParams } from "../../utils/updateSearchParams";
+import { getSearchParams } from "../../utils/getSearchParams";
 
 const PackageList = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -23,11 +25,29 @@ const PackageList = () => {
   const [deleteItem, setDeleteItem] = useState("");
   const [openDelete, setOpenDelete] = useState(false);
 
-  const {data: packagedata, isLoading, refetch } = useGetPackagesQuery(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const {
+    data: packagedata,
+    isLoading,
+    refetch,
+  } = useGetPackagesQuery(undefined);
 
   const [addPackage] = useAddPackageMutation();
   const [updatePackage] = useUpdatePackageMutation();
   const [deletePackage] = useDeletePackageMutation();
+
+    const { status, searchTerm, location, page } = getSearchParams();
+    const updateSearchParams = useUpdateSearchParams();
+
+  // --------------- Action  -------------------
+  useEffect(() => {
+    refetch();
+  }, [status, searchTerm, location, page]);
+
+  useEffect(() => {
+    updateSearchParams({page: currentPage });
+  }, [currentPage]);
 
   // ------------------ Table Column ----------------------
   const userColumns = [
@@ -101,10 +121,10 @@ const PackageList = () => {
             className="cursor-pointer !text-primary"
           />
           <GoTrash
-          onClick={() => {
-            setDeleteItem(record?._id);
-            setOpenDelete(true)}
-          }
+            onClick={() => {
+              setDeleteItem(record?._id);
+              setOpenDelete(true);
+            }}
             size={20}
             className="text-red-600 cursor-pointer hover:text-red-800"
           />
@@ -117,7 +137,7 @@ const PackageList = () => {
     console.log("value", values);
     try {
       if (editData) {
-        const res = await updatePackage({data: values, id: editData?._id});
+        const res = await updatePackage({ data: values, id: editData?._id });
         if (res?.data) {
           toast.success("Package Updated");
           refetch();
@@ -127,7 +147,7 @@ const PackageList = () => {
       } else {
         const res = await addPackage(values);
         if (res?.data) {
-          // Optionally, you can handle the response or update the state here          
+          // Optionally, you can handle the response or update the state here
           toast.success("Package added successfully");
           refetch();
           setOpen(false);
@@ -142,18 +162,18 @@ const PackageList = () => {
 
   const handleDelete = async () => {
     try {
-      const res = await deletePackage(deleteItem); 
+      const res = await deletePackage(deleteItem);
       if (res?.data) {
         toast.success("Package deleted successfully");
         refetch();
         setOpenDelete(false);
         setDeleteItem("");
-      } 
-    }catch (error) {
+      }
+    } catch (error) {
       console.error("Error deleting package:", error);
       toast.error("Failed to delete package");
     }
-  }
+  };
 
   return (
     <div className="p-4">
@@ -176,7 +196,12 @@ const PackageList = () => {
         columns={userColumns}
         dataSource={packagedata}
         loading={isLoading}
-        pagination={{ pageSize: 9 }}
+        pagination={{
+          total: packagedata?.pagination?.total,
+          current: currentPage,
+          pageSize: packagedata?.pagination?.limit,
+          onChange: (page) => setCurrentPage(page),
+        }}
         scroll={{ x: "max-content" }}
         className="subscriptionTable"
       />
@@ -194,11 +219,14 @@ const PackageList = () => {
         data={selectedData}
       />
 
-      <DeleteItemsModal 
-      openDelete={openDelete} 
-      onClose={()=>{setOpenDelete(false); setDeleteItem("")}}   
-      onConfirm={handleDelete}
-      message="Do you want to delete this package?"
+      <DeleteItemsModal
+        openDelete={openDelete}
+        onClose={() => {
+          setOpenDelete(false);
+          setDeleteItem("");
+        }}
+        onConfirm={handleDelete}
+        message="Do you want to delete this package?"
       />
     </div>
   );

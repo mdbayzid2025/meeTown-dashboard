@@ -1,5 +1,5 @@
 // src/components/shared/ConfirmModal.tsx
-import { Modal } from "antd";
+import { Button, Divider, Modal } from "antd";
 
 interface ConfirmModalProps {
   openDelete: boolean;
@@ -19,16 +19,24 @@ const DeleteItemsModal = ({
   confirmText = "Confirm",
 }: ConfirmModalProps) => {
   return (
-    <Modal centered open={openDelete} onCancel={onClose} footer={false} width={400}>
-      <div className="p-6 text-center">
-        <p className="text-[#D93D04] text-center font-semibold">{title}</p>
+    <Modal
+      centered
+      open={openDelete}
+      onCancel={onClose}
+      footer={false}
+      width={400}
+    >
+      <div className="px-6 pt-6 text-center">
+        <p className="text-[#D93D04] text-center font-semibold text-lg mb-0">{title}</p>
         <p className="pt-4 pb-12 text-center">{message}</p>
-        <button
+        <Button
+          type="primary"
+          size="large"
           onClick={onConfirm}
-          className="bg-[#2E7A8A] py-2 px-5 text-white rounded-md"
+          className="bg-[#2E7A8A] py-2 px-5 text-white rounded-md cursor-pointer"
         >
           {confirmText}
-        </button>
+        </Button>
       </div>
     </Modal>
   );

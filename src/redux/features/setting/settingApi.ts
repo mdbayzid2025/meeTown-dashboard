@@ -54,7 +54,12 @@ const settingApi = baseApi.injectEndpoints({
     getSupport: builder.query({
       query: () => "/contact-info",
       transformResponse: (res: { data: any }) => res?.data,
-    })
+    }),
+
+    getNotification: builder.query({
+      query: () => "/reports",
+      transformResponse: (res: { data: any }) => res?.data,
+    }),
   }),
 });
 

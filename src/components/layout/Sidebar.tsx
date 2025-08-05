@@ -3,6 +3,7 @@ import { MdLogout } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import { sidebarItems } from '../../utils/sidebarItems';
 
+import Cookies from 'js-cookie';
 const { Sider } = Layout;
 
 
@@ -18,6 +19,11 @@ const Sidebar = () => {
       };
     });
   };
+
+  const handleLogout = () =>{
+Cookies.remove("accessToken")
+window.location.reload()
+  }
 
   return (
     <ConfigProvider
@@ -73,9 +79,9 @@ const Sidebar = () => {
             style={{ flexGrow: 1, overflowY: "auto" }}
 
           />
-
-          <Link to="/login">
+          
             <Button
+            onClick={()=>handleLogout()}
               style={{
                 width: "100%",
                 display: "flex",
@@ -95,8 +101,7 @@ const Sidebar = () => {
             >
               <MdLogout size={24} />
               Logout
-            </Button>
-          </Link>
+            </Button>          
         </div>
 
 
@@ -106,3 +111,4 @@ const Sidebar = () => {
 }
 
 export default Sidebar
+

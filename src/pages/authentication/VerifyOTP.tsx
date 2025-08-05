@@ -70,7 +70,7 @@ const VerifyOTP = () => {
             <FormItem
               label={
                 <p className="text-black font-semibold text-lg mt-2">
-                  Enter 6 digit otp code
+                  Enter 4 digit otp code
                 </p>
               }
               name="otp"

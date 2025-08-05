@@ -17,8 +17,7 @@ import { imageUrl } from "../../redux/base/baseAPI";
 
 
 const UserTripHistory = ({data}:any) => {
-  const userTrip = useGetUserTripQuery(data?._id);
-console.log("userTrip", userTrip);
+  const {data: userTrip, isLoading} = useGetUserTripQuery(data?._id);
 
   const columns = [
   {
@@ -103,14 +102,20 @@ console.log("userTrip", userTrip);
   },
 ];
 
+if(userTrip){
+  console.log("userTrip", userTrip);
+  
+}
   return (
     <div>
       <h2 className="text-lg text-primary  font-semibold mb-3 text-center md:text-start md:py-2">
         User Trip History:{" "}
       </h2>
       <Table
-        dataSource={userTrip?.data}
+        dataSource={userTrip?.pastTrips}
         columns={columns}
+        loading={isLoading}
+        rowKey="_id"
         bordered
         pagination={false}
         scroll={{ x: "max-content" }}

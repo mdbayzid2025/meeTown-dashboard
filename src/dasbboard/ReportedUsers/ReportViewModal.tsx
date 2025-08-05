@@ -1,30 +1,72 @@
-import { Avatar, Button, Modal } from "antd";
+import { Avatar, Button, Divider, Modal } from "antd";
+import { imageUrl } from "../../redux/base/baseAPI";
+import DeleteItemsModal from "../../components/shared/DeleteItemsModal";
+import { useState } from "react";
+import {
+  useDeleteUserMutation,
+  useUpdateStatusMutation,
+} from "../../redux/features/user/userApi";
+import { toast } from "react-toastify";
+import { useUpdateReportMutation } from "../../redux/features/reports/reportsApi";
 
 // Define the shape of the data prop
 interface ReportViewModalProps {
   open: boolean;
   setOpen: (isOpen: boolean) => void;
   data: any | null;
+  refetch: () => void;
 }
 
-const ReportViewModal = ({ open, setOpen, data }: ReportViewModalProps) => {
+const ReportViewModal = ({
+  open,
+  setOpen,
+  data,
+  refetch,
+}: ReportViewModalProps) => {
+  const [openDelete, setOpenDelete] = useState(false);
+  const [deleteUser, { isLoading }] = useDeleteUserMutation();
+  const [updateReport, { isLoading: updating }] = useUpdateReportMutation();
+  const [updateStatus] = useUpdateStatusMutation();
 
-  const handleWarning = () => {
-    console.log(`Warning user: ${data?.user?.name}`);
-    // Add logic to send a warning
-    setOpen(false); // Close modal after action
+  const handleReport = async (status: any) => {
+    if (status === "Inactive") {
+      const res = await updateReport({ id: data?._id, status: "Resolved" });
+      const userRes = await updateStatus(data?.user?._id);
+
+      console.log("Report response:", res);
+      console.log("User status update response:", userRes);
+      setOpen(false);
+      refetch();
+      toast.success("User blocked successfully");
+    } else if (status === "Rejected") {
+      const res = await updateReport({ id: data?._id, status: "Rejected" });
+      console.log("Report response: Rejected", res);
+      setOpen(false);
+      refetch();
+    } else if (status === "Delete") {
+      setOpenDelete(true);
+    }
   };
 
-  const handleBan = () => {
-    console.log(`Banning user: ${data?.user?.name}`);
-    // Add logic to ban the user
-    setOpen(false); // Close modal after action
+  const handleDelete = async () => {
+    setOpenDelete(false);
+    try {
+      console.log("Deleting user:", data?.user?._id);
+
+      const res = await deleteUser(data?.user?._id);
+      await updateReport({ id: data?._id, status: "Resolved" });
+      if (res?.data) {
+        setOpen(!open);
+        toast.success("User deleted successfully");
+        refetch();
+      }
+    } catch (error) {
+      console.error("Error deleting package:", error);
+      toast.error("Failed to delete package");
+    }
   };
-  
-  // Don't render if there's no data
-  if (!data) {
-    return null;
-  }
+
+  const isDisabled = data?.status === "Resolved" || data?.status === "Rejected";
 
   return (
     <Modal
@@ -34,53 +76,117 @@ const ReportViewModal = ({ open, setOpen, data }: ReportViewModalProps) => {
       centered
       width={600}
     >
-      <div className="flex flex-col items-center gap-2  text-center w-full">
-        <Avatar src={data.user.photo} size={128} />
-        
-        <h2 className="text-xl font-semibold text-gray-700 ">
-          {data.user.name}
+      <div className="flex flex-col items-center gap-4 text-center w-full p-6 rounded-lg ">
+        <Avatar
+          src={
+            data?.user?.image && data?.user?.image.startsWith("http")
+              ? data?.user?.image
+              : data?.user?.image
+              ? `${imageUrl}${data?.user?.image}`
+              : "/placeholder.png"
+          }
+          size={128}
+          className="mb-2"
+        />
+
+        <h2 className="text-2xl font-bold text-primary leading-2">
+          {data?.user?.name}
         </h2>
-        
-        <div className="">
-          <h4 className="text-start underline text-lg font-bold text-blue-600">Reason:</h4>
-          <p className="  mt-1 text-lg text-[#D97706] text-justify leading-7">
-            {data.reason}
+        <Divider size="small" />
+
+        <div className="text-start w-full px-4">
+          <h4 className="text-lg font-bold text-blue-600 underline">Reason:</h4>
+          <p className="mt-2 text-lg text-[#D97706] text-justify leading-7">
+            {data?.reason}
           </p>
         </div>
 
-        <div className="flex items-center gap-4 mt-6">
-          <Button
-            style={{ 
-              backgroundColor: '#D97706', // A shade of orange/brown
-              borderColor: '#D97706',
-              color: '#ffffff',
-              width: 150,
-              height: 50,
-              fontSize: '1.1rem',
-              fontWeight: '600'
-            }}
-            onClick={handleWarning}
-          >
-            Warning
-          </Button>
+        <div className="flex items-center justify-around gap-4 mt-6 w-full">
+          <ActionButton
+            label="Block"
+            color="#D97706"
+            onClick={() => handleReport("Inactive")}
+            loading={updating}
+            disabled={isDisabled}
+          />
 
-          <Button
-            type="primary"
-            danger // This makes the button red
-            style={{
-              width: 150,
-              height: 50,
-              fontSize: '1.1rem',
-              fontWeight: '600'
-            }}
-            onClick={handleBan}
-          >
-            Ban
-          </Button>
+          <ActionButton
+            label="Delete"
+            color="#ff4d4f"
+            onClick={() => handleReport("Delete")}
+            loading={isLoading}
+            disabled={isDisabled}
+          />
+
+          <ActionButton
+            label="Rejected"
+            color="#06b6d4"
+            onClick={() => handleReport("Rejected")}
+            loading={updating}
+            disabled={isDisabled}
+          />
         </div>
+        <DeleteItemsModal
+          openDelete={openDelete}
+          onClose={() => {
+            setOpenDelete(false);
+          }}
+          onConfirm={handleDelete}
+          message="Do you want to delete this user?"
+        />
       </div>
     </Modal>
   );
 };
 
 export default ReportViewModal;
+
+const ActionButton = ({
+  label,
+  color,
+  onClick,
+  loading = false,
+  disabled = false,
+}: {
+  label: string;
+  color: string;
+  onClick: () => void;
+  loading?: boolean;
+  disabled?: boolean;
+}) => {
+  const disabledStyle = {
+    backgroundColor: "#f1f1f1",
+    borderColor: "#d4d4d4",
+    color: "#9ca3af",
+    cursor: "not-allowed",
+    opacity: 0.6,
+  };
+
+  const activeStyle = {
+    backgroundColor: color,
+    borderColor: color,
+    color: "#ffffff",
+    cursor: "pointer",
+    opacity: 1,
+  };
+
+  return (
+    <Button
+      type="primary"
+      loading={loading}
+      disabled={disabled}
+      style={{
+        width: 120,
+        height: 50,
+        fontSize: "1.1rem",
+        fontWeight: "600",
+        transition: "all 0.3s ease",
+        ...(disabled ? disabledStyle : activeStyle),
+      }}
+      onClick={onClick}
+      className={`hover:opacity-80 ${!disabled ? `hover:bg-[${color}]` : ""}`}
+    >
+      {label}
+    </Button>
+  );
+};
