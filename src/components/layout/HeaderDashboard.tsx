@@ -6,15 +6,22 @@ import { Link } from "react-router-dom";
 import MobileSidebar from "../MobileSideber";
 import { useGetProfileQuery } from "../../redux/features/user/userApi";
 import { imageUrl } from "../../redux/base/baseAPI";
+import { useGetNotificationsQuery } from "../../redux/features/notification/notificationApi";
 
 const HeaderDashboard = () => {
   const [open, setOpen] = useState(false);
+
   const {
     data: profileData,
     isLoading,
-    isError,
-    refetch,
+    isError,    
   } = useGetProfileQuery(undefined);
+
+   const { data: notificationData } = useGetNotificationsQuery(undefined);
+
+   console.log("notificationData", notificationData?.notifications?.length);
+  const unreadNotification =    notificationData?.notifications.filter((notification:any)=> notification?.isRead === false);
+
   const showDrawer = () => {
     setOpen(true);
   };
@@ -28,8 +35,8 @@ const HeaderDashboard = () => {
       key: "1",
       label: (
         <div className="">
-          <h4 className="font-bold text-primary">Mimi Akter</h4>
-          <p>Admin</p>
+          <h4 className="font-bold text-primary"> {profileData?.name}</h4>
+          <p> {profileData?.role}</p>
         </div>
       ),
     },
@@ -55,7 +62,7 @@ const HeaderDashboard = () => {
           <FiMenu onClick={showDrawer} size={24} className="md:hidden" />
           <div className="flex items-center gap-5 ml-auto">
             <Link to="/notification">
-              <Badge count={99}>
+              <Badge showZero count={unreadNotification?.length > 0 ? unreadNotification?.length : 0}>
                 <Avatar
                   shape="circle"
                   size="large"
@@ -71,7 +78,7 @@ const HeaderDashboard = () => {
                 arrow={{ pointAtCenter: true }}
                 className="md:hidden"
               >
-                <Image
+                <img
                   src={
                     profileData?.image && profileData?.image.startsWith("http")
                       ? profileData?.image

@@ -124,8 +124,8 @@ const Profile = () => {
   };
 
   return (
-    <div>
-      <h3 className="text-xl font-semibold text-grayMedium mb-6 md:mb-0 p-6">
+    <div className="h-full">
+      <h3 className="text-xl font-semibold text-grayMedium mb-6 md:mb-0 md:p-6">
         Profile Page
       </h3>
 
@@ -134,7 +134,7 @@ const Profile = () => {
           <ImSpinner10 size={40} color="#002c66" className="animate-spin-slow" />          
         </div>
       ) : (
-        <div className=" mx-auto grid grid-cols-1 items-start md:grid-cols-3 gap-8  justify-center pl-6">
+        <div className=" mx-auto grid grid-cols-1 items-start md:grid-cols-3 gap-8  justify-center md:pl-6 md:pb-3">
           {/* ------------------ Profile Picture Card ------------------ */}
           <Card
             className="w-full shadow-md rounded-xl md:col-span-1"
@@ -275,7 +275,7 @@ const Profile = () => {
                 </FormItem>
               </div>
 
-              <div className="mt-6">
+              <div className="">
                 <Button type="primary" size="large" htmlType="submit">
                   {editing && <ImSpinner9 size={15} className="animate-spin" />}{" "}
                   Save Changes
