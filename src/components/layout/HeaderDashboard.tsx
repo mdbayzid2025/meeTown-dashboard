@@ -19,7 +19,6 @@ const HeaderDashboard = () => {
 
    const { data: notificationData } = useGetNotificationsQuery(undefined);
 
-   console.log("notificationData", notificationData?.notifications?.length);
   const unreadNotification =    notificationData?.notifications.filter((notification:any)=> notification?.isRead === false);
 
   const showDrawer = () => {
@@ -61,7 +60,7 @@ const HeaderDashboard = () => {
         <div className="flex justify-between items-center w-full md:w-auto md:block ml-auto">
           <FiMenu onClick={showDrawer} size={24} className="md:hidden" />
           <div className="flex items-center gap-5 ml-auto">
-            <Link to="/notification">
+            <Link to="/notification?limit=5" >
               <Badge showZero count={unreadNotification?.length > 0 ? unreadNotification?.length : 0}>
                 <Avatar
                   shape="circle"
