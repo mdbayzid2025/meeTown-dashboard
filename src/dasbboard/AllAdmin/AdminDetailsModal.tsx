@@ -32,12 +32,12 @@ const AdminDetailsModal = ({
       const res = await deleteUser(data?._id);
       if (res?.data) {
         setOpen(!open)
-        toast.success("Package deleted successfully");
+        toast.success("Admin deleted successfully");
         refetch();
       }
     } catch (error) {
-      console.error("Error deleting package:", error);
-      toast.error("Failed to delete package");
+      console.error("Error deleting Admin:", error);
+      toast.error("Failed to delete Admin");
     }
   };
   return (
@@ -162,7 +162,7 @@ const AdminDetailsModal = ({
             setOpenDelete(false);
           }}
           onConfirm={handleDelete}
-          message="Do you want to delete this package?"
+          message="Do you want to delete this admin?"
         />
       </div>
     </Modal>

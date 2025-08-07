@@ -1,46 +1,66 @@
-import { Bar, BarChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  Rectangle,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { useGetUsersGrowthQuery } from "../../redux/features/dashboard/dashboardApi";
 
 const CustomerAcquisition = () => {
+  const { data } = useGetUsersGrowthQuery(undefined);
 
-    const customerAcqData = [
-        { name: "Jan", total: 400 },
-        { name: "Feb", total: 350 },
-        { name: "Mar", total: 300 },
-        { name: "Apr", total: 250 },
-        { name: "May", total: 300 },
-        { name: "Jun", total: 50 },
-        { name: "Jul", total: 40 },
-        { name: "Aug", total: 150 },
-        { name: "Sep", total: 300 },
-        { name: "Oct", total: 300 },
-        { name: "Nov", total: 150 },
-        { name: "Dec", total: 350 },
-    ];
-
-
+  const CustomTooltip = ({ active, payload, label } : any) => {
+    const isVisible = active && payload && payload.length;
+    
     return (
-        <div className='bg-white py-5  rounded-xl w-full md:w-3/5 2xl:w-[70%]'>
-            <p className='px-10 mb-7 font-semibold text-xl'>Overall Customer Acquisition</p>
-            <ResponsiveContainer width="100%" height={200}>
-                <BarChart
-                    data={customerAcqData}
-                    margin={{
-                        top: 5,
-                        right: 10,
-                        left: 0,
-                        bottom: 5,
-                    }}
-                >
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />                    
-                    <Bar dataKey="total" barSize={20} radius={50} fill="#002C66"
-                    background={{ fill: '#eee', radius: 50}} activeBar={<Rectangle fill="pink" stroke="blue" />} />                    
+      <div
+        className="custom-tooltip w-[100px]"
+        style={{ visibility: isVisible ? "visible" : "hidden" }}
+      >
+        {isVisible && (
+          <div className="w-full py-3 pl-2 text-start bg-[#002C66]/80 rounded-xl">
+            <p className="text-white whitespace-nowrap font-semibold">{label}</p>
+            <p className="text-white whitespace-nowrap">{`New User : ${payload[0].value}`}</p>
+          </div>
+        )}
+      </div>
+    );
+  };
 
-                </BarChart>
-            </ResponsiveContainer>
-        </div>
-    )
-}
+  return (
+    <div className="bg-white py-5  rounded-xl w-full md:w-3/5 2xl:w-[70%]">
+      <p className="px-10 mb-7 font-semibold text-xl">Monthly User Growth</p>
+      <ResponsiveContainer width="100%" height={200}>
+        <BarChart
+          data={data}
+          margin={{
+            top: 5,
+            right: 10,
+            left: 0,
+            bottom: 5,
+          }}
+        >
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip
+            wrapperStyle={{ width: 100, }}
+            content={CustomTooltip}
+          />
+          <Bar
+            dataKey="count"
+            barSize={20}
+            radius={50}
+            fill="#002C66"
+            background={{ fill: "#eee", radius: 50 }}
+            activeBar={<Rectangle fill="#002A6052" stroke="blue" />}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
 
-export default CustomerAcquisition
+export default CustomerAcquisition;

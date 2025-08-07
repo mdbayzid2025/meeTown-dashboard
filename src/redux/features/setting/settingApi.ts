@@ -20,6 +20,14 @@ const settingApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    deleteFAQ: builder.mutation({
+      query: (id)=> {
+        return {
+          url: `/faq/${id}`,
+          method: "DELETE",          
+        }
+      }
+    }),
 
     getTermsCondition: builder.query({
       query: () => "/disclaimer/terms-and-condition",
@@ -69,8 +77,11 @@ export const {
 
   useGetSupportQuery,
   useAddSupportMutation,
+
   useAddFAQMutation,
   useUpdateFAQMutation,
+  useDeleteFAQMutation,
+
   useGetTermsConditionQuery,
   useAddDisclaimerMutation,
 } = settingApi;

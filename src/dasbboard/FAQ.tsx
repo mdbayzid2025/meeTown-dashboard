@@ -5,8 +5,10 @@ import { GoTrash } from "react-icons/go";
 import FaqAddModal from "../components/FAQAddModal";
 import ConfirmModel from "../components/shared/ConfirmModel";
 import {
-  useGetFAQQuery
+  useDeleteFAQMutation,
+  useGetFAQQuery,
 } from "../redux/features/setting/settingApi";
+import { toast } from "react-toastify";
 
 const FAQ = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -16,6 +18,7 @@ const FAQ = () => {
   const [selectedFaq, setSelectedFaq] = useState<any | null>(null);
 
   const { data: faqData, refetch } = useGetFAQQuery(undefined);
+  const [deleteFAQ] = useDeleteFAQMutation();
 
   const items = faqData?.map((faq: any, index: any) => ({
     key: index,
@@ -43,8 +46,25 @@ const FAQ = () => {
         </div>
       </div>
     ),
-    children: <p className="text-gray-700 text-justify">{faq.answer}</p>,
+    children: <p className="text-gray-700 text-justify">{faq?.answer}</p>,
   }));
+
+  // --------------- Action --------------
+  const handleDeleteFAQ = async () => {    
+    try {
+      const res = await deleteFAQ(selectedFaq?._id);
+      
+      if (res?.data) {
+        toast.success("Delete FAQ Successfully");
+        setOpenConfirm(false);
+        setSelectedFaq(null)
+        refetch();
+      }
+    } catch (error) {
+      console.log("toast error", error),
+       toast.error("Some thing wrong")
+      }
+  };
 
   return (
     <div className=" md:p-6 rounded-2xl">
@@ -76,7 +96,7 @@ const FAQ = () => {
         content={`Are you sure you want to delete "${selectedFaq?.question}"?`}
         okText="Yes, Delete"
         cancelText="Cancel"
-        onConfirm={() => alert("deleted alertm")}
+        onConfirm={handleDeleteFAQ}
         onCancel={() => {
           setOpenConfirm(false);
           setSelectedFaq(null);
@@ -95,6 +115,5 @@ export type faqProps = {
 };
 
 // --------------- FAQ ADD Update Data--------------------
-
 
 export default FAQ;

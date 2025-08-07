@@ -143,6 +143,8 @@ const Profile = () => {
             <div className="flex flex-col justify-center items-center gap-4">
               {/* Show current image or preview */}
               <Image
+              height={200}
+              width="100%"              
                 alt="Profile"
                 src={
                   imgURL
@@ -153,7 +155,7 @@ const Profile = () => {
                     ? `${imageUrl}${profileData.image}`
                     : "/placeholder.png"
                 }
-                className="object-cover rounded-xl min-h-[300px] max-h-[300px]"
+                className="!object-cover rounded-xl"
                 preview={false}
               />
 

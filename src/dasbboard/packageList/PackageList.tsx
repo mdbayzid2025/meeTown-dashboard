@@ -177,7 +177,7 @@ const PackageList = () => {
 
   return (
     <div className="p-4">
-      <div className="flex flex-col md:flex-row  items-end md:items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-semibold text-grayMedium ">Package List</h3>
 
         <Button
