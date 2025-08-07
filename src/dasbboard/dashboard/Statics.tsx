@@ -13,8 +13,8 @@ const Statics = ({staticsOverview}:any) => {
             <FaRegUser size={24} />
           </div>
           <div className="">
-            <h1 className="font-bold text-3xl mb-2">Total Users</h1>
-            <p className="text-lg font-semibold text-grayMedium">{staticsOverview?.totalUsers ?? 0}</p>
+            <h1 className="font-bold text-xl mb-2">Total Users</h1>
+            <p className="text-3xl font-semibold text-grayMedium">{staticsOverview?.totalUsers ?? 0}</p>
           </div>
         </div>
       </div>
@@ -25,8 +25,8 @@ const Statics = ({staticsOverview}:any) => {
             <FaRegUser size={24} />
           </div>
           <div className="">
-            <h1 className="font-bold text-3xl mb-2">Active Users</h1>
-            <p className="text-lg font-semibold text-grayMedium">{staticsOverview?.totalActiveUsers ?? 0}</p>
+            <h1 className="font-bold text-xl mb-2">Active Users</h1>
+            <p className="text-3xl font-semibold text-grayMedium">{staticsOverview?.totalActiveUsers ?? 0}</p>
           </div>
         </div>
       </div>
@@ -37,8 +37,8 @@ const Statics = ({staticsOverview}:any) => {
             <FaDollarSign  size={24} />
           </div>
           <div className="">
-            <h1 className="font-bold text-3xl mb-2">Total Revenue</h1>
-            <p className="text-lg font-semibold text-grayMedium">$ {staticsOverview?.totalRevenue ??  0}</p>
+            <h1 className="font-bold text-xl mb-2">Total Revenue</h1>
+            <p className="text-3xl font-semibold text-grayMedium">$ {staticsOverview?.totalRevenue ??  0}</p>
           </div>
         </div>
       </div>
@@ -49,8 +49,8 @@ const Statics = ({staticsOverview}:any) => {
             <LuUserRoundCheck size={24} />
           </div>
           <div className="">
-            <h1 className="font-bold text-3xl mb-2">Total Subscription</h1>
-            <p className="text-lg font-semibold text-grayMedium">{staticsOverview?.totalSubscriptions ?? 0}</p>
+            <h1 className="font-bold text-xl mb-2">Total Subscription</h1>
+            <p className="text-3xl font-semibold text-grayMedium">{staticsOverview?.totalSubscriptions ?? 0}</p>
           </div>
         </div>
       </div>

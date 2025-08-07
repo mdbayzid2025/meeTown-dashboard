@@ -15,20 +15,6 @@ const { Option } = Select;
 const PurchasingChart = () => {
   const { data: revenueData } = useGetRevenueGrowthQuery(undefined);
 
-  const purchasingData = [
-    { name: "Jan", total: 800 },
-    { name: "Feb", total: 1200 },
-    { name: "Mar", total: 2300 },
-    { name: "Apr", total: 1800 },
-    { name: "May", total: 2700 },
-    { name: "Jun", total: 3300 },
-    { name: "Jul", total: 2900 },
-    { name: "Aug", total: 4100 },
-    { name: "Sep", total: 3700 },
-    { name: "Oct", total: 4500 },
-    { name: "Nov", total: 4800 },
-    { name: "Dec", total: 5000 },
-  ];
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     const isVisible = active && payload && payload.length;
@@ -43,13 +29,16 @@ const PurchasingChart = () => {
             <p className="text-white whitespace-nowrap font-semibold">
               {label}
             </p>
-            <p className="text-white whitespace-nowrap">{`New User : ${payload[0].value}`}</p>
+            <p className="text-white whitespace-nowrap">{`Revenue : ${payload[0].value}`}</p>
           </div>
         )}
       </div>
     );
   };
 
+  const year = new Date().getFullYear()
+  
+  
   return (
     <div className="">
       <div className="flex items-center justify-between gap-8 mb-3">
@@ -57,13 +46,14 @@ const PurchasingChart = () => {
           <p className="text-xl">Monthly Revenue Growth</p>
         </div>
         <Select        
-          defaultValue="2022"
+          defaultValue={year}
           style={{ background: "transparent", outline: "none", width: 150 }}
         >
-          <Option value="2022">2022</Option>
-          <Option value="2023">2023</Option>
-          <Option value="2024">2024</Option>
-          <Option value="2025">2025</Option>
+          <Option value={year}>{year}</Option>
+          <Option value={year - 1}>{year - 1}</Option>
+          <Option value={year - 2}>{year - 2}</Option>
+          <Option value={year - 3}>{year - 3}</Option>
+          <Option value={year - 4}>{year - 4}</Option>
         </Select>
       </div>
       <div className="bg-white p-5 rounded-xl">
@@ -90,7 +80,7 @@ const PurchasingChart = () => {
             <Tooltip wrapperStyle={{ width: 100 }} content={CustomTooltip} />
             <Area
               type="monotone"
-              dataKey="total"
+              dataKey="amount"
               stroke="#002C66"
               fillOpacity={1}
               fill="url(#total)"
