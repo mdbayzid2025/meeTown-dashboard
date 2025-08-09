@@ -48,6 +48,10 @@ const userApi = baseApi.injectEndpoints({
           method: "DELETE"
         }
       }
+    }),
+    getAllSubscriber: build.query({
+      query: ()=>`/subscriptions${location?.search}`,
+      transformResponse: (res: {data:any})=>res?.data
     })
   }),
 });
@@ -56,7 +60,8 @@ export const {
     useGetUsersQuery,
     useGetAdminQuery,
     useGetProfileQuery,
-    
+    useGetAllSubscriberQuery,
+
     useDeleteUserMutation,
     useEditProfileMutation,
     useCreateAdminMutation,

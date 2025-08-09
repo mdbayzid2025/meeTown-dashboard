@@ -27,7 +27,7 @@ const packagesApi = baseApi.injectEndpoints({
                 url: `/packages/${id}`,
                 method: 'DELETE',
         })
-        })
+        }),        
     })
 })
 

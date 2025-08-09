@@ -26,8 +26,6 @@ const ReportedUsers = () => {
   const { status, searchTerm, location, page } = getSearchParams();
   const updateSearchParams = useUpdateSearchParams();
 
-
-  console.log("searchTerm", searchTerm);
   
   // --------------- Action  -------------------
   useEffect(() => {
@@ -185,7 +183,7 @@ const ReportedUsers = () => {
         </h3>
       </div>
 
-      <div className="mb-4">
+      <div className="mb-4 hidden">
         <div className="w-full md:w-1/3 mt-3 md:mt-0 pt-0">
           <Form form={form}>
             <FormItem name="search">
