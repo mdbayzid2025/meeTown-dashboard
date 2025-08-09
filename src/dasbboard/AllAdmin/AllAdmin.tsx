@@ -45,13 +45,16 @@ const AllAdmin = () => {
   }, [, searchTerm, page, status]);
 
   // ------------------ Table Column  ----------------------
+
+   const pageSize = adminData?.pagination?.limit ?? 10;
   const userColumns = [
     {
       title: <span style={{ width: 50, display: "inline-block" }}>Sl. No</span>,
       dataIndex: "key",
       key: "key",
       width: 50,
-      render: (_: any, __: any, index: number) => <span>{index + 1}</span>,
+     render: (_: string, __: any, index: number) =>
+        (currentPage - 1) * pageSize + index + 1,
     },
     {
       title: "Name",
@@ -239,7 +242,7 @@ const AllAdmin = () => {
         pagination={{
           total: adminData?.pagination?.total,
           current: currentPage,
-          pageSize: adminData?.pagination?.limit,
+          pageSize,
           onChange: (page) => setCurrentPage(page),
         }}
         rowKey="_id"

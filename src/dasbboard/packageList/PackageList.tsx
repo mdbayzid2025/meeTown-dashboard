@@ -50,14 +50,17 @@ const PackageList = () => {
   }, [currentPage]);
 
   // ------------------ Table Column ----------------------
+
+  
+      const pageSize = packagedata?.pagination?.limit ?? 10;
+
   const userColumns = [
     {
       title: "Id",
       dataIndex: "_id",
       key: "_id",
-      render: (_: any, __: any, index: number) => (
-        <p className="text-primary">{index + 1}</p>
-      ),
+      render: (_: string, __: any, index: number) =>
+        (currentPage - 1) * pageSize + index + 1,
     },
     { title: "Unit", dataIndex: "unit", key: "unit" },
     {
@@ -199,7 +202,7 @@ const PackageList = () => {
         pagination={{
           total: packagedata?.pagination?.total,
           current: currentPage,
-          pageSize: packagedata?.pagination?.limit,
+          pageSize,
           onChange: (page) => setCurrentPage(page),
         }}
         scroll={{ x: "max-content" }}

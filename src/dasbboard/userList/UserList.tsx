@@ -32,6 +32,9 @@ useEffect(() => {
   updateSearchParams({ role: "USER", page:  currentPage});
 }, [currentPage]);
 
+ const pageSize = usersData?.pagination?.limit ?? 10;
+
+
   // ---------------- Table  ---------------------
   const userColumns = [
     {
@@ -39,7 +42,8 @@ useEffect(() => {
       dataIndex: "key",
       key: "key",
       width: 50,
-      render: (_: any, __: any, index: number) => <span>{index + 1}</span>,
+      render: (_: string, __: any, index: number) =>
+        (currentPage - 1) * pageSize + index + 1,
     },
     {
       title: "Name",
@@ -172,7 +176,7 @@ useEffect(() => {
         pagination={{
           total: usersData?.pagination?.total,
           current: currentPage,
-          pageSize: usersData?.pagination?.limit,    
+          pageSize,    
           onChange: (page) => setCurrentPage(page),     
         }}
       />

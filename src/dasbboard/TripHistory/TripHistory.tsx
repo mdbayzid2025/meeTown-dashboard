@@ -194,14 +194,10 @@ const TripHistory = () => {
 
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-3">
-              <span className="whitespace-nowrap font-semibold">
-                Start Date:
-              </span>
-              <DatePicker onChange={handleStartDate} className="min-w-32" />
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="whitespace-nowrap font-semibold">End Date:</span>
-              <DatePicker onChange={handleEndDate} className="min-w-32" />
+              <DatePicker placeholder="Start Date" onChange={handleStartDate} className="min-w-32" />
+            </div> <span className="w-4 bg-black/30 h-0.5"></span>
+            <div className="flex items-center gap-3">              
+              <DatePicker placeholder="End Date" onChange={handleEndDate} className="min-w-32" />
             </div>
           </div>
         </div>

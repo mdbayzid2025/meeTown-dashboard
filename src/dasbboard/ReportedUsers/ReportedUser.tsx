@@ -1,43 +1,54 @@
 import { Form, Input, Table, Tag } from "antd";
 import FormItem from "antd/es/form/FormItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { SlEye } from "react-icons/sl";
 import ReportViewModal from "./ReportViewModal";
 import { useGetReportsQuery } from "../../redux/features/reports/reportsApi";
 import { imageUrl } from "../../redux/base/baseAPI";
 import dayjs from "dayjs";
+import { getSearchParams } from "../../utils/getSearchParams";
+import { useUpdateSearchParams } from "../../utils/updateSearchParams";
 // Assuming the details modal is generic enough to be reused.
 // import UserDetailsModal from "./AdminDetailsModal";
 
 const ReportedUsers = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const { data: reportedData, isLoading, refetch } = useGetReportsQuery(undefined);
+  
+  const {
+    data: reportedData,
+    isLoading,
+    refetch,
+  } = useGetReportsQuery(undefined);
   const [form] = Form.useForm();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { status, searchTerm, location, page } = getSearchParams();
+  const updateSearchParams = useUpdateSearchParams();
 
-  console.log("reportedUsersData", reportedData);
 
-  // Use Ant Design's Form.useWatch to get real-time input value for searching.
-  const searchInput = Form.useWatch("search", form) || "";
+  console.log("searchTerm", searchTerm);
+  
+  // --------------- Action  -------------------
+  useEffect(() => {
+    refetch();
+  }, [status, searchTerm, location, page]);
 
-  // The menu for the "Status" action dropdown
-  // const items: MenuProps["items"] = [
-  //   { key: "1", label: "Suspend User" },
-  //   { key: "2", label: "Warn User" },
-  //   { key: "3", label: "Delete Report", danger: true },
-  // ];
+  useEffect(() => {
+    updateSearchParams({ page: currentPage });
+  }, [currentPage]);
 
   // const menu = <Menu items={items} />;
+
+  const pageSize = reportedData?.pagination?.limit ?? 10;
 
   const reportedUserColumns = [
     {
       title: "S.No",
       dataIndex: "key",
       key: "key",
-      render: (text: string, record: any, index: number) => (
-        <span>{index + 1}</span>
-      ),
+      render: (_: string, __: any, index: number) =>
+        (currentPage - 1) * pageSize + index + 1,
       width: 80,
     },
     {
@@ -70,7 +81,7 @@ const ReportedUsers = () => {
       title: "Email",
       dataIndex: "user",
       key: "user",
-      render: (user : { email: string }) => (
+      render: (user: { email: string }) => (
         <div className="flex items-center gap-3">
           <p className="whitespace-nowrap font-medium">{user?.email}</p>
         </div>
@@ -88,14 +99,17 @@ const ReportedUsers = () => {
       title: "User Status",
       dataIndex: "user",
       key: "user",
-      render: (user: { status: string, isDeleted: boolean }) => {
+      render: (user: { status: string; isDeleted: boolean }) => {
         let color = "default";
         if (user.status === "Blocked") color = "orange";
         else if (user.isDeleted) color = "red";
-        else{ color = "green";}
-        
+        else {
+          color = "green";
+        }
 
-        return <Tag color={color}>{user.isDeleted ? "Deleted" : user?.status}</Tag>;
+        return (
+          <Tag color={color}>{user.isDeleted ? "Deleted" : user?.status}</Tag>
+        );
       },
     },
 
@@ -133,7 +147,7 @@ const ReportedUsers = () => {
               borderRadius: 50,
               objectFit: "cover",
             }}
-             src={
+            src={
               reporter?.image && reporter?.image.startsWith("http")
                 ? reporter?.image
                 : reporter?.image
@@ -177,6 +191,9 @@ const ReportedUsers = () => {
             <FormItem name="search">
               <Input
                 name="search"
+                onChange={(value) => {
+                  updateSearchParams({ searchTerm: value.target.value });
+                }}
                 style={{
                   background: "#EBEBEB",
                   height: 40,
@@ -195,12 +212,17 @@ const ReportedUsers = () => {
       </div>
 
       <Table
-      className="subscriptionTable"
+        className="subscriptionTable"
         columns={reportedUserColumns}
         dataSource={reportedData?.reports}
         loading={isLoading}
         scroll={{ x: "max-content" }}
-        pagination={{ defaultPageSize: 10, showSizeChanger: false }}
+        pagination={{
+          total: reportedData?.pagination?.total,
+          current: currentPage,
+          pageSize,
+          onChange: (page) => setCurrentPage(page),
+        }}
         rowKey="key"
       />
 

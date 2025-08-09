@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 const SubscriberList = () => {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [currentPage, setCurrentPage] = useState(1);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -15,8 +15,16 @@ const SubscriberList = () => {
     setSearchQuery(search || "");
   }, [searchParams]);
 
+  const pageSize = 10;
+
   const userColumns = [
-    { title: "Sl. No", dataIndex: "key", key: "key" },
+    {
+      title: "Sl. No",
+      dataIndex: "key",
+      key: "key",
+      render: (_: string, __: any, index: number) =>
+        (currentPage - 1) * pageSize + index + 1,
+    },
 
     {
       title: "Name",
@@ -58,17 +66,23 @@ const SubscriberList = () => {
           {record?.duration > 1 && "s"}
         </div>
       ),
-    },    
+    },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status: string) => (
         <div className="flex items-center gap-2 ">
-          <span className={`${status === "active" ? "text-green-500" : "text-red"}  text-[16px] capitalize`}>{status}</span>
+          <span
+            className={`${
+              status === "active" ? "text-green-500" : "text-red"
+            }  text-[16px] capitalize`}
+          >
+            {status}
+          </span>
         </div>
       ),
-    },    
+    },
   ];
 
   const filterSubscriber = subscribers.filter(
@@ -81,34 +95,37 @@ const SubscriberList = () => {
       <h3 className="text-2xl font-semibold text-grayMedium mb-6">
         All Subscriber’s
       </h3>
-      <div className="w-full md:w-1/3 mt-3 md:mt-0 pt-0">          
-          <Form form={form}>
-            <FormItem name="search">
-              <Input
-                name="search"
-                style={{
-                  background: "#EBEBEB",
-                  height: 40,
-                  borderRadius: 14,
-                  border: "none",
-                  color: "#767676",
-                  fontSize: 15,
-                }}
-                className="font-medium"
-                prefix={<IoSearch size={16} />}
-                placeholder="Search here..."
-              />
-            </FormItem>
-          </Form>
-        </div>
+      <div className="w-full md:w-1/3 mt-3 md:mt-0 pt-0">
+        <Form form={form}>
+          <FormItem name="search">
+            <Input
+              name="search"
+              style={{
+                background: "#EBEBEB",
+                height: 40,
+                borderRadius: 14,
+                border: "none",
+                color: "#767676",
+                fontSize: 15,
+              }}
+              className="font-medium"
+              prefix={<IoSearch size={16} />}
+              placeholder="Search here..."
+            />
+          </FormItem>
+        </Form>
+      </div>
 
       {/* <Table columns={userColumns} dataSource={filterSubscriber} pagination={{ pageSize: 7, align: "center" }} className='subscriptionTable' />             */}
       <Table
         columns={userColumns}
         dataSource={filterSubscriber}
         className="subscriptionTable"
-        scroll={{ x: 'max-content' }}
-        pagination={{pageSize: 10}}
+        scroll={{ x: "max-content" }}
+        pagination={{
+          pageSize: 10,
+          onChange: (page) => setCurrentPage(page),
+        }}
       />
     </div>
   );
@@ -129,7 +146,6 @@ export const subscribers = [
     address: "3890 Poplar Dr.",
     point: 120,
     status: "active",
-    photo:
-      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
+    photo: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg",
   },
 ];

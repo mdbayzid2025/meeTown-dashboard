@@ -3,7 +3,7 @@ import { baseApi } from "../../base/baseAPI";
 const reportsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getReports: builder.query({
-      query: () => "/reports",
+      query: () => `/reports${location?.search}`,
       transformResponse: (res: { data: any }) => res?.data,
     }),
     updateReport: builder.mutation({
