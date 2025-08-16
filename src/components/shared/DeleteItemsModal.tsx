@@ -1,5 +1,5 @@
 // src/components/shared/ConfirmModal.tsx
-import { Button, Divider, Modal } from "antd";
+import { Button, Modal } from "antd";
 
 interface ConfirmModalProps {
   openDelete: boolean;

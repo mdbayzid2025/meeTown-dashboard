@@ -1,12 +1,12 @@
-import { Avatar, Badge, Drawer, Dropdown, Image, Spin } from "antd";
+import { Avatar, Badge, Drawer, Dropdown, Spin } from "antd";
 import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { GoBell } from "react-icons/go";
 import { Link } from "react-router-dom";
-import MobileSidebar from "../MobileSideber";
-import { useGetProfileQuery } from "../../redux/features/user/userApi";
 import { imageUrl } from "../../redux/base/baseAPI";
 import { useGetNotificationsQuery } from "../../redux/features/notification/notificationApi";
+import { useGetProfileQuery } from "../../redux/features/user/userApi";
+import MobileSidebar from "../MobileSideber";
 
 const HeaderDashboard = () => {
   const [open, setOpen] = useState(false);
@@ -113,7 +113,7 @@ const HeaderDashboard = () => {
                         {profileData?.name}
                       </h4>
                       <p className="text-sm font-semibold text-grayMedium">
-                        {profileData?.role}
+                        {profileData?.email}
                       </p>
                     </div>
                   </div>

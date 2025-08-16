@@ -1,10 +1,9 @@
 import { Button, Checkbox, ConfigProvider, Form, Input } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import Cookies from "js-cookie";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { UserContext } from "../../context/UserContext";
 import { useLoginAdminMutation } from "../../redux/features/auth/authApi";
 import img from "/authImage.png";
 
@@ -18,37 +17,33 @@ export type errorType = {
 const Login = () => {
   const [form] = Form.useForm();
 
-  const [loginAdmin, { isLoading, isSuccess, isError, error, data }] =
-    useLoginAdminMutation();
+  const [loginAdmin, { isLoading }] = useLoginAdminMutation();
 
-  const userCtx = useContext(UserContext); // User Context
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isSuccess) {
-      toast.success(data?.message);
-      Cookies.set("accessToken", data?.data?.accessToken);      
-      form.resetFields();
-      setTimeout(() => {
-        userCtx?.refetch?.();
-        navigate("/");
-      },200);
+    const storedData = localStorage.getItem("auth");
+    if (storedData) {
+      form.setFieldsValue(JSON.parse(storedData));
     }
+  }, []);
 
-    if (isError) {
-      const errorMessage = (error as errorType)?.data?.errorMessages
-        ? (error as errorType)?.data?.errorMessages
-            .map((msg: { message: string }) => msg?.message)
-            .join("\n")
-        : (error as errorType)?.data?.message ||
-          "Something went wrong. Please try again";
-      
-      toast.error(errorMessage);
+  const onFinish = async (values: any) => {
+    const res = await loginAdmin(values);    
+    if(res?.data?.success){
+    toast.success("Login Success");
+    Cookies.set("accessToken", res?.data?.data?.accessToken);
+  
+    if (res?.data?.success && values?.remember) {
+      localStorage.setItem("auth",JSON.stringify({email: values?.email as string, password: values?.password as string,}));
     }
-  }, [isError, isSuccess]);
-
-  const onFinish = async (values: any) => {    
-    await loginAdmin(values);
+    navigate("/")
+    form.resetFields();
+    }else{      
+       toast.error(
+         (res?.error as any)?.data?.message || "Login failed"
+       );
+    }    
   };
 
   return (
@@ -79,7 +74,12 @@ const Login = () => {
         <div className="!pb-10 md:pt-10 md:pb-5 px-12 bg-white w-full  max-w-[650px] rounded-xl">
           <h1 className="text-black font-bold text-3xl mb-3">Login </h1>
 
-          <Form onFinish={onFinish} layout="vertical" className="mt-4">
+          <Form
+            form={form}
+            onFinish={onFinish}
+            layout="vertical"
+            className="mt-4"
+          >
             <FormItem
               label={
                 <p className="text-black font-semibold text-lg mt-2">Email</p>
@@ -146,7 +146,7 @@ const Login = () => {
             >
               {isLoading ? "Signing..." : "Sign In"}
             </Button>
-          </Form>          
+          </Form>
         </div>
       </div>
     </ConfigProvider>

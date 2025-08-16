@@ -1,4 +1,4 @@
-import { Form, Input, Select, Table } from "antd";
+import { Form, Input, Table } from "antd";
 import FormItem from "antd/es/form/FormItem";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -132,10 +132,7 @@ const SubscriberList = () => {
     },
   ];
 
-    const handleChange = (value: string) => {
-    updateSearchParams({ status: value });
-  };
-  
+
 
   return (
     <div className="p-4">
