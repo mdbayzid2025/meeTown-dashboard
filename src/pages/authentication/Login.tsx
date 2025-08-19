@@ -29,21 +29,23 @@ const Login = () => {
   }, []);
 
   const onFinish = async (values: any) => {
-    const res = await loginAdmin(values);    
-    if(res?.data?.success){
+    try {
+      const res = await loginAdmin(values).unwrap();  
+    
+    
     toast.success("Login Success");
-    Cookies.set("accessToken", res?.data?.data?.accessToken);
+    Cookies.set("accessToken", res?.data?.accessToken);
   
-    if (res?.data?.success && values?.remember) {
+    if (res?.success && values?.remember) {
       localStorage.setItem("auth",JSON.stringify({email: values?.email as string, password: values?.password as string,}));
     }
     navigate("/")
     form.resetFields();
-    }else{      
-       toast.error(
-         (res?.error as any)?.data?.message || "Login failed"
-       );
-    }    
+
+    } catch (error) {
+      toast.error((error as any)?.data?.message)
+    }
+     
   };
 
   return (
