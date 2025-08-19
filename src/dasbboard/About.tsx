@@ -14,6 +14,8 @@ const About = () => {
   const { data: aboutData, isLoading: isFetching, isError, refetch, } = useGetAboutQuery(undefined);
   const [addTarmsCondition, { isLoading: isSubmitting }] = useAddDisclaimerMutation();
 
+  console.log(aboutData)
+
   useEffect(() => {
     if (aboutData?.content) {
       setContent(aboutData.content);
