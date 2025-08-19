@@ -73,7 +73,7 @@ const Login = () => {
           />
         </div>
 
-        <div className="!pb-10 md:pt-10 md:pb-5 px-12 bg-white w-full  max-w-[650px] rounded-xl">
+        <div className="!py-10 px-5 md:pt-10 md:pb-5 md:px-12 bg-white w-full  max-w-[650px] rounded-xl">
           <h1 className="text-black font-bold text-3xl mb-3">Login </h1>
 
           <Form
@@ -127,15 +127,16 @@ const Login = () => {
                 label={null}
               >
                 <Checkbox
-                  style={{ fontWeight: 600, fontSize: 16 }}
-                  className="font-bold !text-md "
+                  style={{ fontWeight: 600, }}
+                  className="font-bold !text-md whitespace-nowrap text-[14px] !text-lg"
                 >
                   Remember me
                 </Checkbox>
               </Form.Item>
               <Link
                 to="/forget-password"
-                style={{ color: "#9A9A9C", fontWeight: 600, fontSize: 15 }}
+                style={{ color: "#9A9A9C", fontWeight: 600,  whiteSpace: "nowrap" }}
+                className="text-[14px] md:text-lg"
               >
                 Forgor your password?
               </Link>

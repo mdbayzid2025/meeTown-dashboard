@@ -51,12 +51,12 @@ const NewPassword = () => {
         },
       }}
     >
-      <div className='bg-[#EBEAEA] flex items-center justify-center h-screen gap-10 px-10'>
-        <div className="w-full  max-w-[650px]">
+      <div className='bg-[#EBEAEA] flex items-center justify-center h-screen gap-10 px-3 md:px-10'>
+        <div className="w-full  max-w-[650px] hidden md:block">
           <img src={img} className='w-full h-full object-cover rounded-tl-[55px] rounded-br-[55px]' />
         </div>
-        <div className="pt-10 pb-5 px-12 bg-white w-full  max-w-[650px] rounded-xl">
-          <h1 className='text-black font-bold text-3xl mb-5'>Set a new password</h1>
+        <div className="py-10 pb-5 px-5 md:px-12 bg-white w-full  max-w-[650px] rounded-xl">
+          <h1 className='text-black font-bold text-2xl md:text-3xl mb-5'>Set a new password</h1>
           
 
           <Divider style={{ borderColor: '#EBEBEB' }} />

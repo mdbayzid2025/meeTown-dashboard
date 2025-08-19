@@ -43,18 +43,18 @@ const ForgetPassword = () => {
         },
       }}
     >
-      <div className="bg-[#EBEAEA] flex items-center justify-center h-screen gap-10 px-10">
-        <div className="w-full h-[600px] max-w-[650px]">
+      <div className="bg-[#EBEAEA] flex items-center justify-center h-screen gap-10 px-3 md:px-10">
+        <div className="w-full h-[600px] max-w-[650px]  hidden lg:block">
           <img
             src={img}
             className="w-full h-full object-cover rounded-tl-[55px] rounded-br-[55px]"
           />
         </div>
-        <div className="pt-10 pb-5 px-12 bg-white w-full  max-w-[650px] rounded-xl">
-          <h1 className="text-black font-bold text-3xl mb-5">
+        <div className="pt-10 pb-5 px-5 md:px-12 bg-white w-full  max-w-[650px] rounded-xl">
+          <h1 className="text-black font-bold text-2xl md:text-3xl mb-5">
             Reset Your Password{" "}
           </h1>
-          <p className="text-grayMedium text-lg whitespace-nowrap">
+          <p className="text-grayMedium text-[13px] text-start md:text-lg whitespace-nowrap">
             Enter your phone number to reset your password
           </p>
 
