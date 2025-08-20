@@ -58,7 +58,7 @@ const PopulerTrip = () => {
         dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
     },
    {
-      title: "Start Date",
+      title: "End Date",
       dataIndex: "endDate", // Important to bind the field from data
       key: "endDate",
       render: (date: string) => (

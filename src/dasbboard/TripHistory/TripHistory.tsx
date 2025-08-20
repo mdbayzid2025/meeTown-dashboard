@@ -229,12 +229,6 @@ const TripHistory = () => {
         />
       </div>
 
-      <TripDetailsModal
-        open={showDetails}
-        setOpen={() => setShowDetails(!showDetails)}
-        data={selectedData}
-      />
-
       <TripsModal  
       
       open={showDetails}
