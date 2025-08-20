@@ -1,13 +1,11 @@
-import { Modal, Table, Tag, Image, Row, Col, Divider } from "antd";
 import {
-  BankOutlined,
-  CalendarOutlined,
-  CarOutlined,
-  EnvironmentOutlined,
-  UserOutlined,
+    BankOutlined,
+    CalendarOutlined,
+    CarOutlined,
+    EnvironmentOutlined
 } from "@ant-design/icons";
+import { Divider, Modal, Table, Tag } from "antd";
 import dayjs from "dayjs";
-import { imageUrl } from "../redux/base/baseAPI";
 import { SlLocationPin } from "react-icons/sl";
 
 const TripsModal = ({ open, onClose, data }: any) => {
