@@ -17,9 +17,11 @@ import { useGetTripsQuery } from "../../redux/features/trip/tripApi";
 import { getSearchParams } from "../../utils/getSearchParams";
 import { useUpdateSearchParams } from "../../utils/updateSearchParams";
 import TripDetailsModal from "./TripDetailsModal";
+import debounce from "lodash/debounce";
+import TripsModal from "../TripsModal";
+
 
 dayjs.extend(isBetween);
-
 const TripHistory = () => {
   // --- STATE MANAGEMENT FOR FILTERS ---
   const [showDetails, setShowDetails] = useState<boolean>(false);
@@ -29,14 +31,16 @@ const TripHistory = () => {
 
   const { data: tripData, isLoading, refetch } = useGetTripsQuery(undefined);
 
-  const { status, searchTerm, location, page } = getSearchParams();  
+  const { status, searchTerm, location, page, startDate, endDate } = getSearchParams();  
   
   const updateSearchParams = useUpdateSearchParams();
 
+
+    
   // --------------- Action  -------------------
   useEffect(() => {
     refetch();
-  }, [status, searchTerm, location, page]);
+  }, [status, searchTerm, location, page, startDate, endDate]);
 
   useEffect(() => {
     updateSearchParams({ page: currentPage });
@@ -50,7 +54,7 @@ const TripHistory = () => {
       key: "place",
       render: (text: any, record: any) => (
         <div className="flex items-center gap-2">
-          <div className="h-[50px] w-[50px]">
+          <div className="h-[50px] w-[50px] hidden">
             <img
               style={{
                 height: 50,
@@ -63,20 +67,21 @@ const TripHistory = () => {
                   ? record?.image
                   : record?.image
                   ? `${imageUrl}${record?.image}`
-                  : "/default-avatar.png"
+                  : "/placeholder.png"
               }
               alt=""
             />
           </div>
-          <span>{text}</span>
+          <span className="font-semibold">{text}</span>
         </div>
       ),
       sorter: (a: any, b: any) => a.place.localeCompare(b.place),
     },
     {
-      title: "Country Code",
+      title: "Country",
       dataIndex: "countryCode",
       key: "countryCode",
+      render: (text: string)=> <div className=""><img src={`https://flagsapi.com/${text}/flat/64.png`} className="w-10 ml-3" alt="flug" /> </div>
     },
     {
       title: "Trip Dates",
@@ -90,7 +95,7 @@ const TripHistory = () => {
         dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
     },
     {
-      title: "Mode of Travel",
+      title: "Vehicle Type",
       dataIndex: "vehicle",
       key: "vehicle",
       render: (method: string) => {
@@ -102,15 +107,10 @@ const TripHistory = () => {
       },
     },
     {
-      title: "Accommodation",
-      dataIndex: "accommodation",
-      key: "accommodation",
-    },
-    {
-      title: "Travel With",
-      dataIndex: "travelWith",
-      key: "travelWith",
-    },
+      title: "Match Count",
+      dataIndex: "matchCount",
+      key: "matchCount",
+    },   
     {
       title: "Action",
       key: "action",
@@ -145,6 +145,13 @@ const TripHistory = () => {
     },
   ];
 
+    const handleSearch = debounce((value: any) => {
+      // fetch data
+      updateSearchParams({ searchTerm: value });
+    }, 300);
+  
+
+
   const handleStartDate: DatePickerProps["onChange"] = (_, dateString) => {
     updateSearchParams({ startDate: dateString });
     console.log("Start Date:", dateString);
@@ -156,13 +163,13 @@ const TripHistory = () => {
 
   return (
     <div className="md:p-4">
-      <h3 className="text-xl font-semibold text-grayMedium md:mb-6">
+      <h3 className="text-2xl font-bold text-grayMedium md:mb-6">
         Trip History
       </h3>
 
       {/* --- FILTERS & ACTIONS --- */}
       <div className="mb-6   rounded-lg">
-        <div className="flex md:flex-row flex-col items-center justify-between">
+        <div className="flex md:flex-row flex-col items-center justify-end">
           {/* <Input
             style={{ height: 40 }}
             prefix={<IoSearch size={16} className="text-gray-400 mr-2" />}
@@ -171,11 +178,12 @@ const TripHistory = () => {
             allowClear
             className="md:max-w-sm"
           /> */}
-          <div className="w-full md:w-1/3 mt-3 md:mt-0 pt-0">
+          <div className="w-full md:w-1/3 mt-3 md:mt-0 pt-0 hidden">
             <Form form={form}>
               <FormItem name="search">
                 <Input
                   name="search"
+                  onChange={(e) => handleSearch(e.target.value)}
                   style={{
                     background: "#EBEBEB",
                     height: 40,
@@ -186,7 +194,7 @@ const TripHistory = () => {
                   }}
                   className="font-medium"
                   prefix={<IoSearch size={16} />}
-                  placeholder="Search here..."
+                  placeholder="Search by place"
                 />
               </FormItem>
             </Form>
@@ -207,7 +215,7 @@ const TripHistory = () => {
       <div className=" rounded-lg">
         <Table
           columns={tripColumns}
-          dataSource={tripData?.data?.data}
+          dataSource={tripData?.data}
           loading={isLoading}
           rowKey="key"
           scroll={{ x: "max-content" }}
@@ -226,6 +234,11 @@ const TripHistory = () => {
         setOpen={() => setShowDetails(!showDetails)}
         data={selectedData}
       />
+
+      <TripsModal  
+      
+      open={showDetails}
+      onClose={() => setShowDetails(!showDetails)} data={selectedData}/>
     </div>
   );
 };
