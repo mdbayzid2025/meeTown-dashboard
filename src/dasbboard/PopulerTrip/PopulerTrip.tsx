@@ -1,5 +1,4 @@
-import { Table, Tag } from "antd";
-import dayjs from "dayjs";
+import { Table } from "antd";
 import { useState } from "react";
 import { SlEye } from "react-icons/sl";
 import { imageUrl } from "../../redux/base/baseAPI";
@@ -47,39 +46,39 @@ const PopulerTrip = () => {
       dataIndex: "countryCode",
       key: "countryCode",
     },
-    {
-      title: "Start Date",
-      dataIndex: "startDate", // Important to bind the field from data
-      key: "startDate",
-      render: (date: string) => (
-        <span>{dayjs(date).format("MMM D, YYYY")}</span>
-      ),
-      sorter: (a: any, b: any) =>
-        dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
-    },
-   {
-      title: "End Date",
-      dataIndex: "endDate", // Important to bind the field from data
-      key: "endDate",
-      render: (date: string) => (
-        <span>{dayjs(date).format("MMM D, YYYY")}</span>
-      ),
-      sorter: (a: any, b: any) =>
-        dayjs(a.endDate).unix() - dayjs(b.endDate).unix(),
-    },
+  //   {
+  //     title: "Start Date",
+  //     dataIndex: "startDate", // Important to bind the field from data
+  //     key: "startDate",
+  //     render: (date: string) => (
+  //       <span>{dayjs(date).format("MMM D, YYYY")}</span>
+  //     ),
+  //     sorter: (a: any, b: any) =>
+  //       dayjs(a.startDate).unix() - dayjs(b.startDate).unix(),
+  //   },
+  //  {
+  //     title: "End Date",
+  //     dataIndex: "endDate", // Important to bind the field from data
+  //     key: "endDate",
+  //     render: (date: string) => (
+  //       <span>{dayjs(date).format("MMM D, YYYY")}</span>
+  //     ),
+  //     sorter: (a: any, b: any) =>
+  //       dayjs(a.endDate).unix() - dayjs(b.endDate).unix(),
+  //   },
 
-    {
-      title: "Mode of Travel",
-      dataIndex: "vehicle",
-      key: "vehicle",
-      render: (method: string) => {
-        let color = "blue";
-        if (method === "Bus") color = "orange";
-        if (method === "Train") color = "green";
-        if (method === "Airplane") color = "purple";
-        return <Tag color={color}>{method.toUpperCase()}</Tag>;
-      },
-    },
+  //   {
+  //     title: "Mode of Travel",
+  //     dataIndex: "vehicle",
+  //     key: "vehicle",
+  //     render: (method: string) => {
+  //       let color = "blue";
+  //       if (method === "Bus") color = "orange";
+  //       if (method === "Train") color = "green";
+  //       if (method === "Airplane") color = "purple";
+  //       return <Tag color={color}>{method.toUpperCase()}</Tag>;
+  //     },
+  //   },
     {
       title: "Action",
       key: "action",

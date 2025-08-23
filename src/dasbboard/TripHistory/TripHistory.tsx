@@ -9,6 +9,7 @@ import {
 import FormItem from "antd/es/form/FormItem";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+import debounce from "lodash/debounce";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { SlEye } from "react-icons/sl";
@@ -16,8 +17,6 @@ import { imageUrl } from "../../redux/base/baseAPI";
 import { useGetTripsQuery } from "../../redux/features/trip/tripApi";
 import { getSearchParams } from "../../utils/getSearchParams";
 import { useUpdateSearchParams } from "../../utils/updateSearchParams";
-import TripDetailsModal from "./TripDetailsModal";
-import debounce from "lodash/debounce";
 import TripsModal from "../TripsModal";
 
 
