@@ -24,6 +24,8 @@ import {
 } from "../../redux/features/user/userApi";
 import { UploadOutlined } from "@ant-design/icons";
 import type { RcFile } from "antd/es/upload";
+import SelectCountries from "../../components/shared/CountriesSelect";
+import { countriesData } from "../../assets/data/countriesData";
 
 const { Option } = Select;
 
@@ -33,40 +35,53 @@ const Profile = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [imageFile, setImageFile] = useState<RcFile | null>(null); // for sending to API
   const [imgURL, setImgURL] = useState<string | null>(null); // for preview
-
-  const { data: profileData, isLoading, refetch } = useGetProfileQuery(undefined);
+  
+  const {
+    data: profileData,
+    isLoading,
+    refetch,
+  } = useGetProfileQuery(undefined);
   const [editProfile, { isLoading: editing }] = useEditProfileMutation();
-
-  // Pre-fill form with profile data
-  useEffect(() => {
-    if (profileData) {
-      form.setFieldsValue({
-        name: profileData?.name || "",
-        email: profileData?.email || "",
-        gender: profileData?.gender || "Male",
-        location: profileData?.location || "",
-        phone: profileData?.phone || "",
-        birthday: profileData?.birthday ? dayjs(profileData?.birthday) : "",
-      });
-    }
-  }, [profileData, form]);
+useEffect(() => {
+  if (profileData) {
+    form.setFieldsValue({
+      name: profileData?.name || "",
+      email: profileData?.email || "",
+      gender: profileData?.gender || "Male",
+      phone: profileData?.phone || "",
+      // ✅ match SelectCountries value (only iso2)
+      location: profileData?.countryCode || "",
+      birthday: profileData?.birthday ? dayjs(profileData?.birthday) : null,
+    });
+  }
+}, [profileData, form]);
 
   // Handles profile form submission (without image upload)
   const onFinish = async (values: any) => {
+        
+    
     try {
+       const selectedCountry = countriesData.find((c) => c.iso2 === values.location);
+
       const formData = new FormData();
       formData.append("name", values?.name);
       formData.append("email", values?.email);
       formData.append("gender", values?.gender);
-      formData.append("location", values?.location);
+      formData.append("location", selectedCountry ? `${selectedCountry.iso2} ${selectedCountry.name}` : "");
       formData.append("phone", values?.phone);
-      formData.append("birthday", values?.birthday);
+
+      if (values?.birthday) {
+        formData.append(
+          "birthday",
+          dayjs(values.birthday).format("YYYY-MM-DD")
+        );
+      }
 
       const res = await editProfile(formData);
-      if (res?.data){
-         toast.success("Profile Updated")
-        refetch()
-        };
+      if (res?.data) {
+        toast.success("Profile Updated");
+        refetch();
+      }
     } catch (error) {
       console.log("profile error", error);
     }
@@ -115,13 +130,14 @@ const Profile = () => {
         setImageFile(null);
         setFileList([]);
         setImgURL(null);
-        refetch()
+        refetch();
       }
     } catch (err) {
       console.error(err);
       toast.error("Upload failed");
     }
   };
+
 
   return (
     <div className="h-full">
@@ -130,8 +146,12 @@ const Profile = () => {
       </h3>
 
       {isLoading && !profileData ? (
-        <div className="flex items-center justify-center min-h-[60vh]">  
-          <ImSpinner10 size={40} color="#002c66" className="animate-spin-slow" />          
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <ImSpinner10
+            size={40}
+            color="#002c66"
+            className="animate-spin-slow"
+          />
         </div>
       ) : (
         <div className=" mx-auto grid grid-cols-1 items-start md:grid-cols-3 gap-8  justify-center md:pl-6 md:pb-3">
@@ -143,8 +163,8 @@ const Profile = () => {
             <div className="flex flex-col justify-center items-center gap-4">
               {/* Show current image or preview */}
               <Image
-              height={200}
-              width="100%"              
+                height={200}
+                width="100%"
                 alt="Profile"
                 src={
                   imgURL
@@ -209,9 +229,7 @@ const Profile = () => {
                 <FormItem
                   name="name"
                   label="Full Name"
-                  rules={[
-                    {  message: "Please enter your name" },
-                  ]}
+                  rules={[{ message: "Please enter your name" }]}
                 >
                   <Input placeholder="John Doe" style={{ height: 42 }} />
                 </FormItem>
@@ -219,9 +237,7 @@ const Profile = () => {
                 <FormItem
                   name="email"
                   label="Email"
-                  rules={[
-                    {  message: "Please enter your email" },
-                  ]}
+                  rules={[{ message: "Please enter your email" }]}
                 >
                   <Input
                     disabled
@@ -233,9 +249,7 @@ const Profile = () => {
                 <FormItem
                   name="phone"
                   label="Phone"
-                  rules={[
-                    {  message: "Please enter your phone" },
-                  ]}
+                  rules={[{ message: "Please enter your phone" }]}
                 >
                   <Input placeholder="Enter Phone" style={{ height: 42 }} />
                 </FormItem>
@@ -243,36 +257,54 @@ const Profile = () => {
                 <FormItem
                   name="gender"
                   label="Gender"
-                  rules={[
-                    {  message: "Please select your gender" },
-                  ]}
+                  rules={[{ message: "Please select your gender" }]}
                 >
                   <Select placeholder="Select Gender" style={{ height: 42 }}>
                     <Option value="Male">Male</Option>
                     <Option value="Female">Female</Option>
                     <Option value="Other">Other</Option>
                   </Select>
-                </FormItem>
+                </FormItem>             
+
+                {/* <FormItem
+                  name="location"
+                  label="Country"
+                  rules={[{ message: "Please enter your country" }]}
+                >
+                  <Input placeholder="Enter Country" style={{ height: 42 }} />
+                </FormItem> */}
+
+                {/* <label className="mb-3 ">Country</label>
+                <SelectCountries                
+                  placeholder="Nationality"
+                  value={location ? location : null}
+                  onChange={handleChange}
+                  width="100%"
+                /> */}
 
                 <FormItem
                   name="location"
                   label="Country"
                   rules={[
-                    {  message: "Please enter your country" },
+                    { message: "Please select your country" },
                   ]}
                 >
-                  <Input placeholder="Enter Country" style={{ height: 42 }} />
+                  <SelectCountries width="100%" />
                 </FormItem>
 
                 <FormItem
                   name="birthday"
                   label="Birthday"
-                  rules={[{  message: "Enter Birthday" }]}
+                  className="!mt-3"
+                  rules={[
+                    { required: false, message: "Enter Birthday" }, // not required
+                  ]}
                 >
                   <DatePicker
                     style={{ width: "100%", height: 42 }}
                     name="birthday"
                     onChange={onChange}
+                    format="YYYY-MM-DD"
                   />
                 </FormItem>
               </div>

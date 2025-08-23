@@ -19,7 +19,8 @@ const NationalityFilter = () => {
         const res = await axios.get(
           "https://countriesnow.space/api/v0.1/countries/flag/images"
         );
-        const data = res.data;
+        const data = res.data;        
+        
         // Optionally sort by name
         data?.data.sort((a: any, b: any) => a.name.localeCompare(b.name));
         setCountries(data?.data);
