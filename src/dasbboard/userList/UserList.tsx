@@ -24,13 +24,17 @@ const UserList = () => {
   
 
   // --------------- Action  -------------------
-useEffect(() => {
-  refetch();
-}, [status, searchTerm, location, page]);
+
+
+console.log("usersData", usersData), 
 
 useEffect(() => {  
   updateSearchParams({ role: "USER", page:  currentPage});
 }, [currentPage]);
+
+useEffect(() => {
+  refetch();
+}, [status, searchTerm, location, page]);
 
  const pageSize = usersData?.pagination?.limit ?? 10;
 
@@ -86,7 +90,7 @@ useEffect(() => {
         <p className="whitespace-nowrap text-nowrap">{record?.email}</p>
       ),
     },
-    { title: "Contact", dataIndex: "contact", key: "contact" },
+    { title: "Contact", dataIndex: "contact", key: "contact" },    
     { title: "Nationality", dataIndex: "nationality", key: "nationality" },
     {
       title: "Status",

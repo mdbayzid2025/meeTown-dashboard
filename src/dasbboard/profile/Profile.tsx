@@ -46,7 +46,7 @@ const Profile = () => {
         gender: profileData?.gender || "Male",
         location: profileData?.location || "",
         phone: profileData?.phone || "",
-        birthday: dayjs(profileData?.birthday) || "",
+        birthday: profileData?.birthday ? dayjs(profileData?.birthday) : "",
       });
     }
   }, [profileData, form]);
@@ -210,7 +210,7 @@ const Profile = () => {
                   name="name"
                   label="Full Name"
                   rules={[
-                    { required: true, message: "Please enter your name" },
+                    {  message: "Please enter your name" },
                   ]}
                 >
                   <Input placeholder="John Doe" style={{ height: 42 }} />
@@ -220,7 +220,7 @@ const Profile = () => {
                   name="email"
                   label="Email"
                   rules={[
-                    { required: true, message: "Please enter your email" },
+                    {  message: "Please enter your email" },
                   ]}
                 >
                   <Input
@@ -234,7 +234,7 @@ const Profile = () => {
                   name="phone"
                   label="Phone"
                   rules={[
-                    { required: true, message: "Please enter your phone" },
+                    {  message: "Please enter your phone" },
                   ]}
                 >
                   <Input placeholder="Enter Phone" style={{ height: 42 }} />
@@ -244,7 +244,7 @@ const Profile = () => {
                   name="gender"
                   label="Gender"
                   rules={[
-                    { required: true, message: "Please select your gender" },
+                    {  message: "Please select your gender" },
                   ]}
                 >
                   <Select placeholder="Select Gender" style={{ height: 42 }}>
@@ -258,7 +258,7 @@ const Profile = () => {
                   name="location"
                   label="Country"
                   rules={[
-                    { required: true, message: "Please enter your country" },
+                    {  message: "Please enter your country" },
                   ]}
                 >
                   <Input placeholder="Enter Country" style={{ height: 42 }} />
@@ -267,7 +267,7 @@ const Profile = () => {
                 <FormItem
                   name="birthday"
                   label="Birthday"
-                  rules={[{ required: true, message: "Enter Birthday" }]}
+                  rules={[{  message: "Enter Birthday" }]}
                 >
                   <DatePicker
                     style={{ width: "100%", height: 42 }}
