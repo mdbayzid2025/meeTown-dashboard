@@ -66,8 +66,10 @@ const ReportViewModal = ({
     }
   };
 
-  const isDisabled = data?.status === "Resolved" || data?.status === "Rejected";
-
+  const isDisabled = data?.status === "Rejected"
+  
+  console.log("asdfasdf", data);
+  
   return (
     <Modal
       open={open}
@@ -106,16 +108,14 @@ const ReportViewModal = ({
             label="Block"
             color="#D97706"
             onClick={() => handleReport("Inactive")}
-            loading={updating}
-            disabled={isDisabled}
+            loading={updating}            
           />
 
           <ActionButton
             label="Delete"
             color="#ff4d4f"
             onClick={() => handleReport("Delete")}
-            loading={isLoading}
-            disabled={isDisabled}
+            loading={isLoading}            
           />
 
           <ActionButton

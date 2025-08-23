@@ -8,6 +8,7 @@ function App() {
         theme={{
           token: {
             colorPrimary: "#002C66",
+            fontFamily: "Poppins, sans-serif"
           },
           components: {
             Input: {
