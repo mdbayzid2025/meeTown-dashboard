@@ -6,6 +6,7 @@ import { GiTripleBeak } from "react-icons/gi";
 import { GoPackage } from "react-icons/go";
 import { GrUserSettings } from "react-icons/gr";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { MdOutlinePrivacyTip } from "react-icons/md";
 import { PiUsersThreeLight } from "react-icons/pi";
 import { RiVipCrownFill } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
@@ -81,7 +82,7 @@ export const sidebarItems = [
     key: "privacy-policy",
     label: "Privacy Policy",
     path: "privacy-policy",
-    icon: <PiUsersThreeLight size={20}/>
+    icon: <MdOutlinePrivacyTip size={20}/>
   },
   
   {
