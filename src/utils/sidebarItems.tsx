@@ -77,6 +77,12 @@ export const sidebarItems = [
     path: "about",
     icon: <PiUsersThreeLight size={20}/>
   },
+  {
+    key: "privacy-policy",
+    label: "Privacy Policy",
+    path: "privacy-policy",
+    icon: <PiUsersThreeLight size={20}/>
+  },
   
   {
     key: "terms-condition",
