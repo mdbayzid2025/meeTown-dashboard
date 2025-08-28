@@ -38,6 +38,10 @@ const settingApi = baseApi.injectEndpoints({
       query: () => "/disclaimer/about",
       transformResponse: (res: { data: any }) => res?.data,
     }),
+    getPrivacyPolicy: builder.query({
+      query: () => "/disclaimer/privacy-policy",
+      transformResponse: (res: { data: any }) => res?.data,
+    }),
     addDisclaimer: builder.mutation({
       query: (data) => {
         console.log("addDisclaimer", data);
@@ -74,6 +78,7 @@ const settingApi = baseApi.injectEndpoints({
 export const {
   useGetFAQQuery,
   useGetAboutQuery,
+  useGetPrivacyPolicyQuery,
 
   useGetSupportQuery,
   useAddSupportMutation,

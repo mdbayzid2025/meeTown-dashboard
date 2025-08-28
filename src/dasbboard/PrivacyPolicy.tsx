@@ -1,24 +1,25 @@
-import { useEffect, useRef, useState } from "react";
-import JoditEditor from "jodit-react";
 import { Button, Spin } from "antd";
+import JoditEditor from "jodit-react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import {
-  useAddDisclaimerMutation,
-  useGetTermsConditionQuery,
+    useAddDisclaimerMutation,
+    useGetPrivacyPolicyQuery,
+    
 } from "../redux/features/setting/settingApi";
 
-const TermsCondition = () => {
+const PrivacyPolicy = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
 
-  const { data: termsConditionData, isLoading: isFetching, isError, refetch, } = useGetTermsConditionQuery(undefined);
+  const { data: privacyPolicyData, isLoading: isFetching, isError, refetch, } = useGetPrivacyPolicyQuery(undefined);
   const [addTarmsCondition, { isLoading: isSubmitting }] = useAddDisclaimerMutation();
 
   useEffect(() => {
-    if (termsConditionData?.content) {
-      setContent(termsConditionData.content);
+    if (privacyPolicyData?.content) {
+      setContent(privacyPolicyData.content);
     }
-  }, [termsConditionData]);
+  }, [privacyPolicyData]);
 
   const config = {
     readonly: false,
@@ -41,7 +42,7 @@ const TermsCondition = () => {
 
     try {
       await addTarmsCondition({
-        type: "terms-and-condition",
+        type: "privacy-policy",
         content,
       }).unwrap();
 
@@ -92,4 +93,4 @@ const TermsCondition = () => {
   );
 };
 
-export default TermsCondition;
+export default PrivacyPolicy;
