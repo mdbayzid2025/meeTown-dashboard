@@ -79,9 +79,9 @@ export const sidebarItems = [
     icon: <PiUsersThreeLight size={20}/>
   },
   {
-    key: "privacy-policy",
+    key: "privacy",
     label: "Privacy Policy",
-    path: "privacy-policy",
+    path: "privacy",
     icon: <MdOutlinePrivacyTip size={20}/>
   },
   

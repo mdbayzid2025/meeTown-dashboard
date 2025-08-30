@@ -23,6 +23,8 @@ import ErrorPage from "../pages/error/ErrorPage";
 import TripHistory from "../dasbboard/TripHistory/TripHistory";
 import PopulerTrip from "../dasbboard/PopulerTrip/PopulerTrip";
 import PrivateRoute from "./PrivateRoute";
+import DeleteAccount from "../pages/authentication/DeleteAccount";
+import PublicPrivecy from "../pages/PublicPrivecy";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +44,7 @@ const router = createBrowserRouter([
       { path: "package-list", element: <PackageList /> },
       { path: "support", element: <Support /> },
       { path: "about", element: <About /> },
-      { path: "privacy-policy", element: <PrivacyPolicy /> },
+      { path: "privacy", element: <PrivacyPolicy /> },
       { path: "terms-condition", element: <TermsCondition /> },
       { path: "moderation-reporting", element: <ReportedUsers /> },
       { path: "trip-history", element: <TripHistory /> },
@@ -59,6 +61,8 @@ const router = createBrowserRouter([
   { path: "verify-otp", element: <VerifyOTP /> },
   { path: "new-password", element: <NewPassword /> },
   { path: "change-password", element: <ChangePassword /> },
+  { path: "delete-account", element: <DeleteAccount /> },
+  { path: "privacy-policy", element: <PublicPrivecy /> },
 ]);
 
 export default router;
