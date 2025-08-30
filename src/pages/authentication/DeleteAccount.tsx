@@ -121,7 +121,7 @@ const DeleteAccount = () => {
               type="primary"
               size="large"
               htmlType="submit"
-              style={{ width: "100%", height: 50, fontSize: 20, borderRadius: 20 }}
+              style={{ width: "100%", background: "red", height: 50, fontSize: 20, borderRadius: 20 }}
             >
               Delete Account
             </Button>
