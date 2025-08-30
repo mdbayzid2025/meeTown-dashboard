@@ -63,7 +63,7 @@ const DeleteAccount = () => {
       }}
     >
       <div className="bg-[#EBEAEA] flex items-center justify-center h-screen gap-10 px-4 md:px-10">
-        <div className="w-full h-[600px] max-w-[650px] hidden lg:block">
+        <div className="w-full hidden h-[600px] max-w-[650px]">
           <img
             src={img}
             className="w-full h-full object-cover rounded-tl-[55px] rounded-br-[55px]"
